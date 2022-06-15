@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Firdaus' Friends/Associates</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+
+		body {
+			margin: 0;
+			background-color: #000;
+			color: #fff;
+			font-family: Monospace;
+			font-size: 13px;
+			line-height: 24px;
+			overscroll-behavior: none;
+			overflow-x: hidden;
+		}
+
+		#info {
+			position: absolute;
+			top: 0px;
+			width: 100%;
+			padding: 10px;
+			text-align: center;
+		}
+
+		#menu {
+			position: absolute;
+			bottom: 20px;
+			width: 100%;
+			text-align: center;
+		}
+
+		.girlFriend {
+			width: 210px;
+			height: 280px;
+			box-shadow: 0px 0px 20px rgb(250, 51, 250);
+			border: 1.5px solid rgba(255, 127, 255, 0.75);
+			font-family: Helvetica, sans-serif;
+			text-align: center;
+			line-height: normal;
+			cursor: default;
+		}
+
+		.girlFriend:hover {
+			box-shadow: 0px 0px 20px rgb(229, 136, 252);
+			border: 4px solid rgba(223, 82, 241);
+		}
+
+		.boyFriend {
+			width: 210px;
+			height: 280px;
+			box-shadow: 0px 0px 20px rgb(59, 176, 255);
+			border: 2px solid rgba(116, 196, 250, 0.75);
+			font-family: Helvetica, sans-serif;
+			text-align: center;
+			line-height: normal;
+			cursor: default;
+		}
+
+		.boyFriend:hover {
+			box-shadow: 0px 0px 20px rgb(97, 190, 252);
+			border: 4.5px solid rgb(55, 174, 253);
+		}
+
+		.girlFriend .number, .boyFriend .number {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			font-size: 20px;
+			color: rgb(253, 253, 253);
+		}
+
+		.girlFriend .girlGender {
+			position: absolute;
+			top: 8px;
+			left: 0px;
+			right: 145px;
+			font-size: 60px;
+			font-weight: bold;
+			color: rgba(255, 255, 255, 0.75);
+			text-shadow: 0 0 20px rgba(174, 25, 194);
+		}
+
+		.boyFriend .boyGender {
+			position: absolute;
+			top: 8px;
+			left: 0px;
+			right: 145px;
+			font-size: 60px;
+			font-weight: bold;
+			color: rgba(255, 255, 255, 0.75);
+			text-shadow: 0 0 20px rgba(63, 91, 245);
+		}
+
+		.girlFriend .girlName {
+			position: absolute;
+			top: 105px;
+			left: 0px;
+			right: 0px;
+			font-size: 50px;
+			font-weight: bold;
+			text-shadow: 10px 10px 10px rgb(174, 25, 194);
+			color: rgb(253, 253, 253);
+		}
+
+		.boyFriend .boyName {
+			position: absolute;
+			top: 105px;
+			left: 0px;
+			right: 0px;
+			font-size: 50px;
+			font-weight: bold;
+			text-shadow: 10px 10px 10px rgb(63, 91, 245);
+			color: rgb(253, 253, 253);
+		}
+
+		.girlFriend .girlAge {
+			position: absolute;
+			bottom: 20px;
+			left: 0px;
+			right: 0px;
+			font-size: 40px;
+			color: rgba(255, 255, 255, 0.993);
+			text-shadow: 0px 0px 10px rgb(166, 7, 187);
+		}
+
+		.boyFriend .boyAge {
+			position: absolute;
+			bottom: 20px;
+			left: 0px;
+			right: 0px;
+			font-size: 40px;
+			color: rgba(255, 255, 255, 0.993);
+			text-shadow: 0px 0px 10px rgb(63, 91, 245);
+		}
+
+		button {
+			color: rgba(255, 73, 194, 0.75);
+			background: transparent;
+			box-shadow: 0px 0px 8px rgb(255, 74, 195);
+			border: 1px solid rgba(255, 73, 194, 0.75);
+			padding: 5px 10px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			letter-spacing: 0.07em;
+			box-shadow: 0px 0px 15px rgb(255, 115, 208);
+			border: 1.5px solid rgb(253, 21, 176);
+		}
+
+		button:active {
+			color: #000000;
+			background-color: rgba(255, 19, 157, 0.75);
+		}
+	</style>
+</head>
+
+<body>
+	<div id="info">Firdaus' - Friends/Associates
+	</div>
+	<div id="container"></div>
+	<div id="menu">
+		<button id="table">TABLE</button>
+		<button id="sphere">SPHERE</button>
+		<button id="helix">HELIX</button>
+		<button id="grid">GRID</button>
+		<button id="cube">CUBE</button>
+	</div>
+
+	<!-- Import maps polyfill -->
+	<!-- Remove this when import maps will be widely supported -->
+	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
+			{
+				"imports": {
+					"three": "../build/three.module.js"
+				}
+			}
+		</script>
+
+	<script type="module">
+
+		import * as THREE from 'three';
+
+		import { TWEEN } from './jsm/libs/tween.module.min.js';
+		import { TrackballControls } from './jsm/controls/TrackballControls.js';
+		import { CSS3DRenderer, CSS3DObject } from './jsm/renderers/CSS3DRenderer.js';
+
+		const table = [
+			"Firdaus", "M", "20", 1, 1,
+			"Sarah", "F", "20", 18, 1,
+			"Elias", "M", "20", 1, 2,
+			"Roshan", "M", "20", 2, 2,
+			"Amiel", "M", "20", 13, 2,
+			"Sabirah", "F", "20", 14, 2,
+			"Alliya", "F", "20", 15, 2,
+			"Aliya", "F", "20", 16, 2,
+			"Harith", "M", "20", 17, 2,
+			"Adam", "M", "20", 18, 2,
+			"Faiez", "M", "20", 1, 3,
+			"Ammar", "M", "19", 2, 3,
+			"Aysha", "F", "18", 13, 3,
+			"Lutfi", "M", "19", 14, 3,
+			"Amin", "M", "23", 15, 3,
+			"Haqeem", "M", "22", 16, 3,
+			"Qayyum", "M", "24", 17, 3,
+			"Afiqah", "F", "16", 18, 3,
+			"Muizz", "M", "20", 1, 4,
+			"Iman", "M", "20", 2, 4,
+			"Nasreen", "F", "20", 3, 4,
+			"Luqman", "M", "20", 4, 4,
+			"Georgia", "F", "24", 5, 4,
+			"Sabrina", "F", "19", 6, 4,
+			"Alex", "M", "20", 7, 4,
+			"Helena", "F", "20", 8, 4,
+			"Raez", "M", "20", 9, 4,
+			"Zarif", "M", "20", 10, 4,
+			"Azerul", "M", "20", 11, 4,
+			"Yasmina", "F", "20", 12, 4,
+			"Adi", "M", "37", 13, 4,
+			"Jun", "F", "47", 14, 4,
+			"Robert", "M", "54", 15, 4,
+			"Yanty", "F", "47", 16, 4,
+			"Aiman", "M", "20", 17, 4,
+			"Anna", "F", "29", 18, 4,
+			"Mushy", "F", "13", 1, 5,
+			"Junior", "M", "11", 2, 5,
+			"Aina", "F", "8", 3, 5,
+			"Aafiya", "F", "7", 4, 5,
+			"Akmal", "M", "20", 5, 5,
+			"Amierlyn", "F", "20", 6, 5,
+			"Aussie", "F", "19", 7, 5,
+			"Bryan", "M", "20", 8, 5,
+			"Haziq", "M", "20", 9, 5,
+			"Lyana", "F", "20", 10, 5,
+			"Nabihah", "F", "20", 11, 5,
+			"Hanna", "F", "20", 12, 5,
+			"Ilyani", "F", "20", 13, 5,
+			"Ameera", "F", "25", 14, 5,
+			"Nienaz", "F", "20", 15, 5,
+			"Syazreen", "F", "20", 16, 5,
+			"Shawn", "M", "20", 17, 5,
+			"Rai", "F", "20", 18, 5,
+			"Ridzwan", "M", "20", 1, 6,
+			"Ali", "M", "20", 2, 6,
+			"Syazwan", "M", "23", 4, 6,
+			"Kimi", "M", "21", 5, 6,
+			"Izz", "M", "20", 6, 6,
+			"Adha", "M", "22", 7, 6,
+			"Hazaam", "M", "20", 8, 6,
+			"Fazmel", "M", "20", 9, 6,
+			"Azra", "F", "20", 10, 6,
+			"Nurul", "F", "20", 11, 6,
+			"Izzati", "F", "20", 12, 6,
+			"Shahrul", "M", "20", 13, 6,
+			"Fahim", "M", "20", 14, 6,
+			"Nazia", "F", "21", 15, 6,
+			"Aqil", "M", "20", 16, 6,
+			"Tham", "M", "20", 17, 6,
+			"Irdina", "F", "20", 18, 6,
+			"Kheryl", "F", "20", 1, 7,
+			"Sorhana", "F", "20", 2, 7,
+			"Atyra", "F", "20", 4, 7,
+			"Marsya", "F", "20", 5, 7,
+			"Aisyah", "F", "20", 6, 7,
+			"Fahkri", "M", "20", 7, 7,
+			"Fikri", "M", "20", 8, 7,
+			"Abu", "M", "20", 9, 7,
+			"Sayed", "M", "20", 10, 7,
+			"Aatif", "M", "20", 11, 7,
+			"Xin", "F", "22", 12, 7,
+			"Krystal", "F", "42", 13, 7,
+			"Jaikar", "M", "20", 14, 7,
+			"Sareena", "F", "14", 15, 7,
+			"Dayang", "F", "20", 16, 7,
+			"Delaila", "F", "20", 17, 7,
+			"Ishak", "M", "20", 18, 7,
+			"Sufi", "M", "20", 4, 9,
+			"Mira", "F", "20", 5, 9,
+			"Lam", "M", "20", 6, 9,
+			"Cheng", "M", "20", 7, 9,
+			"Ashwadi", "M", "19", 8, 9,
+			"Kahar", "M", "19", 9, 9,
+			"Alvin", "M", "18", 10, 9,
+			"Aiqal", "M", "20", 11, 9,
+			"Ibra", "M", "30", 12, 9,
+			"Jasmine", "F", "24", 13, 9,
+			"Mallory", "F", "35", 14, 9,
+			"Jack", "M", "22", 15, 9,
+			"Zack", "M", "26", 16, 9,
+			"Aisya", "F", "23", 17, 9,
+			"Ivan", "M", "22", 18, 9,
+			"Kevin", "M", "21", 4, 10,
+			"Ryan", "M", "20", 5, 10,
+			"Hani", "F", "20", 6, 10,
+			"Chong", "M", "22", 7, 10,
+			"Dominic", "M", "20", 8, 10,
+			"Danish", "M", "20", 9, 10,
+			"Alya", "F", "20", 10, 10,
+			"Aidan", "M", "20", 11, 10,
+			"Fahmi", "M", "20", 12, 10,
+			"Nisha", "F", "27", 13, 10,
+			"Zuraini", "F", "24", 14, 10,
+			"Ameer", "M", "23", 15, 10,
+			"Jeremy", "M", "23", 16, 10,
+			"Azriana", "F", "22", 17, 10,
+			"Izlyn", "F", "26", 18, 10,
+		];
+
+		let camera, scene, renderer;
+		let controls;
+
+		const objects = [];
+		const targets = { table: [], sphere: [], helix: [], grid: [], cube: [] };
+
+		init();
+		animate();
+
+		function init() {
+
+			camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+			camera.position.z = 4000;
+
+			scene = new THREE.Scene();
+
+			// table
+
+			for (let i = 0; i < table.length; i += 5) {
+
+				var rndGirl = Math.random() * (0.45 - 0.3) + 0.3;
+				var rndBoy = Math.random() * (0.65 - 0.5) + 0.4;
+
+				const friend = document.createElement('div');
+				if (table[i + 1] == "F") {
+					friend.className = 'girlFriend';
+					friend.style.backgroundColor = 'rgba(240,120,280,' + rndGirl + ')';
+				}
+				else {
+					friend.className = 'boyFriend';
+					friend.style.backgroundColor = 'rgba(0,155,242,' + rndBoy + ')';
+				}
+
+				const number = document.createElement('div');
+				number.className = 'number';
+				number.textContent = (i / 5) + 1;
+				friend.appendChild(number);
+
+				const gender = document.createElement('div');
+				if (table[i + 1] == "F") {
+					gender.className = 'girlGender';
+				}
+				else {
+					gender.className = 'boyGender';
+				}
+				gender.textContent = table[i + 1];
+				friend.appendChild(gender);
+
+				const name = document.createElement('div');
+				if (table[i + 1] == "F") {
+					name.className = 'girlName';
+				}
+				else {
+					name.className = 'boyName';
+				}
+				name.innerHTML = table[i];
+				friend.appendChild(name);
+
+				const age = document.createElement('div');
+				if (table[i + 1] == "F") {
+					age.className = 'girlAge';
+				}
+				else {
+					age.className = 'boyAge';
+				}
+				age.innerHTML = table[i + 2];
+				friend.appendChild(age);
+
+				const objectCSS = new CSS3DObject(friend);
+				objectCSS.position.x = Math.random() * 4000 - 2000;
+				objectCSS.position.y = Math.random() * 4000 - 2000;
+				objectCSS.position.z = Math.random() * 4000 - 2000;
+				scene.add(objectCSS);
+
+				objects.push(objectCSS);
+
+				//
+
+				const object = new THREE.Object3D();
+				object.position.x = (table[i + 3] * 240) - 2350;
+				object.position.y = - (table[i + 4] * 320) + 1800;
+				object.position.z = - 1000 ;
+
+				targets.table.push(object);
+
+			}
+
+			// sphere
+
+			const vector = new THREE.Vector3();
+
+			for (let i = 0, l = objects.length; i < l; i++) {
+
+				const phi = Math.acos(- 1 + (2 * i) / l);
+				const theta = Math.sqrt(l * Math.PI) * phi;
+
+				const object = new THREE.Object3D();
+
+				object.position.setFromSphericalCoords(1200, phi, theta);
+				
+				vector.copy(object.position).multiplyScalar(2);
+
+				object.lookAt(vector);
+
+				targets.sphere.push(object);
+
+			}
+
+			// helix
+
+			for (let i = 0, l = objects.length; i < l; i++) {
+
+				const theta = i * 0.175 + Math.PI;
+				const y = - (i * 10) + 450;
+
+				const object = new THREE.Object3D();
+
+				object.position.setFromCylindricalCoords(1500, theta, y);
+
+				vector.x = object.position.x * 2;
+				vector.y = object.position.y;
+				vector.z = object.position.z * 2;
+
+				object.lookAt(vector);
+
+				targets.helix.push(object);
+
+			}
+
+			// grid
+
+			for (let i = 0; i < objects.length; i++) {
+
+				const object = new THREE.Object3D();
+
+				object.position.x = ((i % 5) * 550) - 1100;
+				object.position.y = (- (Math.floor(i / 5) % 5) * 550) + 800;
+				object.position.z = (Math.floor(i / 25)) * 1000 - 2000;
+
+				targets.grid.push(object);
+
+			}
+
+			// cube
+
+			for (let i = 0; i < objects.length; i++) {
+
+				const object = new THREE.Object3D();
+
+				if ( i >= 0 && i <= 19 ) {
+					object.position.x = ((i % 5) * 250) - 540;
+					object.position.y = (- (Math.floor(i / 5) % 4) * 350) + 620;
+					object.position.z = 20;
+				}
+				if ( i >= 20 && i <= 39 ) {
+					object.position.x = 610;
+					object.position.y = (- (Math.floor(i / 5) % 4) * 350) + 620;
+					object.position.z = ((i % 5) * 250) - 1100;
+					object.rotation.y = Math.PI / 2;
+				} 
+				if ( i >= 40 && i <= 59 ) {
+					object.position.x = - 690;
+					object.position.y = (- (Math.floor(i / 5) % 4) * 350) + 620;
+					object.position.z = ((i % 5) * 250) - 1100;
+					object.rotation.y = - Math.PI / 2;
+				}
+				if ( i >= 60 && i <= 79 ) {
+					object.position.x = ((i % 5) * 250) - 540;
+					object.position.y = (- (Math.floor(i / 5) % 4) * 350) + 620;
+					object.position.z = - 1220;
+					object.rotation.y = Math.PI;
+				}
+				if ( i >= 80 && i <= 99 ) {
+					object.position.x = ((i % 5) * 250) - 540;
+					object.position.y = 800;
+					object.position.z = (- (Math.floor(i / 5) % 4) * 310) - 135;
+					object.rotation.x = - Math.PI / 2;
+				}
+				if ( i >= 100 ) {
+					object.position.x = ((i % 5) * 250) - 540;
+					object.position.y = - 620;
+					object.position.z = (- (Math.floor(i / 5) % 4) * 310) - 135;
+					object.rotation.x = Math.PI / 2;
+				} 
+
+				targets.cube.push(object);
+
+			}		
+
+			//
+
+			renderer = new CSS3DRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.getElementById('container').appendChild(renderer.domElement);
+
+			//
+
+			controls = new TrackballControls(camera, renderer.domElement);
+			controls.minDistance = 500;
+			controls.maxDistance = 6000;
+			controls.addEventListener('change', render);
+
+			const buttonTable = document.getElementById('table');
+			buttonTable.addEventListener('click', function () {
+
+				transform(targets.table, 2000);
+
+			});
+
+			const buttonSphere = document.getElementById('sphere');
+			buttonSphere.addEventListener('click', function () {
+
+				transform(targets.sphere, 2000);
+
+			});
+
+			const buttonHelix = document.getElementById('helix');
+			buttonHelix.addEventListener('click', function () {
+
+				transform(targets.helix, 2000);
+
+			});
+
+			const buttonGrid = document.getElementById('grid');
+			buttonGrid.addEventListener('click', function () {
+
+				transform(targets.grid, 2000);
+
+			});
+
+			const buttonCube = document.getElementById('cube');
+			buttonCube.addEventListener('click', function () {
+
+				transform(targets.cube, 2000);
+
+			});
+
+			transform(targets.table, 2000);
+
+			//
+
+			window.addEventListener('resize', onWindowResize);
+
+		}
+
+		function transform(targets, duration) {
+
+			TWEEN.removeAll();
+
+			for (let i = 0; i < objects.length; i++) {
+
+				const object = objects[i];
+				const target = targets[i];
+
+				new TWEEN.Tween(object.position)
+					.to({ x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration)
+					.easing(TWEEN.Easing.Exponential.InOut)
+					.start();
+
+				new TWEEN.Tween(object.rotation)
+					.to({ x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
+					.easing(TWEEN.Easing.Exponential.InOut)
+					.start();
+
+			}
+
+			new TWEEN.Tween(this)
+				.to({}, duration * 2)
+				.onUpdate(render)
+				.start();
+
+		}
+
+		function onWindowResize() {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+
+			render();
+
+		}
+
+		function animate() {
+
+			requestAnimationFrame(animate);
+
+			TWEEN.update();
+
+			controls.update();
+
+		}
+
+		function render() {
+
+			renderer.render(scene, camera);
+
+		}
+
+		function rotateObject(object, degreeX=0, degreeY=0, degreeZ=0) {
+			object.rotateX(THREE.Math.degToRad(degreeX));
+			object.rotateY(THREE.Math.degToRad(degreeY));
+			object.rotateZ(THREE.Math.degToRad(degreeZ));
+		}
+
+	</script>
+</body>
+
+</html>
