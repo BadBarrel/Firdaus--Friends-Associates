@@ -22,10 +22,16 @@ function slab(top, side, k = 0.96, h = 9) {
 
 // ---------------------------------------------------------------- props
 
-const tree = (x, y, s = 1, leaf = '#3cbf4a') => `<g transform="translate(${x} ${y}) scale(${s})">
-  <path d="M-3 0 L-4 -22 L4 -22 L3 0Z" fill="#8a5a32" ${ol('#8a5a32', 1.5)}/>
-  <circle cx="0" cy="-34" r="16" fill="${leaf}" ${ol(leaf, 2)}/><circle cx="-9" cy="-26" r="10" fill="${shade(leaf, -0.08)}" ${ol(leaf, 2)}/><circle cx="9" cy="-27" r="11" fill="${shade(leaf, 0.08)}" ${ol(leaf, 2)}/>
-  <circle cx="-4" cy="-40" r="5" fill="#fff" opacity=".25"/></g>`;
+// Tree with a gnarled trunk and a clustered, shaded canopy.
+const tree = (x, y, s = 1, leaf = '#3cbf4a') => {
+  const lf = shade(leaf, -0.15);
+  const blobs = [[-12, -26, 10, -0.22], [12, -27, 11, -0.18], [0, -24, 12, -0.12], [-14, -38, 10, -0.05], [12, -40, 11, 0], [-2, -46, 12, 0.06], [0, -36, 13, 0.02]];
+  return `<g transform="translate(${x} ${y}) scale(${s})">
+  <path d="M-5 0 Q-3 -10 -4 -22 L-9 -28 M-4 -22 L4 -22 L8 -30 M4 -22 Q3 -10 5 0Z" fill="#6b4a2a" stroke="#4a3018" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M-6 0 Q-10 2 -12 4 M5 0 Q9 2 12 4" stroke="#4a3018" stroke-width="2" fill="none"/>
+  ${blobs.map(([bx, by, r, k]) => `<circle cx="${bx}" cy="${by}" r="${r}" fill="${shade(lf, k)}" ${ol(lf, 1.8)}/>`).join('')}
+  <path d="M-8 -48 Q-2 -54 6 -50" stroke="${shade(lf, 0.35)}" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/></g>`;
+};
 const pine = (x, y, s = 1, col = '#2f7a4a', snow = false) => `<g transform="translate(${x} ${y}) scale(${s})">
   <rect x="-3" y="-8" width="6" height="9" fill="#7a4a2a"/>
   <path d="M0 -46 L14 -22 L8 -22 L18 -6 L-18 -6 L-8 -22 L-14 -22Z" fill="${col}" ${ol(col, 2)}/>
@@ -49,14 +55,30 @@ const banner = (x, y, col = '#c0392b', icon = '') => `<g transform="translate(${
 const sword = (x, y, r = 0) => `<g transform="translate(${x} ${y}) rotate(${r})"><path d="M-2 0 L-2 -26 L0 -32 L2 -26 L2 0Z" fill="#e6e9ee" ${ol('#8a95a0', 1.2)}/><rect x="-6" y="-2" width="12" height="3" rx="1" fill="#c0392b"/><rect x="-1.5" y="1" width="3" height="7" fill="#6b4a2a"/></g>`;
 const star = (x, y, s = 1, col = '#fff07a') => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 -10 Q1 -1 10 0 Q1 1 0 10 Q-1 1 -10 0 Q-1 -1 0 -10Z" fill="${col}" class="twinkle"/>`;
 
-// Low fence along the two front edges of the plot.
+// Low wall along the two front edges of the plot: stone blocks, or timber rails for farms.
+function wall(col, k = 0.92) {
+  const n = 7, blocks = [];
+  for (let i = 0; i < n; i++) {
+    const t = (i + 0.5) / n;
+    blocks.push([-TILE_W * k + TILE_W * k * t, TILE_H * k * t, 0.47]);
+    blocks.push([TILE_W * k * t, TILE_H * k - TILE_H * k * t, -0.47]);
+  }
+  const w = (TILE_W * k) / n;
+  return blocks.map(([x, y, sl], i) => {
+    const c = shade(col, (i * 37) % 3 === 0 ? -0.08 : (i % 2 ? 0.05 : 0));
+    const dy = sl * w;
+    return `<path d="M${x - w / 2} ${y - dy / 2 - 9} L${x + w / 2} ${y + dy / 2 - 9} L${x + w / 2} ${y + dy / 2} L${x - w / 2} ${y - dy / 2}Z" fill="${c}" ${ol(col, 1.4)}/><path d="M${x - w / 2} ${y - dy / 2 - 9} L${x + w / 2} ${y + dy / 2 - 9}" stroke="${shade(col, 0.35)}" stroke-width="1.6"/>`;
+  }).join('');
+}
 function fence(col, k = 0.92) {
   const pts = [];
   const steps = 6;
   for (let i = 0; i <= steps; i++) pts.push([-TILE_W * k + (TILE_W * k * i) / steps, (TILE_H * k * i) / steps]);
   for (let i = 1; i <= steps; i++) pts.push([(TILE_W * k * i) / steps, TILE_H * k - (TILE_H * k * i) / steps]);
-  const posts = pts.map(([x, y]) => `<rect x="${x - 2.5}" y="${y - 12}" width="5" height="13" rx="1.5" fill="${col}" ${ol(col, 1.2)}/>`).join('');
-  const rail = `<path d="M${pts.map(([x, y]) => `${x} ${y - 8}`).join(' L')}" fill="none" stroke="${o(col)}" stroke-width="5" stroke-linecap="round"/><path d="M${pts.map(([x, y]) => `${x} ${y - 8}`).join(' L')}" fill="none" stroke="${col}" stroke-width="2.6" stroke-linecap="round"/>`;
+  // Timber: squat posts every other point and two heavy rails.
+  const posts = pts.filter((_, i) => i % 2 === 0).map(([x, y]) => `<rect x="${x - 3}" y="${y - 14}" width="6" height="15" rx="1" fill="${shade(col, -0.1)}" ${ol(col, 1.3)}/>`).join('');
+  const line = (dy) => `M${pts.map(([x, y]) => `${x} ${y - dy}`).join(' L')}`;
+  const rail = [5, 11].map((dy) => `<path d="${line(dy)}" fill="none" stroke="${o(col)}" stroke-width="5.5" stroke-linecap="round"/><path d="${line(dy)}" fill="none" stroke="${col}" stroke-width="3.2" stroke-linecap="round"/>`).join('');
   return rail + posts;
 }
 
@@ -156,13 +178,22 @@ export function habitatBack(element, level) {
 }
 export function habitatFront(element, level) {
   const t = HAB[element] || HAB.earth;
-  return level >= 1 ? fence(element === 'ice' ? '#d6ecff' : element === 'metal' ? '#8a95a0' : element === 'ancient' ? '#e8c868' : '#b07a48') : '';
+  const WALL = { ice: '#d6ecff', metal: '#8a95a0', ancient: '#e8c868', fire: '#4a3a36', shadow: '#3a2a4a', light: '#efe6d0', mystic: '#d9a6e6', plant: '#9b8b6a', water: '#a8b0b8' };
+  return level >= 1 ? wall(WALL[element] || '#9b8b7a') : '';
 }
 
 // ---------------------------------------------------------------- farm
 
 // progress 0..1, crop icon shown when ready.
-export function farmArt(progress, icon, ready) {
+const CROP_ART = {
+  berries: (x, y) => `<path d="M${x} ${y} q-2 -8 0 -12 M${x} ${y} q4 -6 6 -10" stroke="#2e8b3a" stroke-width="2.2" fill="none"/><circle cx="${x - 3}" cy="${y - 12}" r="3.4" fill="#d6283a" ${ol('#d6283a', 1)}/><circle cx="${x + 5}" cy="${y - 10}" r="3.4" fill="#e5484d" ${ol('#d6283a', 1)}/><circle cx="${x + 1}" cy="${y - 6}" r="3" fill="#c2182a" ${ol('#d6283a', 1)}/>`,
+  wheat: (x, y) => [-4, 0, 4].map((dx) => `<path d="M${x + dx} ${y} L${x + dx * 1.6} ${y - 18}" stroke="#c9a040" stroke-width="2"/><ellipse cx="${x + dx * 1.6}" cy="${y - 20}" rx="2.6" ry="5" fill="#f0c860" ${ol('#c9a040', 1)}/>`).join(''),
+  melon: (x, y) => `<path d="M${x - 8} ${y - 2} q8 -8 16 0" stroke="#2e8b3a" stroke-width="2" fill="none"/><ellipse cx="${x}" cy="${y - 5}" rx="8" ry="6" fill="#7bc95a" ${ol('#3f8f2e', 1.4)}/><path d="M${x - 5} ${y - 9} q5 4 10 0 M${x - 6} ${y - 5} q6 4 12 0" stroke="#3f8f2e" stroke-width="1.2" fill="none"/>`,
+  starfruit: (x, y) => `<path d="M${x} ${y} L${x} ${y - 10}" stroke="#2e8b3a" stroke-width="2"/><path transform="translate(${x} ${y - 14}) scale(.6)" d="M0 -12 L3.5 -4 L12 -4 L5.5 2 L8 11 L0 6 L-8 11 L-5.5 2 L-12 -4 L-3.5 -4Z" fill="#ffd84d" ${ol('#c9a000', 1.6)}/>`,
+  dragonfruit: (x, y) => `<path d="M${x} ${y} L${x} ${y - 6}" stroke="#2e8b3a" stroke-width="2"/><ellipse cx="${x}" cy="${y - 11}" rx="6" ry="8" fill="#e8408a" ${ol('#a01858', 1.4)}/><path d="M${x - 6} ${y - 12} l-4 -3 M${x + 6} ${y - 12} l4 -3 M${x} ${y - 19} l0 -4" stroke="#7bc95a" stroke-width="2" stroke-linecap="round"/>`,
+};
+
+export function farmArt(progress, crop, ready) {
   let rows = '';
   const plants = [];
   for (let u = -0.6; u <= 0.61; u += 0.4) for (let v = -0.6; v <= 0.61; v += 0.4) plants.push(iso(u, v));
@@ -173,12 +204,12 @@ export function farmArt(progress, icon, ready) {
   }
   const plant = ([x, y]) => {
     if (progress < 0) return '';
-    if (ready) return `<text x="${x}" y="${y + 4}" font-size="20" text-anchor="middle" class="bob">${icon}</text>`;
+    if (ready) return (CROP_ART[crop] || CROP_ART.berries)(x, y);
     if (progress < 0.33) return `<ellipse cx="${x}" cy="${y}" rx="4" ry="2.5" fill="#5a3a22"/><path d="M${x} ${y} l0 -4" stroke="#56c85a" stroke-width="2"/>`;
     const h = progress < 0.66 ? 8 : 13;
     return `<path d="M${x} ${y} L${x} ${y - h} M${x} ${y - h * 0.6} q-6 -3 -8 -8 M${x} ${y - h * 0.6} q6 -3 8 -8 M${x} ${y - h} q-3 -6 0 -9 q3 3 0 9" stroke="#2e8b3a" stroke-width="2.4" fill="#56c85a" stroke-linecap="round"/>`;
   };
-  return `${slab('#8a5a32', '#5e3a1c')}<path d="${dia(0.8)}" fill="#7a4a26"/>${rows}${plants.map(plant).join('')}${fence('#c9925a', 0.95)}<path class="hit" d="${D}" fill="transparent"/>`;
+  return `${slab('#8a5a32', '#5e3a1c')}<path d="${dia(0.8)}" fill="#7a4a26"/>${rows}${plants.map(plant).join('')}${fence('#9a6a3a', 0.95)}<path class="hit" d="${D}" fill="transparent"/>`;
 }
 
 // ---------------------------------------------------------------- special buildings
@@ -196,26 +227,39 @@ export function hatcheryArt(eggs) {
     </g><path class="hit" d="${D}" fill="transparent"/><path class="hit" d="M-60 -2 L-60 -80 L60 -80 L60 -2Z" fill="transparent"/>`;
 }
 
+// A stone dragon statue sitting on a plinth (flip = -1 faces left).
+const dragonStatue = (x, y, flip = 1, s = 1, col = '#a8a094') => `<g transform="translate(${x} ${y}) scale(${flip * s} ${s})">
+  <path d="M-16 0 L-16 -12 L16 -12 L16 0Z" fill="${shade(col, -0.1)}" ${ol(col, 2)}/>
+  <path d="M-12 -12 Q-16 -34 -2 -40 Q-4 -54 6 -62 Q18 -66 22 -56 L30 -54 L22 -50 Q20 -44 12 -44 Q16 -28 12 -12Z" fill="${col}" ${ol(col, 2)}/>
+  <path d="M-4 -36 Q-26 -50 -28 -74 Q-16 -66 -10 -66 Q-12 -58 -4 -52" fill="${shade(col, -0.08)}" ${ol(col, 2)}/>
+  <path d="M8 -62 L4 -72 L12 -64" fill="${col}" ${ol(col, 1.6)}/><circle cx="16" cy="-56" r="1.8" fill="#ffcf33"/></g>`;
+
 export function sanctuaryArt(busy) {
-  const heart = (x, y, s) => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 6 C-12 -2 -10 -12 -4 -12 C-1 -12 0 -9 0 -8 C0 -9 1 -12 4 -12 C10 -12 12 -2 0 6Z" fill="#ff5c8a" ${ol('#ff5c8a', 1.2)}/>`;
-  return `${slab('#ffd6e8', '#e58ab0')}
-    <path d="M-50 4 C-60 -30 -50 -70 -20 -78 C-6 -80 0 -70 0 -64 C0 -70 6 -80 20 -78 C50 -70 60 -30 50 4 L38 4 C46 -28 38 -60 20 -64 C10 -66 4 -60 0 -50 C-4 -60 -10 -66 -20 -64 C-38 -60 -46 -28 -38 4Z" fill="#f4a6c8" ${ol('#d0608a', 2.4)}/>
-    <path d="M-44 -20 Q-48 -50 -24 -70 M44 -20 Q48 -50 24 -70" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none"/>
-    ${heart(0, -86, 1.4)}<g class="float-hearts">${heart(-30, -96, 0.6)}${heart(34, -100, 0.5)}</g>
-    ${busy ? `<g class="pulse"><circle cx="0" cy="-20" r="20" fill="#fff6a0" opacity=".45"/><path d="M0 -40 C14 -40 18 -24 18 -16 C18 -6 10 0 0 0 C-10 0 -18 -6 -18 -16 C-18 -24 -14 -40 0 -40Z" fill="#fff" ${ol('#d0608a', 2)}/><text x="0" y="-12" font-size="16" text-anchor="middle" fill="#d0608a" font-weight="800">?</text></g>` : ''}
-    <path class="hit" d="${D}" fill="transparent"/><path class="hit" d="M-56 -2 L-56 -96 L56 -96 L56 -2Z" fill="transparent"/>`;
+  const stone = '#b8b0a4';
+  return `${slab('#cfc6b6', '#9b9284')}
+    <ellipse cx="0" cy="0" rx="58" ry="27" fill="#d9d0c0" ${ol(stone, 2)}/><ellipse cx="0" cy="-2" rx="44" ry="19" fill="#e6dfd0"/>
+    <path d="M-36 -2 L36 -2 M0 -20 L0 16" stroke="#c8beac" stroke-width="1.4"/>
+    ${dragonStatue(-44, -10, 1, 0.95, stone)}${dragonStatue(44, -10, -1, 0.95, stone)}
+    <g transform="translate(0 -6)"><ellipse rx="22" ry="9" fill="#7a5a3a" ${ol('#7a5a3a', 2)}/><ellipse rx="16" ry="5" fill="#4a3018"/>
+      <g class="pulse"><ellipse cx="0" cy="-12" rx="${busy ? 20 : 12}" ry="${busy ? 20 : 12}" fill="#ffd27a" opacity="${busy ? 0.5 : 0.25}"/></g>
+      ${busy ? `<path d="M0 -30 C10 -30 13 -18 13 -12 C13 -4 7 0 0 0 C-7 0 -13 -4 -13 -12 C-13 -18 -10 -30 0 -30Z" fill="#fff6e0" ${ol('#7a5a3a', 2)}/><path d="M-6 -16 L0 -22 L6 -16" stroke="#c99a40" stroke-width="2" fill="none"/>` : ''}
+    </g>
+    <path d="M-40 -60 l2 -5 l2 5 l-2 5Z M38 -66 l2 -5 l2 5 l-2 5Z" fill="#ffd27a" class="twinkle"/>
+    <path class="hit" d="${D}" fill="transparent"/><path class="hit" d="M-60 -2 L-60 -80 L60 -80 L60 -2Z" fill="transparent"/>`;
 }
 
 export function totemArt(portrait) {
+  const stone = '#9b9284';
+  const rune = (y) => `<path d="M-4 ${y - 5} L4 ${y - 5} L0 ${y} L4 ${y + 5} L-4 ${y + 5}" fill="none" stroke="#7dffcf" stroke-width="2" stroke-linecap="round" class="pulse"/>`;
   return `${slab('#7ccf5a', '#4e9e36', 0.6)}
-    <g transform="translate(0 0)">
-      <path d="M-14 0 L-14 -96 L14 -96 L14 0Z" fill="#a8743f" ${ol('#a8743f', 2.2)}/>
-      <path d="M-14 -30 L14 -30 M-14 -62 L14 -62" stroke="${o('#a8743f')}" stroke-width="2"/>
-      <circle cx="-6" cy="-46" r="3" fill="#222"/><circle cx="6" cy="-46" r="3" fill="#222"/><path d="M-6 -38 Q0 -34 6 -38" stroke="#222" stroke-width="2" fill="none"/>
-      <circle cx="-6" cy="-14" r="3" fill="#222"/><circle cx="6" cy="-14" r="3" fill="#222"/>
-      <path d="M-14 -88 Q-46 -110 -50 -80 Q-34 -86 -14 -76Z M14 -88 Q46 -110 50 -80 Q34 -86 14 -76Z" fill="#e5484d" ${ol('#e5484d', 2)}/>
-      <g transform="translate(0 -112)"><g class="bob"><circle r="16" fill="#fff07a" opacity=".35"/>${portrait || star(0, 0, 1.4)}</g></g>
-    </g><path class="hit" d="${dia(0.6)}" fill="transparent"/><path class="hit" d="M-30 0 L-30 -128 L30 -128 L30 0Z" fill="transparent"/>`;
+    <path d="M-18 0 L-18 -10 L18 -10 L18 0Z" fill="${shade(stone, -0.15)}" ${ol(stone, 2)}/>
+    <path d="M-12 -10 L-10 -84 L10 -84 L12 -10Z" fill="${stone}" ${ol(stone, 2.2)}/>
+    <path d="M-10 -34 L10 -34 M-10 -60 L10 -60" stroke="${shade(stone, -0.3)}" stroke-width="2"/>
+    ${rune(-22)}${rune(-47)}${rune(-72)}
+    <g transform="translate(0 -84)"><path d="M-14 0 Q-16 -14 -4 -20 Q2 -30 14 -28 L26 -24 L16 -18 Q18 -8 12 0Z" fill="${shade(stone, 0.08)}" ${ol(stone, 2)}/><path d="M-2 -22 L-6 -34 L2 -26 M6 -26 L6 -38 L10 -27" fill="${stone}" ${ol(stone, 1.6)}/><circle cx="10" cy="-20" r="2" fill="#7dffcf"/>
+      <path d="M-12 -6 Q-36 -16 -40 -36 Q-26 -30 -14 -18" fill="${shade(stone, -0.05)}" ${ol(stone, 2)}/></g>
+    <g transform="translate(0 -128)"><g class="bob"><circle r="16" fill="#7dffcf" opacity=".28"/>${portrait || star(0, 0, 1.4, '#c8fff0')}</g></g>
+    <path class="hit" d="${dia(0.6)}" fill="transparent"/><path class="hit" d="M-30 0 L-30 -140 L30 -140 L30 0Z" fill="transparent"/>`;
 }
 
 const DECO_ART = {

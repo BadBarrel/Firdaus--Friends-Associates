@@ -1,7 +1,7 @@
 // Shared UI plumbing: action delegation, views, bottom sheets, toasts, live timers.
 import * as D from './data.js';
 import * as G from './game.js';
-import { dragonSVG, stageFor } from './art.js';
+import { dragonSVG, stageFor, elementIcon } from './art.js';
 
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -155,7 +155,7 @@ export function tick() {
 
 export function elChip(el, withName = true) {
   const e = D.ELEMENTS[el];
-  return `<span class="el" style="--c:${e.color}">${e.icon}${withName ? ' ' + e.name : ''}</span>`;
+  return `<span class="el" style="--c:${e.color}">${elementIcon(el, 19)}${withName ? ' ' + e.name : ''}</span>`;
 }
 export function rarityChip(r) {
   return `<span class="rar" style="--c:${D.RARITIES[r].color}">${D.RARITIES[r].name}</span>`;

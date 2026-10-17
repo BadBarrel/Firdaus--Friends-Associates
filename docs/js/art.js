@@ -44,6 +44,11 @@ function grad(c) {
   def(id, `<linearGradient id="${id}" x1="0" y1="0" x2="0.25" y2="1"><stop offset="0" stop-color="${shade(c, 0.3)}"/><stop offset=".42" stop-color="${c}"/><stop offset="1" stop-color="${shade(c, -0.42)}"/></linearGradient>`);
   return `url(#${id})`;
 }
+function hornGrad(base, tip) {
+  const id = 'hg' + base.slice(1) + tip.slice(1);
+  def(id, `<linearGradient id="${id}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${base}"/><stop offset=".55" stop-color="${mix(base, tip, 0.6)}"/><stop offset="1" stop-color="${tip}"/></linearGradient>`);
+  return `url(#${id})`;
+}
 function glowGrad(c) {
   const id = 'rg' + c.slice(1);
   def(id, `<radialGradient id="${id}"><stop offset="0" stop-color="${c}" stop-opacity=".75"/><stop offset=".55" stop-color="${c}" stop-opacity=".25"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>`);
@@ -77,6 +82,7 @@ const angleOf = (a, b) => (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
 // Silhouette group: an outline pass then a fill pass, so overlapping parts share one outline.
 // Outline thickness: chunky for babies, finer (more detailed) for adults. Set per drawing.
 let lineW = 3.2;
+let adultNow = false;
 function sil(items, outline, w = lineW) {
   let o = '', f = '';
   for (const it of items) {
@@ -185,6 +191,10 @@ function mouth(C, type, x, y, w = 16) {
       return `<path d="M${x - 2} ${y - 3} q${w / 2 + 2} -2 ${w + 4} 1 q-2 12 -${w / 2 + 2} 12 q-${w / 2} -2 -${w / 2 + 2} -13Z" fill="#7a1f2b" ${ol(C.o, 2)}/><ellipse cx="${x + w / 2}" cy="${y + 6}" rx="${w / 4}" ry="3" fill="#ff7a8a"/><path d="M${x + 1} ${y - 2} l2 5 l2 -5 M${x + w - 4} ${y - 2} l2 5 l2 -5" fill="#fff" stroke="#fff" stroke-width="1.2"/>`;
     case 'tusk':
       return `<path d="M${x} ${y} q${w / 2} 4 ${w} 0" fill="none" ${ol(C.o, 2.2)}/><path d="M${x + 2} ${y + 1} q-1 -9 4 -12 q-1 6 1 11Z M${x + w - 4} ${y + 1} q1 -9 5 -11 q-2 6 -1 11Z" fill="#fff6e0" ${ol(C.o, 1.2)}/>`;
+    case 'jaw': // straight jaw line running back under the eye, two upper fangs and one lower
+      return `<path d="M${x + w + 6} ${y - 2} L${x - 2} ${y + 1} Q${x - 8} ${y + 2} ${x - 11} ${y + 7}" fill="none" ${ol(C.o, 2.2)}/><path d="M${x + w} ${y - 1} l1.5 6 l2.5 -6.4Z M${x + w - 8} ${y} l1.4 5 l2.2 -5.2Z M${x + 4} ${y + 1} l1.6 -5 l2 5Z" fill="#fff6e0" ${ol(C.o, 1)}/>`;
+    case 'snarl': // closed snarl: dark slot with zig-zag teeth
+      return `<path d="M${x - 4} ${y} L${x + w + 4} ${y - 4} L${x + w + 2} ${y + 3} L${x - 2} ${y + 5}Z" fill="#2a1018" ${ol(C.o, 1.8)}/><path d="M${x - 2} ${y + 1} l3 2.5 l3 -3 l3 3 l3 -3.2 l3 3 l3 -3.3 l3 2.8" fill="none" stroke="#fff6e0" stroke-width="1.6" stroke-linejoin="round"/><path d="M${x - 11} ${y + 7} Q${x - 8} ${y + 3} ${x - 4} ${y + 2}" fill="none" ${ol(C.o, 2)}/>`;
     case 'beak':
       return '';
     default:
@@ -194,13 +204,13 @@ function mouth(C, type, x, y, w = 16) {
 
 // Horns are drawn pointing up from (0,0); the head rotates them backwards.
 function horn(C, type, col) {
-  const f = grad(col);
+  const f = adultNow ? hornGrad(shade(C.main, -0.5), col) : grad(col);
   const o = ol(C.o, 1.8);
   switch (type) {
     case 'spike': return `<path d="M-5 2 Q-2 -14 1 -26 Q4 -12 6 2Z" fill="${f}" ${o}/>`;
     case 'curve': return `<path d="M-5 2 Q-6 -16 -16 -26 Q-12 -20 -2 -16 Q4 -8 6 2Z" fill="${f}" ${o}/>`;
     // Ram horn: sweeps back from the skull and curls down behind it.
-    case 'ram': return `<path d="M-5 2 Q-8 -14 -22 -18 Q-38 -20 -40 -6 Q-41 8 -28 10 Q-20 10 -20 2 Q-21 -4 -27 -3 Q-24 -9 -18 -7 Q-10 -4 6 2Z" fill="${f}" ${o}/><path d="M-10 -10 Q-24 -16 -34 -8 M-14 -4 Q-24 -10 -32 -2" fill="none" stroke="${shade(col, -0.35)}" stroke-width="1.3"/>`;
+    case 'ram': return `<path d="M-5 2 Q-16 -10 -36 -12 Q-50 -8 -54 4 Q-44 -2 -34 0 Q-18 2 6 2Z" fill="${f}" ${o}/><path d="M-12 -7 L-10 1 M-22 -10 L-20 0 M-32 -11 L-31 -1 M-42 -8 L-41 0" stroke="${shade(col, -0.4)}" stroke-width="1.4"/>`;
     case 'antler': return `<path d="M0 2 L-2 -14 L-12 -22 M-2 -14 L-1 -26 L-8 -34 M-1 -26 L6 -34 M-2 -10 L8 -18" fill="none" stroke="${C.o}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 2 L-2 -14 L-12 -22 M-2 -14 L-1 -26 L-8 -34 M-1 -26 L6 -34 M-2 -10 L8 -18" fill="none" stroke="${col}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>`;
     case 'crescent': return `<path d="M-4 2 Q-14 -18 2 -32 Q-4 -16 6 2Z" fill="${f}" ${o}/>`;
     case 'antenna': return `<path d="M0 2 Q-4 -14 4 -26" fill="none" stroke="${C.o}" stroke-width="2.4"/><circle cx="4" cy="-28" r="4.5" fill="${grad(C.accent)}" ${ol(C.o, 1.5)}/>`;
@@ -214,8 +224,8 @@ function horn(C, type, col) {
 
 const HEADS = {
   round: { skull: (f) => [{ k: 'e', cx: 0, cy: 0, rx: 24, ry: 23, f }, { k: 'e', cx: 22, cy: 9, rx: 17, ry: 12.5, f }], eye: [8, -5, 1], mouth: [20, 15, 16], nose: [[30, 4], [36, 5]], horns: [[-14, -16, -35], [2, -22, -15]], back: [-20, -4] },
-  long: { skull: (f) => [{ k: 'e', cx: -2, cy: 0, rx: 22, ry: 19, f }, { k: 'p', d: 'M6 -12 Q34 -12 46 0 Q50 10 40 16 L6 18Z', f }], eye: [6, -6, 0.95], mouth: [20, 14, 20], nose: [[42, 3]], horns: [[-14, -12, -50], [-2, -17, -30]], back: [-20, -2] },
-  beak: { skull: (f) => [{ k: 'e', cx: 0, cy: 0, rx: 22, ry: 22, f }], eye: [6, -5, 1], mouth: [0, 0, 0], beak: true, horns: [[-12, -16, -35], [2, -21, -15]], back: [-18, -4] },
+  long: { skull: (f) => [{ k: 'e', cx: -2, cy: 0, rx: 22, ry: 19, f }, { k: 'p', d: 'M6 -12 Q30 -14 48 -4 L50 4 Q46 12 36 14 L6 18Z', f }], eye: [6, -6, 0.95], mouth: [20, 14, 20], nose: [[42, 3]], horns: [[-14, -12, -50], [-2, -17, -30]], back: [-20, -2] },
+  beak: { skull: (f) => [{ k: 'p', d: 'M-20 -6 Q-18 -22 0 -22 Q14 -20 18 -8 L18 10 Q4 18 -14 14 Q-22 6 -20 -6Z', f }], eye: [6, -5, 1], mouth: [0, 0, 0], beak: true, horns: [[-12, -16, -35], [2, -21, -15]], back: [-18, -4] },
   blunt: { skull: (f) => [{ k: 'p', d: 'M-24 -10 Q-24 -26 -6 -26 L14 -24 Q32 -22 34 -6 L36 14 Q32 26 14 26 L-14 24 Q-26 20 -24 4Z', f }], eye: [12, -9, 0.8], mouth: [12, 16, 20], nose: [[30, 2]], horns: [[-12, -22, -30], [8, -24, -5]], back: [-20, -6] },
   serpent: { skull: (f) => [{ k: 'e', cx: 0, cy: 0, rx: 21, ry: 18, f }, { k: 'p', d: 'M6 -11 Q38 -10 48 3 Q46 15 30 16 L4 16Z', f }], eye: [6, -6, 0.95], mouth: [22, 13, 20], nose: [[43, 2]], whiskers: true, horns: [[-12, -12, -60], [0, -16, -45]], back: [-18, -2] },
   fish: { skull: (f) => [{ k: 'e', cx: 4, cy: 0, rx: 27, ry: 21, f }, { k: 'e', cx: 28, cy: 9, rx: 9, ry: 7, f }], eye: [10, -6, 1.1], mouth: [22, 13, 12], horns: [[-6, -18, -30], [8, -20, -10]], back: [-18, 0] },
@@ -253,7 +263,8 @@ function drawHead(C, spec0, stage, slot = 0) {
   const baby = stage === 'baby';
   const adult = stage === 'adult';
   // Babies stay cute; adults get a longer snout, reptile eyes, a fanged jaw and a brow ridge.
-  const spec = adult && spec0.head === 'round' ? { ...spec0, head: 'long' } : spec0;
+  const ADULT_HEAD = { round: 'long', fish: 'serpent' };
+  const spec = adult && ADULT_HEAD[spec0.head] ? { ...spec0, head: ADULT_HEAD[spec0.head] } : spec0;
   const h = HEADS[spec.head] || HEADS.round;
   const f = grad(C.main);
   let out = '';
@@ -267,8 +278,12 @@ function drawHead(C, spec0, stage, slot = 0) {
   }
   out += sil(h.skull(f), C.o);
   if (h.facets) out += `<path d="${h.facets}" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.3"/>`;
-  // cheek glint
-  out += `<ellipse cx="-8" cy="-12" rx="9" ry="5" fill="#fff" opacity=".22" transform="rotate(-25 -8 -12)"/>`;
+  if (!adult) out += `<ellipse cx="-8" cy="-12" rx="9" ry="5" fill="#fff" opacity=".22" transform="rotate(-25 -8 -12)"/>`;
+  // Adults: a dark crown-to-snout ridge and two jaw spikes pointing back.
+  if (adult && !h.helm && !h.beak) {
+    out += `<path d="M-14 -14 Q6 -24 34 -10" fill="none" stroke="${shade(C.main, -0.3)}" stroke-width="3" stroke-linecap="round" opacity=".5"/>`;
+    out += [[-16, 10, -115], [-10, 16, -135]].map(([x, y, r]) => `<g ${at(x, y, r, 0.55)}>${spike(C, 1, C.horn)}</g>`).join('');
+  }
   if (hornType === 'rhino' || (spec.horns === 'rhino' && !baby)) out += `<g ${at(28, -2, 20, 1.05)}>${horn(C, 'spike', C.horn)}</g>`;
   if (h.helm) {
     out += `<path d="M-25 4 Q-26 -28 2 -28 Q28 -27 32 -2 L22 -2 Q18 -6 10 -6 L-6 -6 Q-12 -2 -14 4Z" fill="${grad(C.metalCol)}" ${ol(C.o, 2.4)}/><path d="M-4 -26 Q4 -34 14 -27" fill="none" stroke="${C.accent}" stroke-width="5" stroke-linecap="round"/><circle cx="-14" cy="-12" r="2" fill="${shade(C.metalCol, -0.4)}"/><circle cx="-4" cy="-18" r="2" fill="${shade(C.metalCol, -0.4)}"/>`;
@@ -282,11 +297,15 @@ function drawHead(C, spec0, stage, slot = 0) {
   if (h.whiskers && !baby) {
     out += `<path d="M40 8 Q58 8 64 22 Q66 32 58 36 M36 12 Q48 22 44 34" fill="none" stroke="${C.o}" stroke-width="3.6" stroke-linecap="round"/><path d="M40 8 Q58 8 64 22 Q66 32 58 36 M36 12 Q48 22 44 34" fill="none" stroke="${C.accent}" stroke-width="1.8" stroke-linecap="round"/>`;
   }
-  if (h.beak) out += `<path d="M14 -6 Q40 -4 46 10 Q34 14 16 12Z" fill="${grad(C.beakCol)}" ${ol(C.o, 2)}/><path d="M18 6 Q30 7 42 9" stroke="${shade(C.beakCol, -0.4)}" stroke-width="1.4" fill="none"/>`;
+  if (h.beak && adult) {
+    out += [[-14, 4, -110], [-16, 12, -125], [-12, 18, -140], [-18, -4, -95]].map(([x, y, r]) => `<g ${at(x, y, r, 0.75)}>${feather(C, 1, C.accent)}</g>`).join('');
+    out += `<path d="M14 -8 Q44 -10 50 4 Q48 14 40 10 Q30 12 16 12Z" fill="${grad(C.beakCol)}" ${ol(C.o, 2)}/><path d="M18 4 Q32 4 46 6" stroke="${shade(C.beakCol, -0.45)}" stroke-width="1.5" fill="none"/>`;
+  } else if (h.beak) out += `<path d="M14 -6 Q40 -4 46 10 Q34 14 16 12Z" fill="${grad(C.beakCol)}" ${ol(C.o, 2)}/><path d="M18 6 Q30 7 42 9" stroke="${shade(C.beakCol, -0.4)}" stroke-width="1.4" fill="none"/>`;
   if (spec.head === 'skull') out += `<path d="M28 10 L30 18 L32 10 M18 12 L20 20 L22 12" fill="#fff" ${ol(C.o, 1)}/>`;
   for (const [x, y] of h.nose || []) out += `<ellipse cx="${x}" cy="${y}" rx="2" ry="1.6" fill="${C.o}"/>`;
   const mouthType = baby ? 'smile' : spec.mouth || 'smile';
-  if (!h.beak && spec.head !== 'skull') out += mouth(C, adult && mouthType === 'smile' ? 'fang' : mouthType, ...h.mouth);
+  const adultMouth = { smile: 'jaw', fang: 'jaw', grin: 'snarl', roar: 'snarl' };
+  if (!h.beak && spec.head !== 'skull') out += mouth(C, adult ? adultMouth[mouthType] || mouthType : mouthType, ...h.mouth);
   let eyeType = baby && spec.eyes !== 'glow' ? 'cute' : spec.eyes || 'cute';
   if (adult && ['cute', 'happy', 'sleepy'].includes(eyeType)) eyeType = 'calm';
   const [ex, ey, es] = h.eye;
@@ -332,21 +351,42 @@ function wingShape(C, type, col) {
       const fc = type === 'angel' ? '#fbfdff' : col;
       return featherWing(C, fc, 1) + featherWing(C, shade(fc, 0.25), 0.62);
     }
-    case 'leaf':
+    case 'leaf': if (adultNow) {
+      // Leaf membrane: a green bat-style wing with leaf veins and leaf tips at each point.
+      const tips = [[-72, -68, -40], [-50, -36, -20], [-30, -18, 0], [-12, 2, 20]];
+      return `<path d="M0 4 C-6 -30 -34 -62 -72 -68 Q-62 -54 -66 -44 Q-56 -46 -50 -36 Q-46 -42 -38 -40 Q-40 -26 -30 -18 Q-26 -24 -18 -22 Q-20 -8 -12 2Z" fill="${grad('#3f9f45')}" ${o}/>` +
+        `<path d="M-2 0 L-70 -66 M-4 -2 L-50 -36 M-6 -2 L-30 -18 M-24 -22 l-6 -12 M-40 -38 l-4 -12 M-36 -32 l-10 2" stroke="#1f5a26" stroke-width="1.8" fill="none"/>` +
+        tips.map(([x, y, r]) => `<g ${at(x, y, r - 90, 0.55)}>${leaf(C, 1, '#7be06b')}</g>`).join('');
+    }
       return `<g transform="rotate(-20)"><path d="M0 0 C-20 -10 -60 -20 -78 -50 C-50 -54 -16 -40 0 0Z" fill="${grad('#4fd65c')}" ${o}/><path d="M0 0 Q-40 -26 -74 -48" fill="none" stroke="#257a2e" stroke-width="1.8"/></g><g transform="rotate(15)"><path d="M0 0 C-16 -6 -50 -10 -66 -32 C-40 -38 -12 -28 0 0Z" fill="${grad('#7be06b')}" ${o}/><path d="M0 0 Q-34 -16 -62 -30" fill="none" stroke="#257a2e" stroke-width="1.6"/></g>`;
     case 'fin':
       return `<path d="M0 2 L-24 -58 Q-46 -50 -62 -30 Q-50 -26 -66 -10 Q-46 -6 -56 10 Q-30 10 0 2Z" fill="${f}" ${o}/><path d="M0 2 L-26 -52 M0 2 L-52 -28 M0 2 L-56 -8 M0 2 L-46 10" stroke="${dk}" stroke-width="1.6"/>`;
     case 'crystal':
       return `<path d="M0 0 L-22 -66 L-34 -28Z" fill="${grad('#d7f6ff')}" ${o}/><path d="M0 0 L-58 -56 L-50 -16Z" fill="${grad('#aee7ff')}" ${o}/><path d="M0 0 L-72 -20 L-44 4Z" fill="${grad('#c8f1ff')}" ${o}/><path d="M-22 -60 L-24 -30 M-54 -50 L-46 -18" stroke="#fff" stroke-width="1.4"/>`;
-    case 'butterfly':
+    case 'butterfly': if (adultNow) {
+      // Long dragonfly wings with a vein network and dark ringed eye-spots.
+      const blade = (rot, len, k) => `<g transform="rotate(${rot})"><path d="M0 0 C-${len * 0.3} -14 -${len * 0.8} -16 -${len} -4 C-${len * 0.8} 6 -${len * 0.3} 8 0 0Z" fill="${grad(col)}" fill-opacity=".85" ${o}/><path d="M0 0 L-${len - 6} -4 M-${len * 0.25} -1 l-8 -8 M-${len * 0.45} -2 l-8 -9 M-${len * 0.65} -3 l-7 -8 M-${len * 0.35} -1 l-6 7 M-${len * 0.55} -2 l-6 7" stroke="${shade(col, -0.45)}" stroke-width="1.1" fill="none"/><circle cx="-${len * 0.72}" cy="-5" r="${5 * k}" fill="${C.o}"/><circle cx="-${len * 0.72}" cy="-5" r="${2.6 * k}" fill="${C.accent}"/></g>`;
+      return blade(48, 92, 1) + blade(20, 80, 0.85);
+    }
       return `<path d="M0 0 C-10 -40 -50 -78 -78 -60 C-90 -40 -62 -16 0 0Z" fill="${f}" ${o}/><circle cx="-52" cy="-46" r="9" fill="${C.accent}" ${ol(C.o, 1.5)}/><circle cx="-52" cy="-46" r="4" fill="#fff" opacity=".8"/><path d="M0 0 C-30 -4 -60 6 -58 26 C-40 34 -14 18 0 0Z" fill="${grad(shade(col, 0.2))}" ${o}/><circle cx="-40" cy="16" r="5" fill="${C.accent}" opacity=".9"/>`;
-    case 'mech':
+    case 'mech': if (adultNow) {
+      // Riveted metal finger-bones with a translucent membrane between them.
+      const bones = [[-74, -64], [-82, -32], [-64, -4]];
+      const mem = `M2 4 L${bones[0][0]} ${bones[0][1]} Q-58 -40 ${bones[1][0]} ${bones[1][1]} Q-62 -16 ${bones[2][0]} ${bones[2][1]} Q-30 0 2 4Z`;
+      return `<path d="${mem}" fill="${C.accent}" fill-opacity=".45" ${o}/>` + bones.map(([x, y]) => `<path d="M0 0 L${x} ${y}" stroke="${C.o}" stroke-width="8" stroke-linecap="round"/><path d="M0 0 L${x} ${y}" stroke="${C.metalCol}" stroke-width="4.5" stroke-linecap="round"/>${[0.35, 0.65].map((t) => `<circle cx="${x * t}" cy="${y * t}" r="2.4" fill="${shade(C.metalCol, -0.45)}"/>`).join('')}`).join('') + `<circle r="7" fill="${grad(C.metalCol)}" ${ol(C.o, 2)}/>`;
+    }
       return `<path d="M0 0 L-16 -56 L-24 -54 L-10 2Z" fill="${grad(C.metalCol)}" ${o}/><path d="M-14 -50 L-70 -58 L-64 -48 L-16 -40Z" fill="${grad(C.metalCol)}" ${o}/><path d="M-12 -42 L-62 -30 L-58 -20 L-10 -30Z" fill="${grad(shade(C.metalCol, -0.1))}" ${o}/><path d="M-8 -26 L-52 -6 L-46 2 L-4 -16Z" fill="${grad(shade(C.metalCol, -0.2))}" ${o}/><circle cx="-14" cy="-48" r="2.4" fill="${C.accent}"/><circle cx="-11" cy="-32" r="2.4" fill="${C.accent}"/>`;
     case 'tattered':
       return `<path d="M0 4 C-8 -28 -36 -62 -70 -70 L-62 -50 L-74 -44 L-56 -36 L-60 -24 L-42 -22 L-44 -8 L-26 -10 L-20 4Z" fill="${f}" ${o}/><path d="M0 4 L-66 -64 M-4 0 L-56 -34 M-6 2 L-40 -14" stroke="${dk}" stroke-width="2.2"/><circle cx="-40" cy="-38" r="3.5" fill="${C.o}" opacity=".7"/>`;
     case 'flame':
       return `<path d="M0 4 C-10 -30 -30 -56 -60 -70 C-50 -56 -56 -48 -44 -40 C-62 -42 -70 -30 -74 -22 C-58 -26 -52 -16 -48 -10 C-60 -6 -62 2 -58 10 C-40 2 -20 6 0 4Z" fill="${grad('#ffb02e')}" ${o}/><path d="M-6 -2 C-14 -24 -28 -40 -46 -50 C-40 -36 -44 -28 -34 -22 C-44 -18 -46 -10 -40 -4 C-26 -6 -16 -2 -6 -2Z" fill="#fff0a0" opacity=".85"/>`;
-    case 'cloud':
+    case 'cloud': if (adultNow) {
+      // Storm membrane: slate bat wing with lightning running along the bones and a cloudy trailing edge.
+      const slate = '#4a5468';
+      return `<path d="M0 4 C-6 -30 -34 -62 -76 -70 Q-64 -54 -68 -42 Q-56 -44 -50 -32 Q-44 -38 -36 -34 Q-38 -20 -28 -14 Q-22 -20 -14 -16 Q-16 -6 -8 4Z" fill="${grad(slate)}" ${o}/>` +
+        `<path d="M-2 0 L-24 -26 L-20 -30 L-48 -50 L-44 -54 L-74 -68 M-4 -2 L-26 -18 L-24 -22 L-50 -34" fill="none" stroke="#ffe14d" stroke-width="2.4" stroke-linejoin="round"/>` +
+        [[-60, -40, 0.7], [-36, -24, 0.6], [-16, -8, 0.55]].map(([x, y, k]) => `<g transform="translate(${x} ${y + 6}) scale(${k})">${cloudPuff(C, 1, '#c9d3e0')}</g>`).join('');
+    }
       return `<g transform="translate(-30 -34)">${cloudPuff(C, 2.4, '#eef4fb')}</g><path d="M-18 -20 L-28 -2 L-22 -2 L-28 12 L-14 -6 L-20 -6 L-14 -20Z" fill="#ffe14d" ${ol(C.o, 1.5)}/>`;
     default: // bat
       return `<path d="M0 4 C-6 -30 -34 -62 -72 -68 Q-62 -54 -66 -44 Q-56 -46 -50 -36 Q-46 -42 -38 -40 Q-40 -26 -30 -18 Q-26 -24 -18 -22 Q-20 -8 -12 2Z" fill="${f}" ${o}/><path d="M-2 0 L-70 -66 M-4 -2 L-50 -36 M-6 -2 L-30 -18" stroke="${dk}" stroke-width="2"/><circle cx="-72" cy="-68" r="3" fill="${C.horn}" ${ol(C.o, 1.2)}/>`;
@@ -399,8 +439,8 @@ function backItem(C, type, i) {
 
 // ---------------------------------------------------------------- markings
 
-function markings(C, type, spots) {
-  const dk = shade(C.main, -0.3);
+function markings(C, type, spots, col) {
+  const dk = col || shade(C.main, -0.3);
   return spots.map(([x, y, s = 1], i) => {
     const g = (inner) => `<g ${at(x, y, (i * 37) % 60 - 30, s)}>${inner}</g>`;
     switch (type) {
@@ -439,6 +479,7 @@ const PLANS = {
         { k: 'e', cx: 90, cy: 181, rx: 19, ry: 6, f }, { k: 'e', cx: 131, cy: 182, rx: 11, ry: 5, f }], C.o) +
         `<path d="M66 140 Q78 132 92 140 M70 156 Q80 150 90 158" fill="none" stroke="${shade(C.main, -0.3)}" stroke-width="2" stroke-linecap="round" opacity=".6"/>`,
       belly: { k: 'e', cx: 120, cy: 132, rx: 16, ry: 27, rot: -12 },
+      band: [[128, 96], [146, 128], [112, 168], 16, 7],
       claws: [[82, 184], [90, 185], [98, 184], [129, 185], [135, 185]],
       heads: [{ x: 150, y: 56, s: 1 }],
       wing: { x: 98, y: 104, s: 1 },
@@ -481,9 +522,10 @@ const PLANS = {
     return {
       tail,
       far: sil([{ k: 'c', c: tube([{ p: [[112, 118], [122, 126], [128, 132], [134, 138]], r: [6, 5] }], 4), f: shade(C.main, -0.2), hl: false }], C.o),
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 100, cy: 126, rx: 31, ry: 42, rot: 10, f }, { k: 'c', c: tube([{ p: [[108, 94], [112, 80], [118, 70], [124, 62]], r: [16, 10] }], 7), f: C.main, hl: false }, { k: 'e', cx: 86, cy: 160, rx: 17, ry: 19, f }],
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'p', d: 'M78 152 Q64 118 84 96 Q102 80 122 92 Q134 108 126 132 Q118 152 100 160Z', f }, { k: 'c', c: tube([{ p: [[108, 94], [112, 80], [118, 70], [124, 62]], r: [16, 10] }], 7), f: C.main, hl: false }, { k: 'e', cx: 86, cy: 160, rx: 17, ry: 19, rot: 15, f }],
       front: sil([{ k: 'e', cx: 116, cy: 162, rx: 14, ry: 17, f }, { k: 'e', cx: 84, cy: 181, rx: 15, ry: 6.5, f }, { k: 'e', cx: 121, cy: 182, rx: 13, ry: 6, f }, { k: 'c', c: tube([{ p: [[116, 112], [124, 120], [130, 128], [136, 134]], r: [7, 5.5] }], 4), f: C.main, hl: false }], C.o),
-      belly: { k: 'e', cx: 109, cy: 130, rx: 17, ry: 33, rot: 10 },
+      belly: { k: 'e', cx: 109, cy: 128, rx: 14, ry: 28, rot: 10 },
+      band: [[118, 96], [134, 124], [106, 156], 15, 7],
       claws: [[76, 185], [84, 186], [92, 185], [116, 186], [124, 186], [137, 136]],
       heads: [{ x: 130, y: 52, s: 0.92 }],
       wing: { x: 92, y: 96, s: 1.18 },
@@ -556,7 +598,8 @@ const PLANS = {
     return {
       tail: body,
       floats: true,
-      far: `<g ${at(70, 150, 200, 0.6)}>${wingShape(C, 'fin', shade(C.wing, -0.15))}</g>`,
+      far: `<g ${at(70, 150, 200, 0.6)}>${wingShape(C, 'fin', shade(C.wing, -0.15))}</g>` +
+        `<path d="M56 140 Q70 100 96 118 Q112 92 132 106 L128 124 Q100 136 62 146Z" fill="${grad(C.wing)}" fill-opacity=".9" ${ol(C.o, 2)}/><path d="M64 140 L70 112 M80 134 L90 112 M98 130 L110 104 M114 124 L124 106" stroke="${shade(C.wing, -0.4)}" stroke-width="1.6"/>`,
       body: [{ k: 'c', c: body, f: C.main }],
       front: `<g ${at(110, 150, 170, 0.62)}>${wingShape(C, 'fin', C.wing)}</g>`,
       bellyChain: body.filter((_, i) => i > 3 && i < 15).map((c) => ({ x: c.x, y: c.y + c.r * 0.45, r: c.r * 0.48 })),
@@ -572,12 +615,14 @@ const PLANS = {
   bird(C) {
     // Raptor-phoenix: teardrop body, S-curved neck, long legs with talons, sweeping tail plume.
     const f = grad(C.main);
-    const leg = (pts) => `<path d="${pts}" fill="none" stroke="${C.o}" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/><path d="${pts}" fill="none" stroke="${C.beakCol}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`;
-    const talons = (x, y) => `<path d="M${x} ${y} l9 2 M${x} ${y} l7 5 M${x} ${y} l-6 3" stroke="${C.o}" stroke-width="3.4" stroke-linecap="round"/><path d="M${x + 9} ${y + 2} l2 3 M${x + 7} ${y + 5} l1 3" stroke="${C.horn}" stroke-width="2.4" stroke-linecap="round"/>`;
+    const leg = (pts) => `<path d="${pts}" fill="none" stroke="${C.o}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="${pts}" fill="none" stroke="${C.beakCol}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const talons = (x, y) => `<path d="M${x} ${y} l10 2 M${x} ${y} l8 6 M${x} ${y} l-7 3" stroke="${C.o}" stroke-width="4" stroke-linecap="round"/><path d="M${x + 10} ${y + 2} q3 1 2 5 M${x + 8} ${y + 6} q2 2 0 5 M${x - 7} ${y + 3} q-2 2 -1 5" stroke="#2a2230" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+    const tail = tube([{ p: [[66, 132], [44, 142], [28, 150], [14, 150]], r: [11, 4] }], 8);
     return {
-      tail: [],
+      tail,
+      plumeAt: [14, 150],
       far: leg('M98 142 L92 162 L98 180') + talons(98, 180),
-      body: [{ k: 'p', d: 'M56 130 Q66 100 102 96 Q132 94 138 116 Q140 138 112 146 Q82 152 56 130Z', f }, { k: 'c', c: tube([{ p: [[122, 104], [134, 90], [128, 76], [140, 62]], r: [13, 8] }], 8), f: C.main, hl: false }],
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'p', d: 'M56 130 Q66 100 102 96 Q132 94 138 116 Q140 138 112 146 Q82 152 56 130Z', f }, { k: 'c', c: tube([{ p: [[122, 104], [134, 90], [128, 76], [140, 62]], r: [13, 8] }], 8), f: C.main, hl: false }],
       front: leg('M112 144 L118 162 L112 180') + talons(112, 180) + sil([{ k: 'e', cx: 112, cy: 138, rx: 14, ry: 11, f }], C.o, 2),
       plume: true,
       belly: { k: 'e', cx: 120, cy: 124, rx: 15, ry: 14 },
@@ -599,6 +644,7 @@ const PLANS = {
       body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 102, cy: 128, rx: 26, ry: 25, f }, { k: 'c', c: tube([{ p: [[110, 110], [114, 100], [118, 92], [122, 84]], r: [12, 8] }], 6), f: C.main, hl: false }],
       front: sil([{ k: 'c', c: tube([{ p: [[118, 128], [124, 134], [128, 138], [132, 140]], r: [5.5, 4.5] }], 3), f: C.main, hl: false }], C.o),
       belly: { k: 'e', cx: 110, cy: 134, rx: 13, ry: 16 },
+      band: [[116, 110], [128, 130], [110, 150], 12, 6],
       claws: [[134, 142]],
       heads: [{ x: 128, y: 74, s: 1 }],
       wing: { x: 96, y: 114, s: 1.15 },
@@ -614,7 +660,7 @@ const PLANS = {
     return {
       tail,
       far: '',
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 100, cy: 126, rx: 35, ry: 41, f }, { k: 'c', c: tube([{ p: [[106, 94], [110, 82], [114, 74], [118, 66]], r: [17, 11] }], 6), f: C.main, hl: false }, { k: 'e', cx: 84, cy: 162, rx: 18, ry: 18, f }],
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'p', d: 'M72 154 Q58 116 80 94 Q102 78 126 90 Q142 108 132 136 Q122 158 100 164Z', f }, { k: 'c', c: tube([{ p: [[106, 94], [110, 82], [114, 74], [118, 66]], r: [17, 11] }], 6), f: C.main, hl: false }, { k: 'e', cx: 84, cy: 162, rx: 18, ry: 18, f }],
       front: sil([{ k: 'e', cx: 118, cy: 164, rx: 15, ry: 16, f }, { k: 'e', cx: 84, cy: 181, rx: 16, ry: 7, f: armor }, { k: 'e', cx: 122, cy: 182, rx: 14, ry: 6.5, f: armor }], C.o) +
         sil([{ k: 'p', d: 'M84 104 Q108 94 130 104 L128 146 Q108 160 86 146Z', f: armor }], C.o, 2.6) +
         `<path d="M107 100 L107 152 M88 124 Q107 132 128 124" stroke="${shade(C.metalCol, -0.3)}" stroke-width="2" fill="none"/><path d="M98 112 L116 112" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>` +
@@ -637,17 +683,18 @@ const PLANS = {
       tail: [],
       floats: true,
       far: sil([arm([[112, 112], [128, 116], [138, 124], [146, 136]], 6)], C.o) + claw(146, 136),
-      body: [{ k: 'p', d: 'M64 120 Q66 86 98 80 Q130 76 138 104 Q146 136 128 156 Q126 186 110 174 Q102 196 92 176 Q78 192 74 166 Q52 148 64 120Z', f },
+      body: [{ k: 'p', d: 'M72 120 Q72 84 100 78 Q126 76 132 104 Q138 132 122 152 Q108 172 90 178 Q66 186 40 180 Q64 172 74 158 Q60 144 72 120Z', f },
         { k: 'c', c: tube([{ p: [[110, 92], [116, 80], [120, 70], [126, 60]], r: [13, 8] }], 6), f: C.main, hl: false }],
       front: sil([arm([[124, 118], [142, 122], [154, 132], [162, 146]], 7)], C.o) + claw(162, 146),
-      belly: { k: 'e', cx: 104, cy: 128, rx: 16, ry: 22 },
+      belly: null,
+      ribs: true,
       claws: [],
       heads: [{ x: 132, y: 52, s: 0.92 }],
       wing: { x: 84, y: 102, s: 1.1 },
       back: [[70, 106, -50], [82, 92, -30]],
       gloss: [92, 98],
       spots: [[82, 126, 0.8], [96, 156, 0.8], [118, 146, 0.7]],
-      wisps: true,
+      smokeTail: [40, 180],
     };
   },
   hydra(C) {
@@ -656,13 +703,14 @@ const PLANS = {
     return {
       tail,
       far: sil([{ k: 'e', cx: 132, cy: 172, rx: 11, ry: 9, f: d }], C.o),
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 76, cy: 160, rx: 19, ry: 17, f }, { k: 'e', cx: 98, cy: 136, rx: 44, ry: 38, f },
-        { k: 'c', c: tube([{ p: [[96, 110], [94, 92], [86, 78], [80, 66]], r: [15, 9] }], 7), f: C.main, hl: false },
-        { k: 'c', c: tube([{ p: [[112, 114], [124, 98], [134, 84], [146, 76]], r: [16, 10] }], 7), f: C.main, hl: false }],
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 76, cy: 160, rx: 20, ry: 18, f }, { k: 'p', d: 'M66 156 Q56 124 82 106 Q106 94 126 110 Q140 128 130 152 Q120 170 96 170Z', f },
+        { k: 'c', c: tube([{ p: [[96, 108], [92, 84], [80, 62], [76, 44]], r: [14, 8] }], 9), f: C.main, hl: false },
+        { k: 'c', c: tube([{ p: [[114, 110], [128, 88], [140, 70], [152, 56]], r: [15, 9] }], 9), f: C.main, hl: false }],
       front: sil([{ k: 'c', c: tube([{ p: [[120, 150], [122, 160], [124, 168], [126, 176]], r: [10, 9] }], 4), f: C.main, hl: false }, { k: 'e', cx: 80, cy: 178, rx: 17, ry: 7.5, f }, { k: 'e', cx: 130, cy: 180, rx: 12, ry: 6, f }], C.o),
-      belly: { k: 'e', cx: 112, cy: 146, rx: 22, ry: 25 },
+      belly: { k: 'e', cx: 112, cy: 142, rx: 16, ry: 22 },
+      band: [[124, 108], [140, 138], [112, 168], 15, 7],
       claws: [[70, 182], [78, 184], [86, 182], [126, 184], [133, 184]],
-      heads: [{ x: 84, y: 56, s: 0.72 }, { x: 152, y: 68, s: 0.85 }],
+      heads: [{ x: 80, y: 38, s: 0.72 }, { x: 158, y: 48, s: 0.84 }],
       wing: { x: 90, y: 112, s: 0.95 },
       back: [[64, 120, -50], [72, 108, -35]],
       spots: [[78, 126], [70, 144, 0.8]],
@@ -735,7 +783,7 @@ const cache = new Map();
 export function dragonSVG(species, { stage = 'adult', cls = '' } = {}) {
   const key = `${species.id}|${stage}`;
   if (!cache.has(key)) cache.set(key, drawDragon(species, stage));
-  return `<svg class="dragon-art ${cls}" viewBox="-14 -14 228 228" xmlns="http://www.w3.org/2000/svg">${cache.get(key)}</svg>`;
+  return `<svg class="dragon-art ${cls}" viewBox="-24 -22 240 240" xmlns="http://www.w3.org/2000/svg">${cache.get(key)}</svg>`;
 }
 
 function drawDragon(species, stage) {
@@ -746,13 +794,19 @@ function drawDragon(species, stage) {
   const spec = fancy ? { ...base, gem: true, wings2: base.wings2 || (base.wings !== 'none' ? base.wings : undefined) } : base;
   const C = palette(species, spec);
   if (fancy && !base.horn) C.horn = '#ffe08a';
-  const plan = PLANS[spec.body] ? spec.body : 'classic';
-  const P = PLANS[plan](C, spec);
   const baby = stage === 'baby';
   const young = stage === 'young';
-  const scale = baby ? 0.7 : young ? 0.86 : 1;
   const adult = !baby && !young;
-  const wingScale = baby ? 0.42 : young ? 0.72 : 1.12;
+  adultNow = adult;
+  // Adults: slightly deeper, less candy-like colours.
+  if (adult && !base.main) {
+    C.main = mix(C.main, '#2b2238', 0.1);
+    C.o = shade(C.main, -0.62);
+  }
+  const plan = PLANS[spec.body] ? spec.body : 'classic';
+  const P = PLANS[plan](C, spec);
+  const scale = baby ? 0.7 : young ? 0.86 : 1;
+  const wingScale = baby ? 0.42 : young ? 0.72 : 1.2;
   const headBoost = baby ? 1.3 : young ? 1.08 : 0.88;
   lineW = baby ? 3.2 : young ? 2.9 : 2.5;
   // Adults have amber reptile eyes unless the design picks a colour.
@@ -774,14 +828,15 @@ function drawDragon(species, stage) {
   const wings = spec.wings && spec.wings !== 'none';
   const W = P.wing;
   const wingAt = (dx, dy, extra, col) => `<g ${at(W.x + dx, W.y + dy, extra, W.s * wingScale)}><g class="flap">${wingShape(C, spec.wings, col)}</g></g>`;
-  if (wings) g += `<g opacity=".95">${wingAt(-12, 6, -14, shade(C.wing, -0.25))}</g>`;
+  if (wings) g += `<g opacity=".95">${wingAt(-12, 6, adult ? -26 : -14, shade(C.wing, -0.25))}</g>`;
   if (spec.wings2 && !baby) g += `<g ${at(W.x - 4, W.y + 18, 0, W.s * 0.7 * wingScale)}><g class="flap slow">${wingShape(C, spec.wings2, shade(C.wing, -0.1))}</g></g>`;
   if (!baby && spec.back === 'volcano') {
     const [x, y] = P.back[Math.floor(P.back.length / 2)];
     g += `<g ${at(x, y + 4, 0, young ? 0.8 : 1.1)}><path d="M-22 6 L-8 -26 L8 -26 L22 6Z" fill="${grad(C.rockCol)}" ${ol(C.o, 2)}/><path d="M-8 -26 Q0 -20 8 -26 L5 -18 Q0 -14 -5 -18Z" fill="#ff7a1a"/><path d="M-3 -22 Q-6 -8 -12 0 M3 -20 Q8 -8 10 2" stroke="#ff5a1a" stroke-width="2.6" fill="none" stroke-linecap="round"/><g transform="translate(0 -30)"><g class="flick">${flame(C, 1.1)}</g></g></g>`;
   } else if (!baby && spec.back) g += P.back.map(([x, y, r], i) => `<g ${at(x, y, r, young ? 0.8 : 1)}>${backItem(C, spec.back, i)}</g>`).join('');
   if (P.plume) {
-    g += [[-145, 1.7, C.accent], [-162, 2, shade(C.accent, 0.2)], [-178, 1.6, C.wing], [-192, 1.3, shade(C.wing, 0.2)]].map(([r, sc, col]) => `<g ${at(62, 130, r + 90, sc * (baby ? 0.55 : young ? 0.8 : 1))}>${feather(C, 1, col)}</g>`).join('');
+    const [px, py] = P.plumeAt || [62, 130];
+    g += [[-145, 1.7, C.accent], [-162, 2, shade(C.accent, 0.2)], [-178, 1.6, C.wing], [-192, 1.3, shade(C.wing, 0.2)]].map(([r, sc, col]) => `<g ${at(px, py, r + 90, sc * (baby ? 0.55 : young ? 0.8 : 1))}>${feather(C, 1, col)}</g>`).join('');
   }
   g += P.far;
   g += sil(P.body, C.o);
@@ -790,13 +845,28 @@ function drawDragon(species, stage) {
   if (P.tailFin) {
     const a = tl[1], b = tl[0];
     g += `<g ${at(b.x, b.y, angleOf(a, b), baby ? 0.8 : 1.25)}><g class="sway">${tailTip(C, 'fin')}</g></g>`;
-  } else if (tl.length > 1 && spec.tail && spec.tail !== 'none') {
+  } else if (tl.length > 1 && spec.tail && spec.tail !== 'none' && !P.plumeAt) {
     const a = tl[tl.length - 2], b = tl[tl.length - 1];
     const first = plan === 'serpent' ? [tl[1], tl[0]] : [a, b];
     g += `<g ${at(first[1].x, first[1].y, angleOf(first[0], first[1]), baby ? 0.7 : 1)}><g class="sway">${tailTip(C, spec.tail)}</g></g>`;
   }
-  // belly
-  if (P.belly) {
+  // Adults: a tapering armoured band from throat to groin instead of a round tummy.
+  if (adult && P.band) {
+    const [p0, p1, p2, w0, w1] = P.band;
+    const n = 9, L = [], R = [];
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, u = 1 - t;
+      const x = u * u * p0[0] + 2 * u * t * p1[0] + t * t * p2[0], y = u * u * p0[1] + 2 * u * t * p1[1] + t * t * p2[1];
+      const dx = 2 * u * (p1[0] - p0[0]) + 2 * t * (p2[0] - p1[0]), dy = 2 * u * (p1[1] - p0[1]) + 2 * t * (p2[1] - p1[1]);
+      const len = Math.hypot(dx, dy) || 1, w = (w0 + (w1 - w0) * t) / 2;
+      L.push([x - (dy / len) * w, y + (dx / len) * w]);
+      R.push([x + (dy / len) * w, y - (dx / len) * w]);
+    }
+    const pts = [...L, ...R.reverse()].map(([x, y]) => `${r1(x)},${r1(y)}`).join(' ');
+    g += `<polygon points="${pts}" fill="${grad(C.belly)}" stroke="${shade(C.belly, -0.35)}" stroke-width="1.2" stroke-linejoin="round"/>`;
+    R.reverse();
+    for (let i = 1; i < n; i++) g += `<path d="M${r1(L[i][0])} ${r1(L[i][1])} L${r1(R[i][0])} ${r1(R[i][1])}" stroke="${shade(C.belly, -0.35)}" stroke-width="1.6"/>`;
+  } else if (P.belly) {
     const b = P.belly;
     const shape = b.k === 'e' ? `<ellipse cx="${b.cx}" cy="${b.cy}" rx="${b.rx}" ry="${b.ry}"${b.rot ? ` transform="rotate(${b.rot} ${b.cx} ${b.cy})"` : ''}` : `<path d="${b.d}"`;
     g += `${shape} fill="${grad(C.belly)}"/>`;
@@ -811,18 +881,27 @@ function drawDragon(species, stage) {
   }
   if (P.bellyChain) g += P.bellyChain.map((c) => `<circle cx="${r1(c.x)}" cy="${r1(c.y)}" r="${r1(c.r)}" fill="${C.belly}"/>`).join('') +
     P.bellyChain.filter((_, i) => i % 2).map((c) => `<path d="M${r1(c.x - c.r * 0.7)} ${r1(c.y)} q${r1(c.r * 0.7)} ${r1(c.r * 0.4)} ${r1(c.r * 1.4)} 0" fill="none" stroke="${shade(C.belly, -0.2)}" stroke-width="1.4"/>`).join('');
-  if (spec.pattern && !baby) g += markings(C, spec.pattern, P.spots);
+  if (P.ribs) g += `<path d="M92 108 Q104 114 116 106 M90 120 Q104 126 118 118 M92 132 Q104 138 116 130" fill="none" stroke="${shade(C.main, -0.35)}" stroke-width="2.6" stroke-linecap="round"/>`;
+  const second = C.wing !== C.main ? C.wing : null;
+  if (spec.pattern && !baby) g += markings(C, spec.pattern, P.spots, adult && second && ['spots', 'stripes', 'rings'].includes(spec.pattern) ? shade(second, -0.1) : undefined);
   // Fine scale texture on adults.
   if (adult && spec.pattern !== 'scales') g += `<g opacity=".55">${markings(C, 'scales', P.spots.map(([x, y]) => [x + 9, y + 7, 0.75]))}</g>`;
-  // body gloss
-  const [gx, gy] = P.gloss || [88, 112];
-  g += `<ellipse cx="${r1(gx)}" cy="${r1(gy)}" rx="13" ry="7" fill="#fff" opacity=".22" transform="rotate(-30 ${r1(gx)} ${r1(gy)})"/>`;
+  if (adult) {
+    // Darker spine and a soft rim light along the back instead of a plastic shine.
+    const spine = (k) => P.back.map(([x, y, r]) => `${r1(x - Math.sin((r * Math.PI) / 180) * k)},${r1(y + Math.cos((r * Math.PI) / 180) * k)}`).join(' ');
+    if (P.back.length > 1) g += `<polyline points="${spine(10)}" fill="none" stroke="${shade(C.main, -0.3)}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".28"/><polyline points="${spine(3.5)}" fill="none" stroke="${shade(C.main, 0.4)}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>`;
+  } else {
+    const [gx, gy] = P.gloss || [88, 112];
+    g += `<ellipse cx="${r1(gx)}" cy="${r1(gy)}" rx="13" ry="7" fill="#fff" opacity=".22" transform="rotate(-30 ${r1(gx)} ${r1(gy)})"/>`;
+  }
+  if (P.smokeTail) g += `<g ${at(P.smokeTail[0], P.smokeTail[1], 180, 1.1)}><g class="sway">${tailTip(C, 'wisp')}</g></g>`;
   if (P.wisps) g += `<path d="M76 176 q6 10 -4 20 q-6 6 -2 12 M96 184 q5 8 -3 16 M112 172 q8 10 2 22 q-3 6 2 10" fill="none" stroke="${C.main}" stroke-width="4.5" stroke-linecap="round" opacity=".5"/>`;
   g += P.front;
+  // Adults: scalloped toes ending in dark hooked talons.
   g += P.claws.map(([x, y]) => (adult
-    ? `<path d="M${x - 3} ${y - 3} Q${x + 1} ${y + 4} ${x + 5} ${y + 3} Q${x + 1} ${y + 1} ${x + 1} ${y - 4}Z" fill="${C.horn}" ${ol(C.o, 1.1)}/>`
+    ? `<circle cx="${x - 1}" cy="${y - 3}" r="4.2" fill="${shade(C.main, -0.08)}" ${ol(C.o, 1.4)}/><path d="M${x} ${y - 4} Q${x + 7} ${y - 2} ${x + 7} ${y + 4} Q${x + 3} ${y + 1} ${x} ${y}Z" fill="#2a2230" stroke="#2a2230" stroke-width="1"/><path d="M${x + 5} ${y} l1.5 2.5" stroke="#d8cfc0" stroke-width="1.2"/>`
     : `<circle cx="${x}" cy="${y}" r="2.6" fill="#fff8e8" ${ol(C.o, 1.2)}/>`)).join('');
-  if (wings) g += wingAt(0, 0, 0, C.wing);
+  if (wings) g += wingAt(0, 0, adult ? -14 : 0, C.wing);
   // heads (back to front)
   P.heads.forEach((h, i) => {
     const hs = h.s * headBoost;
@@ -833,8 +912,10 @@ function drawDragon(species, stage) {
     g += [[26, 40, 1], [176, 128, 0.8], [36, 172, 0.7], [178, 30, 0.6]].map(([x, y, sc]) => `<g ${at(x, y, 0, sc)}>${sparkle(1)}</g>`).join('');
   }
   if (rarity === 'mythic' && !baby) {
+    // A gold diadem of swept-back horn spikes along the brow.
     const h = P.heads[P.heads.length - 1];
-    g += `<g ${at(h.x - 2, h.y - 28 * h.s, -8, h.s * 0.9)}><path d="M-16 6 L-12 -12 L-4 -2 L2 -16 L8 -2 L16 -12 L18 6Z" fill="${grad('#ffd54f')}" ${ol('#7a4a00', 2)}/><circle cx="2" cy="0" r="3" fill="#ff5277"/></g>`;
+    const hs = h.s * headBoost;
+    g += `<g ${at(h.x, h.y, 0, hs)}>${[[-16, -14, -70], [-10, -19, -55], [-3, -22, -40], [5, -22, -28], [12, -19, -16]].map(([x, y, r]) => `<g ${at(x, y, r, 0.7)}>${spike(C, 1, '#ffd54f')}</g>`).join('')}<path d="M-6 -22 L-1 -28 L4 -22 L-1 -17Z" fill="#ff5277" ${ol('#7a1030', 1.2)}/></g>`;
   }
 
   s += `<g transform="translate(100 190) scale(${scale}) translate(-100 -190)">${g}</g>`;
@@ -902,6 +983,13 @@ export function projectileSVG(el, big = false) {
     ancient: () => `<circle r="18" fill="${glowGrad('#ffd54f')}"/>${star(C, 1.1, '#ffd54f')}`,
   }[el] || (() => `${sparkle(2, '#fff')}`);
   return `<svg viewBox="-32 -32 64 64" width="${big ? 74 : 54}" height="${big ? 74 : 54}">${motif()}</svg>`;
+}
+
+// Round element medallion (used instead of emoji in chips, attacks and buttons).
+export function elementIcon(el, size = 18) {
+  const col = el === 'neutral' ? '#9e9e9e' : ELEMENTS[el].color;
+  const inner = projectileSVG(el, false).replace(/width="\d+" height="\d+"/, '');
+  return `<svg class="el-ico" width="${size}" height="${size}" viewBox="-32 -32 64 64"><circle r="30" fill="${grad(shade(col, -0.25))}" stroke="${shade(col, -0.6)}" stroke-width="3"/><g transform="scale(.95)">${inner.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '')}</g></svg>`;
 }
 
 export function stageFor(level) {

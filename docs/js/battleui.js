@@ -2,7 +2,10 @@
 import * as D from './data.js';
 import * as G from './game.js';
 import * as B from './battle.js';
-import { dragonSVG, stageFor, projectileSVG } from './art.js';
+import { dragonSVG, stageFor, projectileSVG, elementIcon } from './art.js';
+
+// Opponents are always shown at least as young dragons, never as babies.
+const foeStage = (lvl) => (stageFor(lvl) === 'baby' ? 'young' : stageFor(lvl));
 import { $, act, view, openSheet, closeSheet, closeAllSheets, refresh, elChip, dragonArt, lockNote, esc } from './ui.js';
 import { play } from './sound.js';
 
@@ -61,7 +64,7 @@ function previewSheet(title, enemies, rewards, mode, info) {
   return `<h2>${title}</h2>
     <h3>Enemy team</h3>
     <div class="cards">${enemies.map((f) => `<div class="dcard static" style="--r:${D.RARITIES[f.sp.rarity].color}">
-      ${dragonSVG(f.sp, { stage: stageFor(f.lvl) })}<b>${f.sp.name}</b><small>Lv ${f.lvl} · ${f.sp.elements.map((x) => D.ELEMENTS[x].icon).join('')}</small></div>`).join('')}</div>
+      ${dragonSVG(f.sp, { stage: foeStage(f.lvl) })}<b>${f.sp.name}</b><small>Lv ${f.lvl} · ${f.sp.elements.map((x) => D.ELEMENTS[x].icon).join('')}</small></div>`).join('')}</div>
     <p class="center">Rewards: ${rewards}</p>
     <button class="btn wide gold" data-act="pick-team">Choose team</button>`;
 }
@@ -104,7 +107,7 @@ function towerSheet() {
     <p class="center">Best floor: <b>${S().tower.best}</b></p>
     <h3>Floor ${f}</h3>
     <div class="cards">${fl.enemies.map((x) => `<div class="dcard static" style="--r:${D.RARITIES[x.sp.rarity].color}">
-      ${dragonSVG(x.sp, { stage: stageFor(x.lvl) })}<b>${x.sp.name}</b><small>Lv ${x.lvl}</small></div>`).join('')}</div>
+      ${dragonSVG(x.sp, { stage: foeStage(x.lvl) })}<b>${x.sp.name}</b><small>Lv ${x.lvl}</small></div>`).join('')}</div>
     <p class="center">Rewards: 🪙 ${80 * f} · ⭐ XP ${10 * f}${f % 5 === 0 ? ' · 💎 5' : ''}</p>
     <button class="btn wide gold" data-act="pick-team">Choose team</button>`;
 }
@@ -179,14 +182,14 @@ function renderBattle(result) {
     const m = B.multiplier(a.el, foe.sp);
     const e = a.el === 'neutral' ? { icon: '👊', color: '#9e9e9e' } : D.ELEMENTS[a.el];
     return `<button class="move" style="--c:${e.color}" data-act="atk" data-i="${i}" ${a.cd > 0 || busy || b.over ? 'disabled' : ''}>
-      <b>${e.icon} ${a.name}</b>
+      <b>${elementIcon(a.el, 18)} ${a.name}</b>
       <small>${a.cd > 0 ? `⏳ ${a.cd}` : m > 1 ? '🔥 Strong!' : m < 1 ? '🛡️ Weak' : `Power ${a.power}×`}</small></button>`;
   }).join('');
   $('#battle').innerHTML = `<div class="bt">
     <div class="bt-top"><div class="pips">${pips(b.e, b.ei)}</div><button class="btn ghost small" data-act="forfeit">Run away</button></div>
     <div class="bt-side foe">
       <div class="bt-card"><b>${esc(foe.name)}</b> <small>Lv ${foe.lvl}</small><div>${foe.sp.elements.map((x) => elChip(x, false)).join('')}</div>${hpBar(foe)}</div>
-      <div class="bt-art" id="art-e">${PLATFORM}${dragonSVG(foe.sp, { stage: stageFor(foe.lvl) })}</div>
+      <div class="bt-art" id="art-e">${PLATFORM}${dragonSVG(foe.sp, { stage: foeStage(foe.lvl) })}</div>
     </div>
     <div class="bt-log">${log}</div>
     <div class="bt-side me">

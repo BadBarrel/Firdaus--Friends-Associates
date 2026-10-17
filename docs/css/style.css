@@ -350,7 +350,7 @@ textarea.code { width: 100%; height: 120px; font: 12px monospace; border-radius:
   background: rgba(20, 35, 55, .78); color: #fff; font-weight: 700; font-size: 14px; padding: 2px 9px; border-radius: 12px;
 }
 .wtimer.idle { background: rgba(92, 176, 67, .9); }
-.totem-pic svg { position: absolute; width: 44px; height: 44px; left: -22px; top: -136px; pointer-events: none; }
+.totem-pic svg { position: absolute; width: 44px; height: 44px; left: -22px; top: -152px; pointer-events: none; }
 .cloud { position: absolute; left: -300px; animation: drift linear infinite; pointer-events: none; opacity: .85; }
 @keyframes drift { to { transform: translateX(2800px); } }
 .bsvg .flicker { animation: flicker .5s ease-in-out infinite alternate; }
@@ -497,3 +497,14 @@ textarea.code { width: 100%; height: 120px; font: 12px monospace; border-radius:
 .bt.shake { animation: shake .35s; }
 @keyframes shake { 20% { transform: translate(-6px, 3px); } 40% { transform: translate(6px, -3px); } 60% { transform: translate(-4px, 2px); } 80% { transform: translate(3px, -1px); } }
 .dmg { top: 30% !important; }
+
+/* ---------------------------------------------------------------- maturity pass: icons and battle buttons */
+.el-ico { display: inline-block; vertical-align: -3px; }
+.el { gap: 4px; }
+.atk span .el-ico { vertical-align: middle; }
+.move { background: linear-gradient(180deg, color-mix(in srgb, var(--c) 72%, #1d1a2b), color-mix(in srgb, var(--c) 45%, #14121f)); border-color: color-mix(in srgb, var(--c) 60%, #000); color: #fff; }
+.move small { color: rgba(255,255,255,.82); }
+.move b { text-shadow: 0 1px 0 rgba(0,0,0,.35); }
+.heart .el-ico, .bheart .el-ico { vertical-align: middle; }
+.begg svg { width: 48px; height: auto; }
+.begg { font-size: 0; margin-left: -24px; }

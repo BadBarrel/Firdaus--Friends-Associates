@@ -1,7 +1,7 @@
 // Dragons tab, Dragon Book tab, and the dragon / species / element-chart sheets.
 import * as D from './data.js';
 import * as G from './game.js';
-import { dragonSVG } from './art.js';
+import { dragonSVG, elementIcon } from './art.js';
 import { act, view, openSheet, closeSheet, toast, elChip, rarityChip, dragonArt, cost, esc } from './ui.js';
 
 const S = () => G.S;
@@ -75,7 +75,7 @@ function attackRows(sp, lvl) {
   return G.attacksFor(sp, lvl).map((a) => {
     const e = a.el === 'neutral' ? { icon: '👊', color: '#9e9e9e', name: 'Neutral' } : D.ELEMENTS[a.el];
     return `<div class="atk ${a.unlocked ? '' : 'locked'}" style="--c:${e.color}">
-      <span>${e.icon}</span><b>${a.name}</b>
+      <span>${elementIcon(a.el, 24)}</span><b>${a.name}</b>
       <small>Power ${a.power}×${a.cooldown ? ` · cooldown ${a.cooldown}` : ''}${a.unlocked ? '' : ` · 🔒 Lv ${a.lvl}`}</small></div>`;
   }).join('');
 }

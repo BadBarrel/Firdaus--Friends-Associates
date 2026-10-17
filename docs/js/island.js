@@ -1,7 +1,7 @@
 // Island view: plots, buildings and their sheets (habitats, farms, hatchery, breeding, totem).
 import * as D from './data.js';
 import * as G from './game.js';
-import { dragonSVG, eggSVG, eggInner } from './art.js';
+import { dragonSVG, eggSVG, eggInner, elementIcon } from './art.js';
 import * as W from './world.js';
 import { designFor } from './designs.js';
 import { act, view, openSheet, closeSheet, toast, elChip, rarityChip, dragonArt, cost, lockNote, esc } from './ui.js';
@@ -110,7 +110,7 @@ function slotBody(i, b) {
         const total = G.duration(c.time) || 1;
         progress = Math.min(1, 1 - (b.crop.readyAt - G.now()) / total);
       }
-      return `<div class="slot-in" ${open}>${svgBox(W.farmArt(progress, c ? c.icon : '', ready))}
+      return `<div class="slot-in" ${open}>${svgBox(W.farmArt(progress, c ? c.id : '', ready))}
         ${ready ? `<button class="wcoin food" data-act="harvest" data-id="${b.id}" aria-label="Harvest">🍖</button>` : c ? `<span class="wtimer" data-until="${b.crop.readyAt}">${G.fmtTime(b.crop.readyAt - G.now())}</span>` : `<span class="wtimer idle">Plant!</span>`}</div>`;
     }
     case 'hatchery': {
@@ -686,7 +686,7 @@ function sanctuarySheet(b) {
       </div>`;
     }).join('')}
     ${free ? `<p class="muted small">Pick two dragons of level ${D.BREED_MIN_LEVEL}+. Their combined elements decide the baby.</p>
-      <div class="parents">${parent('a', A)}<span class="heart">❤️</span>${parent('b', B)}</div>
+      <div class="parents">${parent('a', A)}<span class="heart">${elementIcon('mystic', 30)}</span>${parent('b', B)}</div>
       ${pool}
       <button class="btn wide gold" data-act="breed" ${A && B ? '' : 'disabled'}>Breed!</button>`
       : '<p class="muted">All breeding slots are busy.</p>'}
@@ -725,7 +725,7 @@ act('breed', () => {
     openSheet(() => `<div class="reveal breeding">
         <div class="breed-stage">
           <div class="pa">${dragonArt(A, 'hero')}</div><div class="pb">${dragonArt(B, 'hero')}</div>
-          <div class="bheart">❤️</div><div class="begg">🥚</div>
+          <div class="bheart">${elementIcon('mystic', 40)}</div><div class="begg">${eggSVG(D.DRAGONS[slot.sp])}</div>
         </div>
         <h2>Breeding started!</h2>
         <p class="muted">${esc(G.dragonName(A))} + ${esc(G.dragonName(B))} · ${slot.readyAt > G.now() ? `egg in ${G.fmtTime(slot.readyAt - G.now())}` : "egg ready now!"}</p>
