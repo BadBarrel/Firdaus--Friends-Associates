@@ -41,7 +41,7 @@ function def(id, markup) {
 }
 function grad(c) {
   const id = 'lg' + c.slice(1);
-  def(id, `<linearGradient id="${id}" x1="0" y1="0" x2="0.25" y2="1"><stop offset="0" stop-color="${shade(c, 0.38)}"/><stop offset=".45" stop-color="${c}"/><stop offset="1" stop-color="${shade(c, -0.28)}"/></linearGradient>`);
+  def(id, `<linearGradient id="${id}" x1="0" y1="0" x2="0.25" y2="1"><stop offset="0" stop-color="${shade(c, 0.3)}"/><stop offset=".42" stop-color="${c}"/><stop offset="1" stop-color="${shade(c, -0.42)}"/></linearGradient>`);
   return `url(#${id})`;
 }
 function glowGrad(c) {
@@ -75,7 +75,9 @@ function tube(segs, n = 12) {
 const angleOf = (a, b) => (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
 
 // Silhouette group: an outline pass then a fill pass, so overlapping parts share one outline.
-function sil(items, outline, w = 3.2) {
+// Outline thickness: chunky for babies, finer (more detailed) for adults. Set per drawing.
+let lineW = 3.2;
+function sil(items, outline, w = lineW) {
   let o = '', f = '';
   for (const it of items) {
     if (it.k === 'c') {
@@ -166,6 +168,8 @@ function eye(C, type, x, y, size = 1) {
       return g(`<ellipse rx="7.5" ry="8.5" fill="#fff" ${ol(C.o, 1.6)}/><circle cx="1.5" cy="2" r="5" fill="${iris}"/><circle cx="1.8" cy="2.4" r="2.5" fill="#111"/><path d="M-8.5 -1 Q0 -11 8.5 -1 Z" fill="${C.main}" ${ol(C.o, 1.4)}/><circle cx="4" cy="3" r="1.3" fill="#fff"/>`);
     case 'happy':
       return g(`<path d="M-7 2 Q0 -8 7 2" fill="none" stroke="${C.o}" stroke-width="3.2" stroke-linecap="round"/>`);
+    case 'calm': // almond reptile eye with a slit pupil
+      return g(`<path d="M-9 2 Q-3 -8 9 -3 Q8 5 -1 6 Q-7 6 -9 2Z" fill="#fff8e0" ${ol(C.o, 1.6)}/><ellipse cx="2" cy="0" rx="4.6" ry="5" fill="${iris}"/><ellipse cx="2.4" cy="0" rx="1.3" ry="4.4" fill="#111"/><circle cx="4.2" cy="-2.2" r="1.2" fill="#fff"/>`);
     default:
       return g(`<ellipse rx="8.5" ry="10" fill="#fff" ${ol(C.o, 1.6)}/><circle cx="2" cy="1" r="6.2" fill="${iris}"/><circle cx="2.4" cy="1.3" r="3.3" fill="#111"/><circle cx="4.6" cy="-2.6" r="2.4" fill="#fff"/><circle cx="0" cy="4" r="1.2" fill="#fff"/>`);
   }
@@ -195,7 +199,8 @@ function horn(C, type, col) {
   switch (type) {
     case 'spike': return `<path d="M-5 2 Q-2 -14 1 -26 Q4 -12 6 2Z" fill="${f}" ${o}/>`;
     case 'curve': return `<path d="M-5 2 Q-6 -16 -16 -26 Q-12 -20 -2 -16 Q4 -8 6 2Z" fill="${f}" ${o}/>`;
-    case 'ram': return `<path d="M-6 2 Q-10 -18 6 -22 Q20 -22 18 -8 Q16 2 6 0 Q12 -6 8 -12 Q2 -16 -1 -8 Q0 -2 6 2Z" fill="${f}" ${o}/><path d="M2 -16 Q10 -18 13 -11" fill="none" stroke="${shade(col, -0.35)}" stroke-width="1.3"/>`;
+    // Ram horn: sweeps back from the skull and curls down behind it.
+    case 'ram': return `<path d="M-5 2 Q-8 -14 -22 -18 Q-38 -20 -40 -6 Q-41 8 -28 10 Q-20 10 -20 2 Q-21 -4 -27 -3 Q-24 -9 -18 -7 Q-10 -4 6 2Z" fill="${f}" ${o}/><path d="M-10 -10 Q-24 -16 -34 -8 M-14 -4 Q-24 -10 -32 -2" fill="none" stroke="${shade(col, -0.35)}" stroke-width="1.3"/>`;
     case 'antler': return `<path d="M0 2 L-2 -14 L-12 -22 M-2 -14 L-1 -26 L-8 -34 M-1 -26 L6 -34 M-2 -10 L8 -18" fill="none" stroke="${C.o}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 2 L-2 -14 L-12 -22 M-2 -14 L-1 -26 L-8 -34 M-1 -26 L6 -34 M-2 -10 L8 -18" fill="none" stroke="${col}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>`;
     case 'crescent': return `<path d="M-4 2 Q-14 -18 2 -32 Q-4 -16 6 2Z" fill="${f}" ${o}/>`;
     case 'antenna': return `<path d="M0 2 Q-4 -14 4 -26" fill="none" stroke="${C.o}" stroke-width="2.4"/><circle cx="4" cy="-28" r="4.5" fill="${grad(C.accent)}" ${ol(C.o, 1.5)}/>`;
@@ -244,9 +249,12 @@ function headCrest(C, type, h) {
   }
 }
 
-function drawHead(C, spec, stage, slot = 0) {
-  const h = HEADS[spec.head] || HEADS.round;
+function drawHead(C, spec0, stage, slot = 0) {
   const baby = stage === 'baby';
+  const adult = stage === 'adult';
+  // Babies stay cute; adults get a longer snout, reptile eyes, a fanged jaw and a brow ridge.
+  const spec = adult && spec0.head === 'round' ? { ...spec0, head: 'long' } : spec0;
+  const h = HEADS[spec.head] || HEADS.round;
   const f = grad(C.main);
   let out = '';
   // behind: crest + horns
@@ -255,7 +263,7 @@ function drawHead(C, spec, stage, slot = 0) {
   if (crest === 'halo' && !baby) out += `<ellipse cx="0" cy="-36" rx="18" ry="5" fill="none" stroke="${C.o}" stroke-width="6"/><ellipse cx="0" cy="-36" rx="18" ry="5" fill="none" stroke="#ffe066" stroke-width="3"/>`;
   const hornType = baby ? 'nub' : spec.horns;
   if (hornType && hornType !== 'none' && hornType !== 'rhino') {
-    for (const [x, y, rot] of h.horns) out += `<g ${at(x, y, rot, baby ? 0.9 : 1)}>${horn(C, hornType, C.horn)}</g>`;
+    for (const [x, y, rot] of h.horns) out += `<g ${at(x, y, rot, baby ? 0.9 : adult ? 1.22 : 1)}>${horn(C, hornType, C.horn)}</g>`;
   }
   out += sil(h.skull(f), C.o);
   if (h.facets) out += `<path d="${h.facets}" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.3"/>`;
@@ -277,10 +285,16 @@ function drawHead(C, spec, stage, slot = 0) {
   if (h.beak) out += `<path d="M14 -6 Q40 -4 46 10 Q34 14 16 12Z" fill="${grad(C.beakCol)}" ${ol(C.o, 2)}/><path d="M18 6 Q30 7 42 9" stroke="${shade(C.beakCol, -0.4)}" stroke-width="1.4" fill="none"/>`;
   if (spec.head === 'skull') out += `<path d="M28 10 L30 18 L32 10 M18 12 L20 20 L22 12" fill="#fff" ${ol(C.o, 1)}/>`;
   for (const [x, y] of h.nose || []) out += `<ellipse cx="${x}" cy="${y}" rx="2" ry="1.6" fill="${C.o}"/>`;
-  if (!h.beak && spec.head !== 'skull') out += mouth(C, baby ? 'smile' : spec.mouth || 'smile', ...h.mouth);
-  const eyeType = baby && spec.eyes !== 'glow' ? 'cute' : spec.eyes || 'cute';
-  out += eye(C, eyeType, h.eye[0], h.eye[1], h.eye[2] * (baby ? 1.2 : 1));
-  if (spec.head !== 'skull' && spec.head !== 'crystal') out += `<ellipse cx="${h.eye[0] - 4}" cy="${h.eye[1] + 12}" rx="5" ry="3" fill="#ff7aa8" opacity=".38"/>`;
+  const mouthType = baby ? 'smile' : spec.mouth || 'smile';
+  if (!h.beak && spec.head !== 'skull') out += mouth(C, adult && mouthType === 'smile' ? 'fang' : mouthType, ...h.mouth);
+  let eyeType = baby && spec.eyes !== 'glow' ? 'cute' : spec.eyes || 'cute';
+  if (adult && ['cute', 'happy', 'sleepy'].includes(eyeType)) eyeType = 'calm';
+  const [ex, ey, es] = h.eye;
+  out += eye(C, eyeType, ex, ey, es * (baby ? 1.2 : adult ? 0.9 : 1));
+  if (adult && !h.helm && eyeType !== 'fierce') {
+    out += `<path d="M${ex - 13} ${ey - 5} Q${ex - 2} ${ey - 17} ${ex + 13} ${ey - 11} L${ex + 11} ${ey - 6} Q${ex} ${ey - 11} ${ex - 11} ${ey - 1}Z" fill="${shade(C.main, -0.25)}" ${ol(C.o, 1.5)}/>`;
+  }
+  if (baby && spec.head !== 'skull' && spec.head !== 'crystal') out += `<ellipse cx="${ex - 4}" cy="${ey + 12}" rx="5" ry="3" fill="#ff7aa8" opacity=".38"/>`;
   if (spec.gem && !baby) out += `<path d="M-2 -20 L3 -26 L8 -20 L3 -14Z" fill="${C.accent}" ${ol(C.o, 1.4)}/>`;
   return out;
 }
@@ -412,45 +426,62 @@ function markings(C, type, spots) {
 // Each plan returns the shapes for the body silhouette plus anchors where parts attach.
 const PLANS = {
   classic(C) {
-    const f = grad(C.main), d = grad(shade(C.main, -0.15));
-    const tail = tube([{ p: [[72, 150], [36, 176], [10, 150], [24, 112]], r: [14, 4.5] }]);
+    // Proud sitting pose: deep chest, muscular haunch, tapering neck and tail.
+    const f = grad(C.main), d = grad(shade(C.main, -0.18)), dk = shade(C.main, -0.18);
+    const tail = tube([{ p: [[66, 162], [30, 184], [6, 160], [16, 124]], r: [14, 3] }]);
     return {
       tail,
-      far: sil([{ k: 'e', cx: 132, cy: 172, rx: 11, ry: 9, f: d }], C.o),
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 76, cy: 160, rx: 19, ry: 17, f }, { k: 'e', cx: 100, cy: 134, rx: 42, ry: 38, f }, { k: 'c', c: tube([{ p: [[110, 118], [116, 100], [126, 90], [134, 82]], r: [20, 17] }], 6), f: C.main, hl: false }],
-      front: sil([{ k: 'c', c: tube([{ p: [[120, 150], [122, 160], [124, 168], [126, 176]], r: [10, 9] }], 4), f: C.main, hl: false }, { k: 'e', cx: 80, cy: 178, rx: 17, ry: 7.5, f }, { k: 'e', cx: 130, cy: 180, rx: 12, ry: 6, f }], C.o),
-      belly: { k: 'e', cx: 114, cy: 143, rx: 22, ry: 28 },
-      claws: [[70, 182], [78, 184], [86, 182], [126, 184], [133, 184]],
-      heads: [{ x: 142, y: 72, s: 1 }],
-      wing: { x: 92, y: 108, s: 1 },
-      back: [[64, 118, -50], [72, 106, -35], [84, 99, -15]],
-      spots: [[78, 124], [70, 142, 0.8], [92, 108, 0.8]],
+      far: sil([{ k: 'c', c: tube([{ p: [[106, 146], [107, 158], [108, 168], [110, 179]], r: [8, 6] }], 5), f: dk, hl: false }, { k: 'e', cx: 113, cy: 182, rx: 10, ry: 4.5, f: d }], C.o),
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 80, cy: 152, rx: 26, ry: 24, f }, { k: 'e', cx: 110, cy: 124, rx: 30, ry: 36, rot: -12, f },
+        { k: 'c', c: tube([{ p: [[114, 100], [122, 86], [132, 74], [144, 64]], r: [17, 10] }], 8), f: C.main, hl: false }],
+      front: sil([{ k: 'c', c: tube([{ p: [[120, 138], [124, 150], [126, 160], [126, 170]], r: [11, 8] }], 5), f: C.main, hl: false },
+        { k: 'c', c: tube([{ p: [[126, 168], [126, 173], [127, 177], [128, 180]], r: [7, 6] }], 3), f: C.main, hl: false },
+        { k: 'e', cx: 90, cy: 181, rx: 19, ry: 6, f }, { k: 'e', cx: 131, cy: 182, rx: 11, ry: 5, f }], C.o) +
+        `<path d="M66 140 Q78 132 92 140 M70 156 Q80 150 90 158" fill="none" stroke="${shade(C.main, -0.3)}" stroke-width="2" stroke-linecap="round" opacity=".6"/>`,
+      belly: { k: 'e', cx: 120, cy: 132, rx: 16, ry: 27, rot: -12 },
+      claws: [[82, 184], [90, 185], [98, 184], [129, 185], [135, 185]],
+      heads: [{ x: 150, y: 56, s: 1 }],
+      wing: { x: 98, y: 104, s: 1 },
+      back: [[70, 132, -60], [80, 114, -40], [94, 100, -25]],
+      gloss: [100, 110],
+      spots: [[82, 146], [94, 126, 0.8], [74, 160, 0.8]],
     };
   },
   beast(C) {
-    const f = grad(C.main), d = grad(shade(C.main, -0.2));
-    const tail = tube([{ p: [[54, 120], [26, 118], [10, 98], [18, 72]], r: [13, 4] }]);
+    // Four-legged: chest and hips with a tucked waist, digitigrade hind legs.
+    const f = grad(C.main), d = grad(shade(C.main, -0.2)), dk = shade(C.main, -0.2);
+    const tail = tube([{ p: [[52, 114], [22, 110], [6, 90], [14, 60]], r: [13, 3] }]);
     return {
       tail,
-      far: sil([{ k: 'c', c: tube([{ p: [[68, 132], [66, 150], [64, 164], [62, 178]], r: [11, 9] }], 5), f: shade(C.main, -0.2), hl: false }, { k: 'c', c: tube([{ p: [[124, 134], [126, 150], [128, 164], [130, 178]], r: [10, 9] }], 5), f: shade(C.main, -0.2), hl: false }, { k: 'e', cx: 64, cy: 181, rx: 11, ry: 6, f: d }, { k: 'e', cx: 133, cy: 181, rx: 11, ry: 6, f: d }], C.o),
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 96, cy: 124, rx: 52, ry: 30, f }, { k: 'c', c: tube([{ p: [[128, 116], [138, 104], [146, 92], [152, 82]], r: [18, 15] }], 6), f: C.main, hl: false }],
-      front: sil([{ k: 'c', c: tube([{ p: [[82, 134], [80, 150], [79, 164], [78, 178]], r: [13, 11] }], 5), f: C.main, hl: false }, { k: 'c', c: tube([{ p: [[118, 136], [116, 152], [115, 164], [114, 178]], r: [12, 10] }], 5), f: C.main, hl: false }, { k: 'e', cx: 80, cy: 182, rx: 14, ry: 7, f }, { k: 'e', cx: 117, cy: 182, rx: 13, ry: 6.5, f }], C.o),
-      belly: { k: 'e', cx: 100, cy: 140, rx: 36, ry: 12 },
-      claws: [[72, 186], [80, 187], [88, 186], [110, 186], [118, 187], [125, 186]],
-      heads: [{ x: 158, y: 72, s: 0.95 }],
-      wing: { x: 98, y: 104, s: 0.9 },
-      back: [[60, 104, -30], [76, 96, -15], [94, 94, 0], [112, 96, 10]],
-      gloss: [84, 110],
-      spots: [[72, 116], [96, 110], [118, 118, 0.8], [60, 128, 0.8]],
+      far: sil([
+        { k: 'c', c: tube([{ p: [[58, 124], [52, 136], [50, 146], [52, 156]], r: [12, 8] }], 5), f: dk, hl: false },
+        { k: 'c', c: tube([{ p: [[52, 156], [56, 166], [56, 174], [54, 180]], r: [7, 5.5] }], 4), f: dk, hl: false },
+        { k: 'c', c: tube([{ p: [[126, 128], [128, 146], [130, 164], [132, 180]], r: [10, 6.5] }], 6), f: dk, hl: false },
+        { k: 'e', cx: 58, cy: 183, rx: 10, ry: 4.5, f: d }, { k: 'e', cx: 136, cy: 183, rx: 10, ry: 4.5, f: d }], C.o),
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 92, cy: 122, rx: 40, ry: 21, f }, { k: 'e', cx: 66, cy: 118, rx: 25, ry: 23, f }, { k: 'e', cx: 120, cy: 116, rx: 29, ry: 28, f },
+        { k: 'c', c: tube([{ p: [[132, 104], [142, 88], [150, 74], [160, 62]], r: [17, 10] }], 8), f: C.main, hl: false }],
+      front: sil([
+        { k: 'e', cx: 72, cy: 134, rx: 17, ry: 21, rot: 20, f },
+        { k: 'c', c: tube([{ p: [[68, 150], [62, 160], [62, 170], [66, 180]], r: [9, 6.5] }], 5), f: C.main, hl: false },
+        { k: 'c', c: tube([{ p: [[114, 128], [116, 146], [116, 164], [114, 180]], r: [12, 7.5] }], 6), f: C.main, hl: false },
+        { k: 'e', cx: 72, cy: 183, rx: 12, ry: 5, f }, { k: 'e', cx: 118, cy: 183, rx: 12, ry: 5, f }], C.o) +
+        `<path d="M108 108 Q120 100 132 110 M60 108 Q70 102 80 110" fill="none" stroke="${shade(C.main, -0.3)}" stroke-width="2" stroke-linecap="round" opacity=".55"/>`,
+      belly: { k: 'e', cx: 104, cy: 134, rx: 28, ry: 9 },
+      claws: [[76, 185], [82, 186], [120, 185], [126, 186]],
+      heads: [{ x: 166, y: 54, s: 0.95 }],
+      wing: { x: 100, y: 100, s: 0.95 },
+      back: [[52, 102, -25], [70, 95, -8], [90, 99, 4], [110, 90, -5], [128, 86, -22]],
+      gloss: [112, 102],
+      spots: [[66, 112], [92, 114], [118, 110, 0.8], [56, 126, 0.8]],
     };
   },
   wyvern(C) {
     const f = grad(C.main);
-    const tail = tube([{ p: [[86, 158], [56, 182], [24, 178], [10, 156]], r: [14, 4] }]);
+    const tail = tube([{ p: [[86, 158], [56, 184], [20, 180], [6, 152]], r: [14, 3] }]);
     return {
       tail,
       far: sil([{ k: 'c', c: tube([{ p: [[112, 118], [122, 126], [128, 132], [134, 138]], r: [6, 5] }], 4), f: shade(C.main, -0.2), hl: false }], C.o),
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 100, cy: 126, rx: 31, ry: 42, rot: 10, f }, { k: 'c', c: tube([{ p: [[108, 94], [112, 80], [118, 70], [124, 62]], r: [16, 14] }], 6), f: C.main, hl: false }, { k: 'e', cx: 86, cy: 160, rx: 17, ry: 19, f }],
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 100, cy: 126, rx: 31, ry: 42, rot: 10, f }, { k: 'c', c: tube([{ p: [[108, 94], [112, 80], [118, 70], [124, 62]], r: [16, 10] }], 7), f: C.main, hl: false }, { k: 'e', cx: 86, cy: 160, rx: 17, ry: 19, f }],
       front: sil([{ k: 'e', cx: 116, cy: 162, rx: 14, ry: 17, f }, { k: 'e', cx: 84, cy: 181, rx: 15, ry: 6.5, f }, { k: 'e', cx: 121, cy: 182, rx: 13, ry: 6, f }, { k: 'c', c: tube([{ p: [[116, 112], [124, 120], [130, 128], [136, 134]], r: [7, 5.5] }], 4), f: C.main, hl: false }], C.o),
       belly: { k: 'e', cx: 109, cy: 130, rx: 17, ry: 33, rot: 10 },
       claws: [[76, 185], [84, 186], [92, 185], [116, 186], [124, 186], [137, 136]],
@@ -501,19 +532,23 @@ const PLANS = {
     };
   },
   golem(C) {
-    const f = grad(C.main), d = grad(shade(C.main, -0.18));
+    // Hunched rock titan: angular shoulders, armour plates, spiked fists.
+    const f = grad(C.main), d = grad(shade(C.main, -0.18)), plate = grad(shade(C.main, 0.12));
+    const fistSpikes = (x, y) => [[0, -14], [12, -6], [14, 8]].map(([dx, dy]) => `<g ${at(x + dx, y + dy, Math.atan2(dy, dx) * 57.3 + 90, 0.55)}>${spike(C, 1, C.horn)}</g>`).join('');
     return {
-      tail: tube([{ p: [[66, 156], [50, 168], [40, 172], [30, 170]], r: [11, 6] }], 6),
-      far: sil([{ k: 'c', c: tube([{ p: [[60, 110], [52, 130], [46, 146], [42, 158]], r: [15, 13] }], 6), f: shade(C.main, -0.18), hl: false }, { k: 'e', cx: 40, cy: 166, rx: 15, ry: 14, f: d }], C.o),
-      body: [{ k: 'p', d: 'M58 108 Q100 66 144 104 Q160 140 134 168 L70 168 Q44 140 58 108Z', f }, { k: 'e', cx: 82, cy: 172, rx: 17, ry: 12, f }, { k: 'e', cx: 120, cy: 172, rx: 17, ry: 12, f }],
-      front: sil([{ k: 'c', c: tube([{ p: [[138, 108], [146, 128], [150, 144], [154, 156]], r: [16, 14] }], 6), f: C.main, hl: false }, { k: 'e', cx: 156, cy: 164, rx: 16, ry: 15, f }, { k: 'e', cx: 140, cy: 104, rx: 16, ry: 14, f: grad(C.accent) }], C.o),
-      belly: { k: 'p', d: 'M78 120 Q102 104 126 120 L124 158 Q102 166 80 158Z' },
-      claws: [[74, 182], [82, 184], [90, 182], [114, 182], [122, 184], [130, 182], [150, 174], [158, 175]],
-      heads: [{ x: 116, y: 74, s: 0.82 }],
-      wing: { x: 82, y: 98, s: 0.75 },
-      back: [[60, 104, -40], [72, 90, -25], [86, 84, -10]],
-      gloss: [92, 100],
-      spots: [[72, 128], [70, 150, 0.8], [132, 140, 0.8], [100, 98, 0.8]],
+      tail: tube([{ p: [[66, 156], [48, 168], [36, 172], [24, 168]], r: [11, 4] }], 6),
+      far: sil([{ k: 'c', c: tube([{ p: [[60, 108], [50, 128], [44, 144], [40, 156]], r: [15, 12] }], 6), f: shade(C.main, -0.18), hl: false }, { k: 'e', cx: 38, cy: 164, rx: 15, ry: 14, f: d }], C.o) + fistSpikes(36, 162),
+      body: [{ k: 'p', d: 'M52 120 L60 96 Q80 74 106 80 Q134 74 150 98 L154 122 Q158 148 134 168 L70 168 Q46 148 52 120Z', f }, { k: 'e', cx: 82, cy: 172, rx: 17, ry: 12, f }, { k: 'e', cx: 120, cy: 172, rx: 17, ry: 12, f }],
+      front: sil([{ k: 'c', c: tube([{ p: [[140, 106], [148, 126], [152, 142], [156, 154]], r: [16, 13] }], 6), f: C.main, hl: false }, { k: 'e', cx: 158, cy: 162, rx: 16, ry: 15, f }], C.o) + fistSpikes(158, 160) +
+        sil([{ k: 'p', d: 'M126 88 L150 92 L156 112 L136 116Z', f: plate }, { k: 'p', d: 'M60 98 L80 86 L86 104 L64 112Z', f: plate }], C.o, 2) +
+        `<path d="M66 128 L76 140 L70 152 M138 128 L130 142" fill="none" stroke="${shade(C.main, -0.35)}" stroke-width="2" stroke-linecap="round"/>`,
+      belly: { k: 'p', d: 'M82 114 L104 106 L126 114 L124 150 L104 158 L84 150Z' },
+      claws: [[74, 182], [82, 184], [90, 182], [114, 182], [122, 184], [130, 182]],
+      heads: [{ x: 116, y: 84, s: 0.78 }],
+      wing: { x: 82, y: 98, s: 0.8 },
+      back: [[58, 104, -45], [70, 90, -30], [86, 82, -12]],
+      gloss: [96, 96],
+      spots: [[70, 128], [72, 152, 0.8], [134, 140, 0.8], [100, 96, 0.8]],
     };
   },
   sea(C) {
@@ -535,20 +570,23 @@ const PLANS = {
     };
   },
   bird(C) {
+    // Raptor-phoenix: teardrop body, S-curved neck, long legs with talons, sweeping tail plume.
     const f = grad(C.main);
+    const leg = (pts) => `<path d="${pts}" fill="none" stroke="${C.o}" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/><path d="${pts}" fill="none" stroke="${C.beakCol}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const talons = (x, y) => `<path d="M${x} ${y} l9 2 M${x} ${y} l7 5 M${x} ${y} l-6 3" stroke="${C.o}" stroke-width="3.4" stroke-linecap="round"/><path d="M${x + 9} ${y + 2} l2 3 M${x + 7} ${y + 5} l1 3" stroke="${C.horn}" stroke-width="2.4" stroke-linecap="round"/>`;
     return {
       tail: [],
-      far: `<path d="M90 150 L88 178 M106 150 L110 178" stroke="${C.o}" stroke-width="7" stroke-linecap="round"/><path d="M90 150 L88 178 M106 150 L110 178" stroke="${C.beakCol}" stroke-width="3.5" stroke-linecap="round"/><path d="M80 182 L88 178 L96 182 M102 182 L110 178 L118 182" fill="none" stroke="${C.o}" stroke-width="3" stroke-linecap="round"/>`,
-      body: [{ k: 'e', cx: 98, cy: 122, rx: 35, ry: 32, f }, { k: 'c', c: tube([{ p: [[114, 104], [120, 90], [124, 78], [128, 68]], r: [14, 12] }], 6), f: C.main, hl: false }],
-      front: '',
+      far: leg('M98 142 L92 162 L98 180') + talons(98, 180),
+      body: [{ k: 'p', d: 'M56 130 Q66 100 102 96 Q132 94 138 116 Q140 138 112 146 Q82 152 56 130Z', f }, { k: 'c', c: tube([{ p: [[122, 104], [134, 90], [128, 76], [140, 62]], r: [13, 8] }], 8), f: C.main, hl: false }],
+      front: leg('M112 144 L118 162 L112 180') + talons(112, 180) + sil([{ k: 'e', cx: 112, cy: 138, rx: 14, ry: 11, f }], C.o, 2),
       plume: true,
-      belly: { k: 'e', cx: 108, cy: 128, rx: 20, ry: 22 },
+      belly: { k: 'e', cx: 120, cy: 124, rx: 15, ry: 14 },
       claws: [],
-      heads: [{ x: 132, y: 58, s: 0.88 }],
-      wing: { x: 96, y: 106, s: 1.1 },
-      back: [[76, 100, -40], [88, 92, -20]],
-      gloss: [90, 108],
-      spots: [[84, 112, 0.8], [80, 132, 0.7], [96, 98, 0.6]],
+      heads: [{ x: 146, y: 54, s: 0.86 }],
+      wing: { x: 100, y: 104, s: 1.15 },
+      back: [[80, 100, -30], [96, 96, -10]],
+      gloss: [96, 106],
+      spots: [[84, 116, 0.8], [76, 132, 0.7], [100, 106, 0.6]],
     };
   },
   sprite(C) {
@@ -558,11 +596,11 @@ const PLANS = {
       tail,
       floats: true,
       far: '',
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 102, cy: 128, rx: 26, ry: 25, f }],
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 102, cy: 128, rx: 26, ry: 25, f }, { k: 'c', c: tube([{ p: [[110, 110], [114, 100], [118, 92], [122, 84]], r: [12, 8] }], 6), f: C.main, hl: false }],
       front: sil([{ k: 'c', c: tube([{ p: [[118, 128], [124, 134], [128, 138], [132, 140]], r: [5.5, 4.5] }], 3), f: C.main, hl: false }], C.o),
       belly: { k: 'e', cx: 110, cy: 134, rx: 13, ry: 16 },
       claws: [[134, 142]],
-      heads: [{ x: 120, y: 88, s: 1.08 }],
+      heads: [{ x: 128, y: 74, s: 1 }],
       wing: { x: 96, y: 114, s: 1.15 },
       back: [[82, 112, -50], [90, 104, -30]],
       gloss: [96, 118],
@@ -571,12 +609,12 @@ const PLANS = {
   },
   knight(C) {
     const f = grad(C.main);
-    const tail = tube([{ p: [[82, 158], [54, 178], [26, 176], [14, 160]], r: [14, 4] }]);
+    const tail = tube([{ p: [[82, 158], [54, 180], [22, 178], [8, 156]], r: [14, 3] }]);
     const armor = grad(C.metalCol);
     return {
       tail,
       far: '',
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 100, cy: 126, rx: 35, ry: 41, f }, { k: 'c', c: tube([{ p: [[106, 94], [110, 82], [114, 74], [118, 66]], r: [17, 15] }], 5), f: C.main, hl: false }, { k: 'e', cx: 84, cy: 162, rx: 18, ry: 18, f }],
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 100, cy: 126, rx: 35, ry: 41, f }, { k: 'c', c: tube([{ p: [[106, 94], [110, 82], [114, 74], [118, 66]], r: [17, 11] }], 6), f: C.main, hl: false }, { k: 'e', cx: 84, cy: 162, rx: 18, ry: 18, f }],
       front: sil([{ k: 'e', cx: 118, cy: 164, rx: 15, ry: 16, f }, { k: 'e', cx: 84, cy: 181, rx: 16, ry: 7, f: armor }, { k: 'e', cx: 122, cy: 182, rx: 14, ry: 6.5, f: armor }], C.o) +
         sil([{ k: 'p', d: 'M84 104 Q108 94 130 104 L128 146 Q108 160 86 146Z', f: armor }], C.o, 2.6) +
         `<path d="M107 100 L107 152 M88 124 Q107 132 128 124" stroke="${shade(C.metalCol, -0.3)}" stroke-width="2" fill="none"/><path d="M98 112 L116 112" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>` +
@@ -591,20 +629,24 @@ const PLANS = {
     };
   },
   wraith(C) {
+    // Spectre: hunched torso on a neck, long reaching claws, a body that trails into wisps.
     const f = grad(C.main);
+    const arm = (pts, r0) => ({ k: 'c', c: tube([{ p: pts, r: [r0, 3.5] }], 6), f: C.main, hl: false });
+    const claw = (x, y) => `<path d="M${x} ${y} q8 2 10 10 M${x} ${y} q10 -2 14 4 M${x} ${y} q4 6 2 14" fill="none" stroke="${C.o}" stroke-width="3.6" stroke-linecap="round"/><path d="M${x} ${y} q8 2 10 10 M${x} ${y} q10 -2 14 4 M${x} ${y} q4 6 2 14" fill="none" stroke="${C.horn}" stroke-width="1.6" stroke-linecap="round"/>`;
     return {
       tail: [],
       floats: true,
-      far: '',
-      body: [{ k: 'p', d: 'M64 112 Q98 70 136 110 Q146 140 126 160 Q122 182 108 172 Q100 190 90 174 Q74 188 72 164 Q52 142 64 112Z', f }],
-      front: sil([{ k: 'c', c: tube([{ p: [[124, 118], [136, 126], [144, 134], [150, 142]], r: [7, 5] }], 4), f: C.main, hl: false }], C.o) + `<path d="M148 142 l6 4 M150 140 l7 1 M146 145 l3 6" stroke="${C.o}" stroke-width="2.4" stroke-linecap="round"/>`,
-      belly: { k: 'e', cx: 104, cy: 132, rx: 18, ry: 22 },
+      far: sil([arm([[112, 112], [128, 116], [138, 124], [146, 136]], 6)], C.o) + claw(146, 136),
+      body: [{ k: 'p', d: 'M64 120 Q66 86 98 80 Q130 76 138 104 Q146 136 128 156 Q126 186 110 174 Q102 196 92 176 Q78 192 74 166 Q52 148 64 120Z', f },
+        { k: 'c', c: tube([{ p: [[110, 92], [116, 80], [120, 70], [126, 60]], r: [13, 8] }], 6), f: C.main, hl: false }],
+      front: sil([arm([[124, 118], [142, 122], [154, 132], [162, 146]], 7)], C.o) + claw(162, 146),
+      belly: { k: 'e', cx: 104, cy: 128, rx: 16, ry: 22 },
       claws: [],
-      heads: [{ x: 114, y: 78, s: 0.98 }],
-      wing: { x: 84, y: 106, s: 1.05 },
-      back: [[70, 110, -50], [80, 98, -30]],
-      gloss: [92, 100],
-      spots: [[82, 128, 0.8], [96, 156, 0.8], [118, 148, 0.7]],
+      heads: [{ x: 132, y: 52, s: 0.92 }],
+      wing: { x: 84, y: 102, s: 1.1 },
+      back: [[70, 106, -50], [82, 92, -30]],
+      gloss: [92, 98],
+      spots: [[82, 126, 0.8], [96, 156, 0.8], [118, 146, 0.7]],
       wisps: true,
     };
   },
@@ -615,8 +657,8 @@ const PLANS = {
       tail,
       far: sil([{ k: 'e', cx: 132, cy: 172, rx: 11, ry: 9, f: d }], C.o),
       body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 76, cy: 160, rx: 19, ry: 17, f }, { k: 'e', cx: 98, cy: 136, rx: 44, ry: 38, f },
-        { k: 'c', c: tube([{ p: [[96, 110], [94, 92], [86, 78], [80, 66]], r: [15, 12] }], 6), f: C.main, hl: false },
-        { k: 'c', c: tube([{ p: [[112, 114], [124, 98], [134, 84], [146, 76]], r: [16, 14] }], 6), f: C.main, hl: false }],
+        { k: 'c', c: tube([{ p: [[96, 110], [94, 92], [86, 78], [80, 66]], r: [15, 9] }], 7), f: C.main, hl: false },
+        { k: 'c', c: tube([{ p: [[112, 114], [124, 98], [134, 84], [146, 76]], r: [16, 10] }], 7), f: C.main, hl: false }],
       front: sil([{ k: 'c', c: tube([{ p: [[120, 150], [122, 160], [124, 168], [126, 176]], r: [10, 9] }], 4), f: C.main, hl: false }, { k: 'e', cx: 80, cy: 178, rx: 17, ry: 7.5, f }, { k: 'e', cx: 130, cy: 180, rx: 12, ry: 6, f }], C.o),
       belly: { k: 'e', cx: 112, cy: 146, rx: 22, ry: 25 },
       claws: [[70, 182], [78, 184], [86, 182], [126, 184], [133, 184]],
@@ -667,7 +709,7 @@ function palette(sp, spec) {
   return {
     main,
     o: shade(main, -0.62),
-    belly: spec.belly || (els[1] ? mix(second, '#fff6dc', 0.45) : mix(main, '#fff6dc', 0.62)),
+    belly: spec.belly || (els[1] ? mix(second, '#f3e3c0', 0.35) : mix(main, '#f3e3c0', 0.5)),
     wing: spec.wing || second,
     accent: spec.accent || third,
     horn: spec.horn || '#f4e6c4',
@@ -709,8 +751,12 @@ function drawDragon(species, stage) {
   const baby = stage === 'baby';
   const young = stage === 'young';
   const scale = baby ? 0.7 : young ? 0.86 : 1;
-  const wingScale = baby ? 0.42 : young ? 0.72 : 1;
-  const headBoost = baby ? 1.3 : young ? 1.12 : 1;
+  const adult = !baby && !young;
+  const wingScale = baby ? 0.42 : young ? 0.72 : 1.12;
+  const headBoost = baby ? 1.3 : young ? 1.08 : 0.88;
+  lineW = baby ? 3.2 : young ? 2.9 : 2.5;
+  // Adults have amber reptile eyes unless the design picks a colour.
+  if (adult && !base.iris) C.iris = '#e8a417';
   let s = '';
 
   // aura
@@ -735,7 +781,7 @@ function drawDragon(species, stage) {
     g += `<g ${at(x, y + 4, 0, young ? 0.8 : 1.1)}><path d="M-22 6 L-8 -26 L8 -26 L22 6Z" fill="${grad(C.rockCol)}" ${ol(C.o, 2)}/><path d="M-8 -26 Q0 -20 8 -26 L5 -18 Q0 -14 -5 -18Z" fill="#ff7a1a"/><path d="M-3 -22 Q-6 -8 -12 0 M3 -20 Q8 -8 10 2" stroke="#ff5a1a" stroke-width="2.6" fill="none" stroke-linecap="round"/><g transform="translate(0 -30)"><g class="flick">${flame(C, 1.1)}</g></g></g>`;
   } else if (!baby && spec.back) g += P.back.map(([x, y, r], i) => `<g ${at(x, y, r, young ? 0.8 : 1)}>${backItem(C, spec.back, i)}</g>`).join('');
   if (P.plume) {
-    g += [[-150, 1.5, C.accent], [-165, 1.65, shade(C.accent, 0.2)], [-180, 1.4, C.wing]].map(([r, sc, col]) => `<g ${at(70, 130, r + 90, sc * (baby ? 0.6 : 1))}>${feather(C, 1, col)}</g>`).join('');
+    g += [[-145, 1.7, C.accent], [-162, 2, shade(C.accent, 0.2)], [-178, 1.6, C.wing], [-192, 1.3, shade(C.wing, 0.2)]].map(([r, sc, col]) => `<g ${at(62, 130, r + 90, sc * (baby ? 0.55 : young ? 0.8 : 1))}>${feather(C, 1, col)}</g>`).join('');
   }
   g += P.far;
   g += sil(P.body, C.o);
@@ -755,22 +801,27 @@ function drawDragon(species, stage) {
     const shape = b.k === 'e' ? `<ellipse cx="${b.cx}" cy="${b.cy}" rx="${b.rx}" ry="${b.ry}"${b.rot ? ` transform="rotate(${b.rot} ${b.cx} ${b.cy})"` : ''}` : `<path d="${b.d}"`;
     g += `${shape} fill="${grad(C.belly)}"/>`;
     if (b.k === 'e' && b.ry > 18) {
-      for (let i = -1; i <= 1; i++) {
-        const y = b.cy + i * b.ry * 0.42;
-        const w = b.rx * Math.sqrt(1 - Math.pow((i * 0.42), 2)) * 0.85;
-        g += `<path d="M${r1(b.cx - w)} ${r1(y)} Q${b.cx} ${r1(y + 5)} ${r1(b.cx + w)} ${r1(y)}" fill="none" stroke="${shade(C.belly, -0.2)}" stroke-width="1.8"${b.rot ? ` transform="rotate(${b.rot} ${b.cx} ${b.cy})"` : ''}/>`;
+      const bands = adult ? [-0.66, -0.33, 0, 0.33, 0.66] : [-0.42, 0, 0.42];
+      for (const k of bands) {
+        const y = b.cy + k * b.ry;
+        const w = b.rx * Math.sqrt(1 - k * k) * 0.92;
+        g += `<path d="M${r1(b.cx - w)} ${r1(y)} Q${b.cx} ${r1(y + 5)} ${r1(b.cx + w)} ${r1(y)}" fill="none" stroke="${shade(C.belly, -0.3)}" stroke-width="${adult ? 2.2 : 1.8}"${b.rot ? ` transform="rotate(${b.rot} ${b.cx} ${b.cy})"` : ''}/>`;
       }
     }
   }
   if (P.bellyChain) g += P.bellyChain.map((c) => `<circle cx="${r1(c.x)}" cy="${r1(c.y)}" r="${r1(c.r)}" fill="${C.belly}"/>`).join('') +
     P.bellyChain.filter((_, i) => i % 2).map((c) => `<path d="M${r1(c.x - c.r * 0.7)} ${r1(c.y)} q${r1(c.r * 0.7)} ${r1(c.r * 0.4)} ${r1(c.r * 1.4)} 0" fill="none" stroke="${shade(C.belly, -0.2)}" stroke-width="1.4"/>`).join('');
   if (spec.pattern && !baby) g += markings(C, spec.pattern, P.spots);
+  // Fine scale texture on adults.
+  if (adult && spec.pattern !== 'scales') g += `<g opacity=".55">${markings(C, 'scales', P.spots.map(([x, y]) => [x + 9, y + 7, 0.75]))}</g>`;
   // body gloss
   const [gx, gy] = P.gloss || [88, 112];
   g += `<ellipse cx="${r1(gx)}" cy="${r1(gy)}" rx="13" ry="7" fill="#fff" opacity=".22" transform="rotate(-30 ${r1(gx)} ${r1(gy)})"/>`;
-  if (P.wisps) g += `<path d="M78 178 q4 8 -2 14 M100 182 q4 8 -2 12 M118 174 q5 8 0 14" fill="none" stroke="${C.main}" stroke-width="4" stroke-linecap="round" opacity=".55"/>`;
+  if (P.wisps) g += `<path d="M76 176 q6 10 -4 20 q-6 6 -2 12 M96 184 q5 8 -3 16 M112 172 q8 10 2 22 q-3 6 2 10" fill="none" stroke="${C.main}" stroke-width="4.5" stroke-linecap="round" opacity=".5"/>`;
   g += P.front;
-  g += P.claws.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.6" fill="#fff8e8" ${ol(C.o, 1.2)}/>`).join('');
+  g += P.claws.map(([x, y]) => (adult
+    ? `<path d="M${x - 3} ${y - 3} Q${x + 1} ${y + 4} ${x + 5} ${y + 3} Q${x + 1} ${y + 1} ${x + 1} ${y - 4}Z" fill="${C.horn}" ${ol(C.o, 1.1)}/>`
+    : `<circle cx="${x}" cy="${y}" r="2.6" fill="#fff8e8" ${ol(C.o, 1.2)}/>`)).join('');
   if (wings) g += wingAt(0, 0, 0, C.wing);
   // heads (back to front)
   P.heads.forEach((h, i) => {
