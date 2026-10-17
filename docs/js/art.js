@@ -44,9 +44,42 @@ function grad(c) {
   def(id, `<linearGradient id="${id}" x1="0" y1="0" x2="0.25" y2="1"><stop offset="0" stop-color="${shade(c, 0.3)}"/><stop offset=".42" stop-color="${c}"/><stop offset="1" stop-color="${shade(c, -0.42)}"/></linearGradient>`);
   return `url(#${id})`;
 }
+// Volumetric lighting: the silhouette's blurred alpha is used as a height map, lit with a
+// diffuse + specular light from the upper left, plus a soft shadow cast on whatever is behind.
+// This turns flat shapes into rounded, glossy, rendered-looking forms.
+function volFilter(kind) {
+  const id = 'vol-' + kind;
+  const P = { body: [2.6, 3.2, 3], part: [2, 2.6, 2.2], wing: [1.6, 1.8, 0] }[kind];
+  const [blur, height, shadow] = P;
+  def(id, `<filter id="${id}" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="${blur}" result="b"/>
+    <feDiffuseLighting in="b" surfaceScale="${height}" diffuseConstant="1" lighting-color="#ffffff" result="d"><feDistantLight azimuth="225" elevation="52"/></feDiffuseLighting>
+    <feComposite in="SourceGraphic" in2="d" operator="arithmetic" k1="1.3" k2="0" k3="0" k4="0" result="lit"/>
+    <feSpecularLighting in="b" surfaceScale="${height}" specularConstant="0.9" specularExponent="24" lighting-color="#fff4dc" result="s"><feDistantLight azimuth="225" elevation="32"/></feSpecularLighting>
+    <feComposite in="lit" in2="SourceAlpha" operator="in" result="lit2"/>
+    <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
+    <feComposite in="lit2" in2="s2" operator="arithmetic" k1="0" k2="1" k3="0.6" k4="0" result="final"/>
+    ${shadow ? `<feGaussianBlur in="SourceAlpha" stdDeviation="${shadow}" result="sb"/><feOffset in="sb" dx="-2.5" dy="3.5" result="so"/><feFlood flood-color="#1a0a14" flood-opacity=".38"/><feComposite in2="so" operator="in" result="shadow"/><feMerge><feMergeNode in="shadow"/><feMergeNode in="final"/></feMerge>` : ''}
+  </filter>`);
+  return `url(#${id})`;
+}
+// Warm vertical body gradient in user space (darker back, warmer and lighter underside),
+// shared by all parts of a torso so they shade as one form.
+function bodyGrad(c, warm, y1, y2) {
+  const id = `bg${c.slice(1)}${warm.slice(1)}${y1}`.replace('-', 'm');
+  def(id, `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="${y1}" x2="0" y2="${y2}"><stop offset="0" stop-color="${shade(c, -0.32)}"/><stop offset=".4" stop-color="${c}"/><stop offset=".8" stop-color="${mix(c, warm, 0.45)}"/><stop offset="1" stop-color="${mix(c, warm, 0.7)}"/></linearGradient>`);
+  return `url(#${id})`;
+}
+
 function hornGrad(base, tip) {
   const id = 'hg' + base.slice(1) + tip.slice(1);
   def(id, `<linearGradient id="${id}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${base}"/><stop offset=".55" stop-color="${mix(base, tip, 0.6)}"/><stop offset="1" stop-color="${tip}"/></linearGradient>`);
+  return `url(#${id})`;
+}
+// Wing membrane: brighter, warmer near the root (bottom-right of the wing box), darker at the tips.
+function wingGrad(c) {
+  const id = 'wg' + c.slice(1);
+  def(id, `<radialGradient id="${id}" cx="1" cy="1" r="1.25"><stop offset="0" stop-color="${mix(c, '#fff1b0', 0.55)}"/><stop offset=".5" stop-color="${c}"/><stop offset="1" stop-color="${shade(c, -0.38)}"/></radialGradient>`);
   return `url(#${id})`;
 }
 function glowGrad(c) {
@@ -79,6 +112,26 @@ function tube(segs, n = 12) {
 }
 const angleOf = (a, b) => (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
 
+// Smooth outline around a chain of circles (a tapered tube): offset both sides along the
+// normals and close with round caps, so tails and necks have no bumpy bead edges.
+function tubePath(c) {
+  const L = [], R = [];
+  for (let i = 0; i < c.length; i++) {
+    const a = c[Math.max(0, i - 1)], b = c[Math.min(c.length - 1, i + 1)];
+    const ang = Math.atan2(b.y - a.y, b.x - a.x);
+    const nx = -Math.sin(ang), ny = Math.cos(ang);
+    L.push([c[i].x + nx * c[i].r, c[i].y + ny * c[i].r]);
+    R.push([c[i].x - nx * c[i].r, c[i].y - ny * c[i].r]);
+  }
+  const pt = ([x, y]) => `${r1(x)} ${r1(y)}`;
+  const smoothLine = (pts) => pts.slice(1).map((p, i) => {
+    const prev = pts[i];
+    return `Q${pt(prev)} ${r1((prev[0] + p[0]) / 2)} ${r1((prev[1] + p[1]) / 2)}`;
+  }).join(' ') + ` L${pt(pts[pts.length - 1])}`;
+  const e = c[c.length - 1], s0 = c[0];
+  return `M${pt(L[0])} ${smoothLine(L)} A${r1(e.r)} ${r1(e.r)} 0 0 0 ${pt(R[R.length - 1])} ${smoothLine([...R].reverse())} A${r1(s0.r)} ${r1(s0.r)} 0 0 0 ${pt(L[0])}Z`;
+}
+
 // Silhouette group: an outline pass then a fill pass, so overlapping parts share one outline.
 // Outline thickness: chunky for babies, finer (more detailed) for adults. Set per drawing.
 let lineW = 3.2;
@@ -86,7 +139,16 @@ let adultNow = false;
 function sil(items, outline, w = lineW) {
   let o = '', f = '';
   for (const it of items) {
-    if (it.k === 'c') {
+    if (it.k === 'c' && it.c.length > 2) {
+      const d = tubePath(it.c);
+      o += `<path d="${d}" fill="${outline}" stroke="${outline}" stroke-width="${w * 2}" stroke-linejoin="round"/>`;
+      f += `<path d="${d}" fill="${it.f}"/>`;
+      if (it.hl !== false) {
+        const pts = it.c.map((c) => `${r1(c.x - c.r * 0.12)},${r1(c.y - c.r * 0.42)}`).join(' ');
+        const wmin = Math.min(...it.c.map((c) => c.r));
+        f += `<polyline points="${pts}" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="${r1(Math.max(2, wmin * 0.5))}" stroke-linecap="round" stroke-linejoin="round"/>`;
+      }
+    } else if (it.k === 'c') {
       for (const c of it.c) o += `<circle cx="${r1(c.x)}" cy="${r1(c.y)}" r="${r1(c.r + w)}" fill="${outline}"/>`;
       for (const c of it.c) f += `<circle cx="${r1(c.x)}" cy="${r1(c.y)}" r="${r1(c.r)}" fill="${it.f}"/>`;
       if (it.hl !== false && it.c.length > 2) {
@@ -342,7 +404,7 @@ function featherWing(C, col, k) {
 }
 
 function wingShape(C, type, col) {
-  const f = grad(col);
+  const f = adultNow ? wingGrad(col) : grad(col);
   const o = ol(C.o, 2.4);
   const dk = shade(col, -0.35);
   switch (type) {
@@ -379,7 +441,8 @@ function wingShape(C, type, col) {
     case 'tattered':
       return `<path d="M0 4 C-8 -28 -36 -62 -70 -70 L-62 -50 L-74 -44 L-56 -36 L-60 -24 L-42 -22 L-44 -8 L-26 -10 L-20 4Z" fill="${f}" ${o}/><path d="M0 4 L-66 -64 M-4 0 L-56 -34 M-6 2 L-40 -14" stroke="${dk}" stroke-width="2.2"/><circle cx="-40" cy="-38" r="3.5" fill="${C.o}" opacity=".7"/>`;
     case 'flame':
-      return `<path d="M0 4 C-10 -30 -30 -56 -60 -70 C-50 -56 -56 -48 -44 -40 C-62 -42 -70 -30 -74 -22 C-58 -26 -52 -16 -48 -10 C-60 -6 -62 2 -58 10 C-40 2 -20 6 0 4Z" fill="${grad('#ffb02e')}" ${o}/><path d="M-6 -2 C-14 -24 -28 -40 -46 -50 C-40 -36 -44 -28 -34 -22 C-44 -18 -46 -10 -40 -4 C-26 -6 -16 -2 -6 -2Z" fill="#fff0a0" opacity=".85"/>`;
+      def('flamewing', '<radialGradient id="flamewing" cx="1" cy="1" r="1.3"><stop offset="0" stop-color="#fff4b0"/><stop offset=".35" stop-color="#ffd23a"/><stop offset=".7" stop-color="#ff8a1a"/><stop offset="1" stop-color="#e2381a"/></radialGradient>');
+      return `<path d="M0 4 C-10 -30 -30 -56 -60 -70 C-50 -56 -56 -48 -44 -40 C-62 -42 -70 -30 -74 -22 C-58 -26 -52 -16 -48 -10 C-60 -6 -62 2 -58 10 C-40 2 -20 6 0 4Z" fill="${adultNow ? 'url(#flamewing)' : grad('#ffb02e')}" ${o}/><path d="M-6 -2 C-14 -24 -28 -40 -46 -50 C-40 -36 -44 -28 -34 -22 C-44 -18 -46 -10 -40 -4 C-26 -6 -16 -2 -6 -2Z" fill="#fff0a0" opacity=".85"/>`;
     case 'cloud': if (adultNow) {
       // Storm membrane: slate bat wing with lightning running along the bones and a cloudy trailing edge.
       const slate = '#4a5468';
@@ -388,7 +451,25 @@ function wingShape(C, type, col) {
         [[-60, -40, 0.7], [-36, -24, 0.6], [-16, -8, 0.55]].map(([x, y, k]) => `<g transform="translate(${x} ${y + 6}) scale(${k})">${cloudPuff(C, 1, '#c9d3e0')}</g>`).join('');
     }
       return `<g transform="translate(-30 -34)">${cloudPuff(C, 2.4, '#eef4fb')}</g><path d="M-18 -20 L-28 -2 L-22 -2 L-28 12 L-14 -6 L-20 -6 L-14 -20Z" fill="#ffe14d" ${ol(C.o, 1.5)}/>`;
-    default: // bat
+    default: if (adultNow) {
+      // Dragon wing: arm bone to a clawed wrist, four finger bones fanning out and a
+      // scalloped membrane between them.
+      const wrist = [-30, -64];
+      const tips = [[-88, -80], [-104, -44], [-92, -10], [-62, 12]];
+      let mem = `M2 6 L${wrist[0]} ${wrist[1]} L${tips[0][0]} ${tips[0][1]}`;
+      for (let i = 1; i < tips.length; i++) {
+        const [px, py] = tips[i - 1], [x, y] = tips[i];
+        const mx = (px + x) / 2 + (wrist[0] - (px + x) / 2) * 0.28, my = (py + y) / 2 + (wrist[1] - (py + y) / 2) * 0.28;
+        mem += ` Q${r1(mx)} ${r1(my)} ${x} ${y}`;
+      }
+      mem += ` Q-26 4 2 6Z`;
+      const bone = (x1, y1, x2, y2, w) => `<path d="M${x1} ${y1} L${x2} ${y2}" stroke="${C.o}" stroke-width="${w + 2.4}" stroke-linecap="round"/><path d="M${x1} ${y1} L${x2} ${y2}" stroke="${shade(col, -0.25)}" stroke-width="${w}" stroke-linecap="round"/>`;
+      return `<path d="${mem}" fill="${f}" ${ol(C.o, 2)}/>` +
+        tips.map(([x, y]) => `<path d="M${wrist[0]} ${wrist[1]} L${x} ${y}" stroke="${shade(col, -0.45)}" stroke-width="1" opacity=".5"/>`).join('') +
+        bone(0, 4, wrist[0], wrist[1], 6) + tips.map(([x, y], i) => bone(wrist[0], wrist[1], x, y, 3.6 - i * 0.5)).join('') +
+        `<path d="M${wrist[0]} ${wrist[1]} q2 -9 9 -11 q-4 5 -3 11Z" fill="#2a2230"/>`;
+    }
+    // bat
       return `<path d="M0 4 C-6 -30 -34 -62 -72 -68 Q-62 -54 -66 -44 Q-56 -46 -50 -36 Q-46 -42 -38 -40 Q-40 -26 -30 -18 Q-26 -24 -18 -22 Q-20 -8 -12 2Z" fill="${f}" ${o}/><path d="M-2 0 L-70 -66 M-4 -2 L-50 -36 M-6 -2 L-30 -18" stroke="${dk}" stroke-width="2"/><circle cx="-72" cy="-68" r="3" fill="${C.horn}" ${ol(C.o, 1.2)}/>`;
   }
 }
@@ -463,6 +544,9 @@ function markings(C, type, spots, col) {
 
 // ---------------------------------------------------------------- body plans
 
+// Muscular digitigrade hind leg (thigh -> slim hock -> foot), anchored at the hip (x, y).
+const hindLeg = (x, y) => `M${x} ${y} C${x + 22} ${y - 2} ${x + 30} ${y + 20} ${x + 18} ${y + 30} C${x + 16} ${y + 34} ${x + 16} ${y + 38} ${x + 18} ${y + 41} L${x + 30} ${y + 44} L${x + 6} ${y + 45} C${x + 4} ${y + 38} ${x + 2} ${y + 34} ${x - 2} ${y + 30} C${x - 14} ${y + 24} ${x - 16} ${y + 2} ${x} ${y}Z`;
+
 // Each plan returns the shapes for the body silhouette plus anchors where parts attach.
 const PLANS = {
   classic(C) {
@@ -489,31 +573,28 @@ const PLANS = {
     };
   },
   beast(C) {
-    // Four-legged: chest and hips with a tucked waist, digitigrade hind legs.
-    const f = grad(C.main), d = grad(shade(C.main, -0.2)), dk = shade(C.main, -0.2);
-    const tail = tube([{ p: [[52, 114], [22, 110], [6, 90], [14, 60]], r: [13, 3] }]);
+    // Standing dragon drawn as anatomy: raised chest, S-curved neck, muscular digitigrade
+    // hind legs and sculpted forelegs (all paths, not primitives).
+    const f = grad(C.main), dk = grad(shade(C.main, -0.22));
+    const tail = tube([{ p: [[56, 124], [30, 132], [10, 116], [14, 84]], r: [13, 3] }], 14);
+    const hind = 'M66 108 C90 108 98 132 85 145 C80 151 76 160 77 172 L87 181 L66 182 C66 174 65 166 61 160 C47 152 45 118 66 108Z';
+    const fore = 'M128 112 C145 118 146 140 135 148 C130 156 131 166 134 174 L145 181 L124 182 C124 172 122 162 119 154 C109 142 111 118 128 112Z';
+    const shift = (d, dx, dy) => d.replace(/(-?\d+\.?\d*) (-?\d+\.?\d*)/g, (m, x, y) => `${r1(+x + dx)} ${r1(+y + dy)}`);
     return {
       tail,
-      far: sil([
-        { k: 'c', c: tube([{ p: [[58, 124], [52, 136], [50, 146], [52, 156]], r: [12, 8] }], 5), f: dk, hl: false },
-        { k: 'c', c: tube([{ p: [[52, 156], [56, 166], [56, 174], [54, 180]], r: [7, 5.5] }], 4), f: dk, hl: false },
-        { k: 'c', c: tube([{ p: [[126, 128], [128, 146], [130, 164], [132, 180]], r: [10, 6.5] }], 6), f: dk, hl: false },
-        { k: 'e', cx: 58, cy: 183, rx: 10, ry: 4.5, f: d }, { k: 'e', cx: 136, cy: 183, rx: 10, ry: 4.5, f: d }], C.o),
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'e', cx: 92, cy: 122, rx: 40, ry: 21, f }, { k: 'e', cx: 66, cy: 118, rx: 25, ry: 23, f }, { k: 'e', cx: 120, cy: 116, rx: 29, ry: 28, f },
-        { k: 'c', c: tube([{ p: [[132, 104], [142, 88], [150, 74], [160, 62]], r: [17, 10] }], 8), f: C.main, hl: false }],
-      front: sil([
-        { k: 'e', cx: 72, cy: 134, rx: 17, ry: 21, rot: 20, f },
-        { k: 'c', c: tube([{ p: [[68, 150], [62, 160], [62, 170], [66, 180]], r: [9, 6.5] }], 5), f: C.main, hl: false },
-        { k: 'c', c: tube([{ p: [[114, 128], [116, 146], [116, 164], [114, 180]], r: [12, 7.5] }], 6), f: C.main, hl: false },
-        { k: 'e', cx: 72, cy: 183, rx: 12, ry: 5, f }, { k: 'e', cx: 118, cy: 183, rx: 12, ry: 5, f }], C.o) +
-        `<path d="M108 108 Q120 100 132 110 M60 108 Q70 102 80 110" fill="none" stroke="${shade(C.main, -0.3)}" stroke-width="2" stroke-linecap="round" opacity=".55"/>`,
-      belly: { k: 'e', cx: 104, cy: 134, rx: 28, ry: 9 },
-      claws: [[76, 185], [82, 186], [120, 185], [126, 186]],
-      heads: [{ x: 166, y: 54, s: 0.95 }],
-      wing: { x: 100, y: 100, s: 0.95 },
-      back: [[52, 102, -25], [70, 95, -8], [90, 99, 4], [110, 90, -5], [128, 86, -22]],
-      gloss: [112, 102],
-      spots: [[66, 112], [92, 114], [118, 110, 0.8], [56, 126, 0.8]],
+      far: sil([{ k: 'p', d: shift(hind, -13, -3), f: dk }, { k: 'p', d: shift(fore, -12, -3), f: dk }], C.o),
+      body: [{ k: 'c', c: tail, f: C.main },
+        { k: 'p', d: 'M50 118 C62 102 84 102 100 108 C112 112 122 104 130 94 C138 82 144 70 152 60 L168 56 C168 72 162 88 154 100 C148 112 150 128 140 140 C126 154 104 152 86 150 C72 150 60 142 52 132Z', f }],
+      front: sil([{ k: 'p', d: hind, f }, { k: 'p', d: fore, f }], C.o) +
+        `<path d="M70 120 C80 124 84 136 80 146 M126 124 C134 130 134 142 130 150" fill="none" stroke="${shade(C.main, -0.32)}" stroke-width="2" stroke-linecap="round" opacity=".5"/>`,
+      belly: { k: 'e', cx: 112, cy: 136, rx: 26, ry: 8 },
+      band: [[154, 92], [148, 130], [100, 141], 13, 7],
+      claws: [[76, 184], [82, 185], [88, 184], [134, 184], [140, 185], [146, 184]],
+      heads: [{ x: 170, y: 52, s: 0.98 }],
+      wing: { x: 116, y: 98, s: 1, tilt: 22 },
+      back: [[60, 108, -15], [78, 104, -5], [96, 106, 5], [114, 104, -12], [128, 94, -32], [140, 78, -38]],
+      gloss: [112, 108],
+      spots: [[80, 122], [100, 122], [120, 116, 0.8], [66, 126, 0.8]],
     };
   },
   wyvern(C) {
@@ -521,14 +602,14 @@ const PLANS = {
     const tail = tube([{ p: [[86, 158], [56, 184], [20, 180], [6, 152]], r: [14, 3] }]);
     return {
       tail,
-      far: sil([{ k: 'c', c: tube([{ p: [[112, 118], [122, 126], [128, 132], [134, 138]], r: [6, 5] }], 4), f: shade(C.main, -0.2), hl: false }], C.o),
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'p', d: 'M78 152 Q64 118 84 96 Q102 80 122 92 Q134 108 126 132 Q118 152 100 160Z', f }, { k: 'c', c: tube([{ p: [[108, 94], [112, 80], [118, 70], [124, 62]], r: [16, 10] }], 7), f: C.main, hl: false }, { k: 'e', cx: 86, cy: 160, rx: 17, ry: 19, rot: 15, f }],
-      front: sil([{ k: 'e', cx: 116, cy: 162, rx: 14, ry: 17, f }, { k: 'e', cx: 84, cy: 181, rx: 15, ry: 6.5, f }, { k: 'e', cx: 121, cy: 182, rx: 13, ry: 6, f }, { k: 'c', c: tube([{ p: [[116, 112], [124, 120], [130, 128], [136, 134]], r: [7, 5.5] }], 4), f: C.main, hl: false }], C.o),
+      far: sil([{ k: 'c', c: tube([{ p: [[112, 118], [122, 126], [128, 132], [134, 138]], r: [6, 4] }], 5), f: shade(C.main, -0.2), hl: false }, { k: 'p', d: hindLeg(78, 138), f: grad(shade(C.main, -0.22)) }], C.o),
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'p', d: 'M78 152 Q64 118 84 96 Q102 80 122 92 Q134 108 126 132 Q118 152 100 160Z', f }, { k: 'c', c: tube([{ p: [[108, 94], [112, 80], [118, 70], [124, 62]], r: [16, 10] }], 7), f: C.main, hl: false }],
+      front: sil([{ k: 'p', d: hindLeg(98, 138), f }, { k: 'c', c: tube([{ p: [[116, 112], [124, 120], [130, 128], [136, 134]], r: [7, 4.5] }], 5), f: C.main, hl: false }], C.o),
       belly: { k: 'e', cx: 109, cy: 128, rx: 14, ry: 28, rot: 10 },
       band: [[118, 96], [134, 124], [106, 156], 15, 7],
-      claws: [[76, 185], [84, 186], [92, 185], [116, 186], [124, 186], [137, 136]],
+      claws: [[88, 183], [96, 184], [104, 183], [116, 184], [124, 184], [137, 136]],
       heads: [{ x: 130, y: 52, s: 0.92 }],
-      wing: { x: 92, y: 96, s: 1.18 },
+      wing: { x: 94, y: 96, s: 0.92, tilt: 12 },
       back: [[80, 96, -40], [74, 112, -70], [74, 128, -90]],
       gloss: [92, 104],
       spots: [[88, 114], [86, 134, 0.8], [96, 100, 0.7]],
@@ -660,15 +741,15 @@ const PLANS = {
     return {
       tail,
       far: '',
-      body: [{ k: 'c', c: tail, f: C.main }, { k: 'p', d: 'M72 154 Q58 116 80 94 Q102 78 126 90 Q142 108 132 136 Q122 158 100 164Z', f }, { k: 'c', c: tube([{ p: [[106, 94], [110, 82], [114, 74], [118, 66]], r: [17, 11] }], 6), f: C.main, hl: false }, { k: 'e', cx: 84, cy: 162, rx: 18, ry: 18, f }],
-      front: sil([{ k: 'e', cx: 118, cy: 164, rx: 15, ry: 16, f }, { k: 'e', cx: 84, cy: 181, rx: 16, ry: 7, f: armor }, { k: 'e', cx: 122, cy: 182, rx: 14, ry: 6.5, f: armor }], C.o) +
+      body: [{ k: 'c', c: tail, f: C.main }, { k: 'p', d: hindLeg(74, 138), f: grad(shade(C.main, -0.22)) }, { k: 'p', d: 'M72 154 Q58 116 80 94 Q102 78 126 90 Q142 108 132 136 Q122 158 100 164Z', f }, { k: 'c', c: tube([{ p: [[106, 94], [110, 82], [114, 74], [118, 66]], r: [17, 11] }], 6), f: C.main, hl: false }],
+      front: sil([{ k: 'p', d: hindLeg(100, 138), f }], C.o) + sil([{ k: 'p', d: 'M108 176 L134 176 L132 184 L106 184Z', f: armor }], C.o, 2) +
         sil([{ k: 'p', d: 'M84 104 Q108 94 130 104 L128 146 Q108 160 86 146Z', f: armor }], C.o, 2.6) +
         `<path d="M107 100 L107 152 M88 124 Q107 132 128 124" stroke="${shade(C.metalCol, -0.3)}" stroke-width="2" fill="none"/><path d="M98 112 L116 112" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>` +
         sil([{ k: 'e', cx: 82, cy: 100, rx: 16, ry: 12, f: armor }], C.o, 2.6) + `<circle cx="82" cy="100" r="3" fill="${C.accent}"/>`,
       belly: null,
-      claws: [[76, 185], [84, 186], [92, 185], [116, 186], [124, 186]],
+      claws: [[84, 183], [92, 184], [100, 183], [118, 184], [126, 184]],
       heads: [{ x: 124, y: 56, s: 0.92 }],
-      wing: { x: 86, y: 96, s: 1.05 },
+      wing: { x: 88, y: 96, s: 0.85, tilt: 10 },
       back: [[74, 102, -45], [68, 118, -75], [68, 134, -95]],
       gloss: [96, 104],
       spots: [[80, 132, 0.8]],
@@ -783,7 +864,7 @@ const cache = new Map();
 export function dragonSVG(species, { stage = 'adult', cls = '' } = {}) {
   const key = `${species.id}|${stage}`;
   if (!cache.has(key)) cache.set(key, drawDragon(species, stage));
-  return `<svg class="dragon-art ${cls}" viewBox="-24 -22 240 240" xmlns="http://www.w3.org/2000/svg">${cache.get(key)}</svg>`;
+  return `<svg class="dragon-art ${cls}" viewBox="-30 -44 260 260" xmlns="http://www.w3.org/2000/svg">${cache.get(key)}</svg>`;
 }
 
 function drawDragon(species, stage) {
@@ -808,7 +889,7 @@ function drawDragon(species, stage) {
   const scale = baby ? 0.7 : young ? 0.86 : 1;
   const wingScale = baby ? 0.42 : young ? 0.72 : 1.2;
   const headBoost = baby ? 1.3 : young ? 1.08 : 0.88;
-  lineW = baby ? 3.2 : young ? 2.9 : 2.5;
+  lineW = baby ? 3.2 : young ? 2.6 : 1.7;
   // Adults have amber reptile eyes unless the design picks a colour.
   if (adult && !base.iris) C.iris = '#e8a417';
   let s = '';
@@ -827,8 +908,17 @@ function drawDragon(species, stage) {
   let g = '';
   const wings = spec.wings && spec.wings !== 'none';
   const W = P.wing;
-  const wingAt = (dx, dy, extra, col) => `<g ${at(W.x + dx, W.y + dy, extra, W.s * wingScale)}><g class="flap">${wingShape(C, spec.wings, col)}</g></g>`;
-  if (wings) g += `<g opacity=".95">${wingAt(-12, 6, adult ? -26 : -14, shade(C.wing, -0.25))}</g>`;
+  const wingAt = (dx, dy, extra, col) => `<g ${at(W.x + dx, W.y + dy, extra, W.s * wingScale)}><g class="flap"${adult ? ` filter="${volFilter('wing')}"` : ''}>${wingShape(C, spec.wings, col)}</g></g>`;
+  // Adults are rendered: shared warm gradient + volumetric lighting per part.
+  const warm = mix(C.belly, '#ffd27a', 0.4);
+  const render = (markup, kind, y1 = 50, y2 = 192) => {
+    if (!adult) return markup;
+    const bg = bodyGrad(C.main, warm, y1, y2);
+    const flat = new RegExp(`fill="(url\\(#lg${C.main.slice(1)}\\)|${C.main})"`, 'g');
+    return `<g filter="${volFilter(kind)}">${markup.replace(flat, `fill="${bg}"`)}</g>`;
+  };
+  const tilt = adult ? W.tilt ?? -14 : 0;
+  if (wings) g += `<g opacity=".95">${wingAt(-12, 6, tilt - 12, shade(C.wing, -0.25))}</g>`;
   if (spec.wings2 && !baby) g += `<g ${at(W.x - 4, W.y + 18, 0, W.s * 0.7 * wingScale)}><g class="flap slow">${wingShape(C, spec.wings2, shade(C.wing, -0.1))}</g></g>`;
   if (!baby && spec.back === 'volcano') {
     const [x, y] = P.back[Math.floor(P.back.length / 2)];
@@ -838,7 +928,8 @@ function drawDragon(species, stage) {
     const [px, py] = P.plumeAt || [62, 130];
     g += [[-145, 1.7, C.accent], [-162, 2, shade(C.accent, 0.2)], [-178, 1.6, C.wing], [-192, 1.3, shade(C.wing, 0.2)]].map(([r, sc, col]) => `<g ${at(px, py, r + 90, sc * (baby ? 0.55 : young ? 0.8 : 1))}>${feather(C, 1, col)}</g>`).join('');
   }
-  g += P.far;
+  g += render(P.far, 'part');
+  const torsoStart = g.length;
   g += sil(P.body, C.o);
   // tail tip
   const tl = P.tail;
@@ -896,16 +987,17 @@ function drawDragon(species, stage) {
   }
   if (P.smokeTail) g += `<g ${at(P.smokeTail[0], P.smokeTail[1], 180, 1.1)}><g class="sway">${tailTip(C, 'wisp')}</g></g>`;
   if (P.wisps) g += `<path d="M76 176 q6 10 -4 20 q-6 6 -2 12 M96 184 q5 8 -3 16 M112 172 q8 10 2 22 q-3 6 2 10" fill="none" stroke="${C.main}" stroke-width="4.5" stroke-linecap="round" opacity=".5"/>`;
-  g += P.front;
+  g = g.slice(0, torsoStart) + render(g.slice(torsoStart), 'body');
+  g += render(P.front, 'part');
   // Adults: scalloped toes ending in dark hooked talons.
   g += P.claws.map(([x, y]) => (adult
     ? `<circle cx="${x - 1}" cy="${y - 3}" r="4.2" fill="${shade(C.main, -0.08)}" ${ol(C.o, 1.4)}/><path d="M${x} ${y - 4} Q${x + 7} ${y - 2} ${x + 7} ${y + 4} Q${x + 3} ${y + 1} ${x} ${y}Z" fill="#2a2230" stroke="#2a2230" stroke-width="1"/><path d="M${x + 5} ${y} l1.5 2.5" stroke="#d8cfc0" stroke-width="1.2"/>`
     : `<circle cx="${x}" cy="${y}" r="2.6" fill="#fff8e8" ${ol(C.o, 1.2)}/>`)).join('');
-  if (wings) g += wingAt(0, 0, adult ? -14 : 0, C.wing);
+  if (wings) g += wingAt(0, 0, tilt, C.wing);
   // heads (back to front)
   P.heads.forEach((h, i) => {
     const hs = h.s * headBoost;
-    g += `<g ${at(h.x, h.y + (baby ? 6 : 0), h.rot || 0, hs)}><g class="hbob">${drawHead(C, spec, stage, i)}</g></g>`;
+    g += `<g ${at(h.x, h.y + (baby ? 6 : 0), h.rot || 0, hs)}><g class="hbob">${render(drawHead(C, spec, stage, i), 'part', -28, 26)}</g></g>`;
   });
   // rarity extras
   if ((rarity === 'legendary' || rarity === 'mythic') && !baby) {

@@ -14,7 +14,7 @@
 
 export const DESIGNS = {
   // ---------------------------------------------------------------- common
-  emberjaw:    { body: 'classic', head: 'round', eyes: 'cute', mouth: 'fang', horns: 'curve', crest: 'flame', back: 'spikes', wings: 'bat', tail: 'flame', accent: '#ffcf33' },
+  emberjaw:    { body: 'beast', head: 'round', eyes: 'cute', mouth: 'fang', horns: 'curve', crest: 'flame', back: 'spikes', wings: 'bat', tail: 'flame', accent: '#ffcf33', wing: '#ff9a2a' },
   boulderhorn: { body: 'beast', head: 'blunt', eyes: 'sleepy', mouth: 'tusk', horns: 'rhino', back: 'rocks', wings: 'none', tail: 'club', pattern: 'cracks' },
   mossback:    { body: 'beast', head: 'round', eyes: 'happy', mouth: 'smile', horns: 'branch', back: 'leaves', wings: 'none', tail: 'leaf', pattern: 'moss', tone: -0.1 },
   tidefin:     { body: 'sea', head: 'fish', eyes: 'cute', mouth: 'smile', horns: 'none', crest: 'fins', back: 'fins', wings: 'none', pattern: 'scales', wing: '#7fd6ff' },
