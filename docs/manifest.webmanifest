@@ -1,0 +1,16 @@
+{
+  "name": "Dragon Isles",
+  "short_name": "Dragon Isles",
+  "description": "Breed, raise and battle dragons. Free forever, no purchases.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#5db8f5",
+  "theme_color": "#3aa0e8",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
