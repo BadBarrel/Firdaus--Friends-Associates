@@ -37,12 +37,23 @@ export function show(name) {
 }
 act('tab', (d) => show(d.tab));
 
+// A view is either a render function returning HTML, or { render, mount, update, full }
+// for views that keep their DOM between updates (the island world).
 export function renderView() {
   const el = $('#view');
+  const v = views[current];
+  if (typeof v === 'object' && v.update && el.dataset.view === current) {
+    v.update(el);
+    return;
+  }
   const top = el.scrollTop;
-  el.innerHTML = views[current]();
+  el.dataset.view = current;
+  el.classList.toggle('full', typeof v === 'object' && !!v.full);
+  el.innerHTML = typeof v === 'function' ? v() : v.render();
+  if (typeof v === 'object' && v.mount) v.mount(el);
   el.scrollTop = top;
 }
+export const currentView = () => current;
 
 // ---------------------------------------------------------------- sheets
 

@@ -1,6 +1,6 @@
 // Entry point: load the save, wire game events to the UI, start the clock.
 import * as G from './game.js';
-import { refresh, renderView, renderTop, show, tick, toast } from './ui.js';
+import { refresh, renderView, renderTop, show, tick, toast, currentView } from './ui.js';
 import './island.js';
 import './dragons.js';
 import { inBattle } from './battleui.js';
@@ -34,8 +34,12 @@ G.on('levelup', (lvl) => {
 
 show('island');
 renderTop();
+let seconds = 0;
 setInterval(() => {
-  if (!inBattle()) tick();
+  if (inBattle()) return;
+  tick();
+  // The island patches only what changed, so refresh it now and then for new coin bubbles.
+  if (++seconds % 2 === 0 && currentView() === 'island' && !document.querySelector('#sheets .sheet')) renderView();
 }, 1000);
 
 document.addEventListener('visibilitychange', () => {

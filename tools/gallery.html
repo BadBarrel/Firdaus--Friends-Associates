@@ -1,0 +1,23 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Dragon gallery</title>
+<style>
+  body { margin: 0; background: linear-gradient(#5db8f5, #c4e9ff); font: 12px -apple-system, sans-serif; }
+  #g { display: grid; grid-template-columns: repeat(var(--cols, 8), 1fr); gap: 4px; padding: 6px; }
+  .c { background: rgba(255,255,255,.75); border-radius: 10px; text-align: center; padding: 2px; }
+  .c svg { width: 100%; height: auto; display: block; }
+  b { display: block; font-size: 11px; }
+</style>
+<div id="g"></div>
+<script type="module">
+  // Dev page: ?ids=a,b,c  ?stage=baby|young|adult|all  ?cols=8
+  import { DRAGON_LIST, DRAGONS } from '../docs/js/data.js';
+  import { dragonSVG } from '../docs/js/art.js';
+  const q = new URLSearchParams(location.search);
+  const ids = q.get('ids') ? q.get('ids').split(',') : DRAGON_LIST.map((d) => d.id);
+  const stages = q.get('stage') === 'all' ? ['baby', 'young', 'adult'] : [q.get('stage') || 'adult'];
+  document.body.style.setProperty('--cols', q.get('cols') || 8);
+  let html = '';
+  for (const id of ids) for (const st of stages) html += `<div class="c">${dragonSVG(DRAGONS[id], { stage: st })}<b>${DRAGONS[id].name}${stages.length > 1 ? ' · ' + st : ''}</b></div>`;
+  document.getElementById('g').innerHTML = html;
+</script>

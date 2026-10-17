@@ -1,0 +1,279 @@
+// SVG art for the island world: floating islands, habitats, farms and special buildings.
+// Building art uses a local frame centred on its plot: the plot is an isometric diamond
+// from (-85,0) to (85,0) wide and (0,-42) to (0,42) tall. Everything is drawn in
+// viewBox "-90 -140 180 190".
+import { shade } from './art.js';
+
+export const TILE_W = 85; // half-width of a plot diamond
+export const TILE_H = 42; // half-height
+export const BOX = { x: -90, y: -140, w: 180, h: 190 };
+
+const D = `M0 ${-TILE_H} L${TILE_W} 0 L0 ${TILE_H} L${-TILE_W} 0Z`;
+const dia = (k = 1, dy = 0) => `M0 ${-TILE_H * k + dy} L${TILE_W * k} ${dy} L0 ${TILE_H * k + dy} L${-TILE_W * k} ${dy}Z`;
+// iso point: u along the right-down edge, v along the left-down edge, both -1..1
+const iso = (u, v) => [((u - v) * TILE_W) / 2, ((u + v) * TILE_H) / 2];
+const o = (c) => shade(c, -0.55);
+const ol = (c, w = 2) => `stroke="${o(c)}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
+
+function slab(top, side, k = 0.96, h = 9) {
+  return `<path d="M${-TILE_W * k} 0 L0 ${TILE_H * k} L${TILE_W * k} 0 L${TILE_W * k} ${h} L0 ${TILE_H * k + h} L${-TILE_W * k} ${h}Z" fill="${side}"/>
+    <path d="${dia(k)}" fill="${top}" ${ol(top, 2)}/>`;
+}
+
+// ---------------------------------------------------------------- props
+
+const tree = (x, y, s = 1, leaf = '#3cbf4a') => `<g transform="translate(${x} ${y}) scale(${s})">
+  <path d="M-3 0 L-4 -22 L4 -22 L3 0Z" fill="#8a5a32" ${ol('#8a5a32', 1.5)}/>
+  <circle cx="0" cy="-34" r="16" fill="${leaf}" ${ol(leaf, 2)}/><circle cx="-9" cy="-26" r="10" fill="${shade(leaf, -0.08)}" ${ol(leaf, 2)}/><circle cx="9" cy="-27" r="11" fill="${shade(leaf, 0.08)}" ${ol(leaf, 2)}/>
+  <circle cx="-4" cy="-40" r="5" fill="#fff" opacity=".25"/></g>`;
+const pine = (x, y, s = 1, col = '#2f7a4a', snow = false) => `<g transform="translate(${x} ${y}) scale(${s})">
+  <rect x="-3" y="-8" width="6" height="9" fill="#7a4a2a"/>
+  <path d="M0 -46 L14 -22 L8 -22 L18 -6 L-18 -6 L-8 -22 L-14 -22Z" fill="${col}" ${ol(col, 2)}/>
+  ${snow ? '<path d="M0 -46 L7 -34 L-7 -34Z M-10 -22 L10 -22 L6 -18 L-6 -18Z" fill="#fff"/>' : ''}</g>`;
+const boulder = (x, y, s = 1, col = '#9b8b7a') => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-12 2 L-10 -10 L0 -16 L12 -9 L13 2Z" fill="${col}" ${ol(col, 2)}/><path d="M-6 -10 L0 -4 L8 -8" stroke="${shade(col, 0.3)}" stroke-width="2" fill="none"/></g>`;
+const crystalProp = (x, y, s = 1, col = '#aee7ff') => `<g transform="translate(${x} ${y}) scale(${s})">
+  <path d="M-8 0 L-10 -18 L-5 -30 L0 -18 L-1 0Z" fill="${col}" ${ol(col, 1.6)}/><path d="M0 0 L2 -26 L8 -40 L12 -24 L10 0Z" fill="${shade(col, 0.2)}" ${ol(col, 1.6)}/>
+  <path d="M8 -36 L8 -6" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/></g>`;
+const flameProp = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><g class="flicker"><path d="M0 4 C-10 -2 -9 -12 -3 -18 C-3 -12 0 -10 1 -13 C2 -18 0 -22 3 -28 C10 -18 12 -8 8 -1 C6 3 3 4 0 4Z" fill="#ffb02e" ${ol('#ff7a1a', 1.5)}/><path d="M0 2 C-5 -2 -4 -7 -1 -10 C0 -7 2 -7 2 -10 C6 -6 5 0 0 2Z" fill="#fff0a0"/></g></g>`;
+const flower = (x, y, col = '#ff7aa8') => `<g transform="translate(${x} ${y})"><path d="M0 0 L0 -7" stroke="#2e8b3a" stroke-width="1.5"/><circle cx="-2.5" cy="-8" r="2.4" fill="${col}"/><circle cx="2.5" cy="-8" r="2.4" fill="${col}"/><circle cx="0" cy="-10.5" r="2.4" fill="${col}"/><circle cx="0" cy="-6" r="2.4" fill="${col}"/><circle cx="0" cy="-8" r="1.6" fill="#ffe066"/></g>`;
+const mushroom = (x, y, s = 1, cap = '#e5484d', glow = false) => `<g transform="translate(${x} ${y}) scale(${s})">${glow ? `<circle cy="-8" r="12" fill="${cap}" opacity=".25"/>` : ''}<path d="M-3 0 L-3 -6 L3 -6 L3 0Z" fill="#f4e6c4" ${ol('#c9b48a', 1.2)}/><path d="M-9 -5 Q-9 -16 0 -16 Q9 -16 9 -5Z" fill="${cap}" ${ol(cap, 1.5)}/><circle cx="-3" cy="-11" r="1.8" fill="#fff"/><circle cx="3" cy="-9" r="1.4" fill="#fff"/></g>`;
+const bolt = (x, y, s = 1) => `<path transform="translate(${x} ${y}) scale(${s})" d="M2 -24 L-8 -6 L-1 -6 L-5 6 L8 -10 L1 -10 L5 -24Z" fill="#ffe14d" ${ol('#c9a400', 1.5)}/>`;
+const cloud = (x, y, s = 1, col = '#ffffff') => `<path transform="translate(${x} ${y}) scale(${s})" d="M-22 6 Q-28 -6 -14 -9 Q-12 -22 2 -19 Q12 -28 20 -14 Q32 -12 28 6Z" fill="${col}" ${ol('#c8d6e5', 2)}/>`;
+const gear = (x, y, s = 1, col = '#b8c2cc') => {
+  let t = '';
+  for (let i = 0; i < 8; i++) t += `<rect x="-3" y="-15" width="6" height="7" rx="1.5" transform="rotate(${i * 45})" fill="${col}" ${ol(col, 1.2)}/>`;
+  return `<g transform="translate(${x} ${y}) scale(${s})"><g class="spin">${t}<circle r="10" fill="${col}" ${ol(col, 1.6)}/><circle r="4" fill="${shade(col, -0.4)}"/></g></g>`;
+};
+const pillar = (x, y, s = 1, col = '#f6f0e0') => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-7" y="-46" width="14" height="46" fill="${col}" ${ol(col, 1.8)}/><rect x="-10" y="-50" width="20" height="6" rx="1" fill="${col}" ${ol(col, 1.8)}/><rect x="-10" y="-3" width="20" height="5" rx="1" fill="${col}" ${ol(col, 1.8)}/><path d="M-2 -42 L-2 -6 M3 -42 L3 -6" stroke="${shade(col, -0.15)}" stroke-width="1.5"/></g>`;
+const banner = (x, y, col = '#c0392b', icon = '') => `<g transform="translate(${x} ${y})"><path d="M0 0 L0 -50" stroke="#6b4a2a" stroke-width="3"/><path d="M0 -50 L22 -46 L18 -38 L22 -30 L0 -32Z" fill="${col}" ${ol(col, 1.5)} class="wave"/><text x="9" y="-36" font-size="9" text-anchor="middle">${icon}</text></g>`;
+const sword = (x, y, r = 0) => `<g transform="translate(${x} ${y}) rotate(${r})"><path d="M-2 0 L-2 -26 L0 -32 L2 -26 L2 0Z" fill="#e6e9ee" ${ol('#8a95a0', 1.2)}/><rect x="-6" y="-2" width="12" height="3" rx="1" fill="#c0392b"/><rect x="-1.5" y="1" width="3" height="7" fill="#6b4a2a"/></g>`;
+const star = (x, y, s = 1, col = '#fff07a') => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 -10 Q1 -1 10 0 Q1 1 0 10 Q-1 1 -10 0 Q-1 -1 0 -10Z" fill="${col}" class="twinkle"/>`;
+
+// Low fence along the two front edges of the plot.
+function fence(col, k = 0.92) {
+  const pts = [];
+  const steps = 6;
+  for (let i = 0; i <= steps; i++) pts.push([-TILE_W * k + (TILE_W * k * i) / steps, (TILE_H * k * i) / steps]);
+  for (let i = 1; i <= steps; i++) pts.push([(TILE_W * k * i) / steps, TILE_H * k - (TILE_H * k * i) / steps]);
+  const posts = pts.map(([x, y]) => `<rect x="${x - 2.5}" y="${y - 12}" width="5" height="13" rx="1.5" fill="${col}" ${ol(col, 1.2)}/>`).join('');
+  const rail = `<path d="M${pts.map(([x, y]) => `${x} ${y - 8}`).join(' L')}" fill="none" stroke="${o(col)}" stroke-width="5" stroke-linecap="round"/><path d="M${pts.map(([x, y]) => `${x} ${y - 8}`).join(' L')}" fill="none" stroke="${col}" stroke-width="2.6" stroke-linecap="round"/>`;
+  return rail + posts;
+}
+
+// ---------------------------------------------------------------- habitats
+
+const HAB = {
+  fire: {
+    ground: '#5a3a33', side: '#3a2420',
+    deco: () => `<path d="M-30 6 Q-14 -2 4 6 Q18 14 -4 18 Q-26 20 -30 6Z" fill="#ff7a1a" ${ol('#c0392b', 1.6)}/><path d="M-22 8 Q-8 4 2 9" stroke="#ffe066" stroke-width="2" fill="none"/>
+      <path d="M8 -4 L18 -2 M-50 2 L-40 6 M30 10 L44 8" stroke="#ff7a1a" stroke-width="2.5" stroke-linecap="round"/>`,
+    back: () => `<g transform="translate(-34 -14)"><path d="M-30 4 L-12 -34 L-2 -34 L16 4Z" fill="#6b4a40" ${ol('#5a3a33', 2)}/><path d="M-12 -34 Q-7 -30 -2 -34 L-4 -26 Q-7 -22 -10 -26Z" fill="#ff7a1a"/><path d="M-9 -30 Q-8 -20 -12 -12" stroke="#ff7a1a" stroke-width="3" fill="none"/>${flameProp(-7, -36, 0.8)}</g>${boulder(40, -12, 1, '#4a302b')}${flameProp(52, -16, 0.6)}`,
+  },
+  earth: {
+    ground: '#b08a5c', side: '#7a5a3a',
+    deco: () => `<path d="M-40 4 L-30 -2 M10 12 L22 8 L30 12 M-6 -14 L4 -18" stroke="#8a6a44" stroke-width="2" fill="none"/>`,
+    back: () => `${boulder(-40, -12, 1.6, '#9b8b7a')}${boulder(-18, -24, 1.1, '#a89884')}${crystalProp(36, -14, 0.8, '#ffd27a')}${boulder(52, -2, 0.9)}`,
+  },
+  plant: {
+    ground: '#6fcf55', side: '#4e9e36',
+    deco: () => `${flower(-30, 10)}${flower(22, 16, '#ffd84d')}${flower(40, 2, '#b388ff')}${flower(-50, 0, '#ffd84d')}`,
+    back: () => `${tree(-42, -8, 1.05)}${tree(-14, -26, 0.9, '#2fa34a')}${mushroom(44, -10, 1)}${tree(30, -22, 0.75, '#56c85a')}`,
+  },
+  water: {
+    ground: '#f2dca4', side: '#c9ab6a',
+    deco: () => `<ellipse cx="2" cy="2" rx="58" ry="27" fill="#2f8cff" ${ol('#2f8cff', 2)}/><ellipse cx="2" cy="0" rx="50" ry="22" fill="#5fb0ff"/><path d="M-26 -4 Q-18 -8 -10 -4 M10 8 Q18 4 26 8" stroke="#fff" stroke-width="2" fill="none" opacity=".7" class="ripple"/><ellipse cx="-30" cy="8" rx="7" ry="3.5" fill="#3cbf4a"/>`,
+    back: () => `${boulder(-48, -10, 1.1, '#a8b0b8')}<path d="M44 -8 Q42 -30 46 -40 M50 -8 Q52 -28 56 -34 M38 -8 Q36 -24 32 -30" stroke="#3a9a4a" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+  },
+  storm: {
+    ground: '#5c6b85', side: '#3d4a60',
+    deco: () => `<path d="M-30 6 L-10 -2 L-2 8 L20 0" stroke="#ffe14d" stroke-width="2" fill="none" opacity=".7"/>`,
+    back: () => `<g transform="translate(-40 -10)"><rect x="-4" y="-40" width="8" height="40" fill="#8a95a0" ${ol('#8a95a0', 1.5)}/><circle cy="-44" r="7" fill="#ffe14d" ${ol('#c9a400', 1.5)} class="pulse"/></g>
+      <g transform="translate(40 -14)"><rect x="-4" y="-34" width="8" height="34" fill="#8a95a0" ${ol('#8a95a0', 1.5)}/><circle cy="-38" r="6" fill="#ffe14d" ${ol('#c9a400', 1.5)} class="pulse"/></g>
+      <g class="zap">${bolt(0, -42, 1)}</g>${cloud(0, -66, 1, '#d6deea')}`,
+  },
+  ice: {
+    ground: '#eaf7ff', side: '#a9cfe6',
+    deco: () => `<path d="M-40 6 Q-20 0 0 8 Q20 16 40 6" stroke="#bfe6ff" stroke-width="3" fill="none"/>`,
+    back: () => `<g transform="translate(-34 -12)"><path d="M-22 4 Q-22 -26 0 -26 Q22 -26 22 4Z" fill="#fff" ${ol('#a9cfe6', 2)}/><path d="M-6 4 Q-6 -8 0 -8 Q6 -8 6 4Z" fill="#7aa8c6"/><path d="M-20 -10 L20 -10 M-16 -20 L16 -20 M-10 -26 L-10 -10 M10 -26 L10 -10" stroke="#cfe6f5" stroke-width="1.5"/></g>${crystalProp(30, -16, 1)}${pine(52, -2, 0.7, '#2f7a4a', true)}`,
+  },
+  metal: {
+    ground: '#9aa4b1', side: '#6b7480',
+    deco: () => `<path d="${dia(0.55)}" fill="none" stroke="#7a8490" stroke-width="2"/><path d="M-46 0 L46 0 M0 -23 L0 23" stroke="#7a8490" stroke-width="1.5"/><circle cx="-30" cy="0" r="2" fill="#5c6670"/><circle cx="30" cy="0" r="2" fill="#5c6670"/>`,
+    back: () => `${gear(-38, -26, 1.3)}${gear(-16, -34, 0.8, '#d6dde4')}<g transform="translate(36 -10)"><rect x="-6" y="-30" width="12" height="30" fill="#8a95a0" ${ol('#8a95a0', 1.5)}/><path d="M6 -24 L26 -24 L26 -6" fill="none" stroke="${o('#8a95a0')}" stroke-width="8"/><path d="M6 -24 L26 -24 L26 -6" fill="none" stroke="#b8c2cc" stroke-width="5"/><circle cx="0" cy="-34" r="4" fill="#9aa0aa" opacity=".6" class="puff"/></g>`,
+  },
+  shadow: {
+    ground: '#4b2f6e', side: '#2f1c48',
+    deco: () => `${mushroom(-30, 10, 0.8, '#c77dff', true)}${mushroom(30, 14, 0.7, '#7dfff0', true)}<path d="M-50 0 Q-30 -6 -10 2" stroke="#7b4bb8" stroke-width="2" fill="none"/>`,
+    back: () => `<g transform="translate(-36 -10)"><path d="M-3 0 L-4 -26 Q-14 -34 -20 -44 M-4 -26 Q2 -38 10 -42 M-4 -18 Q-12 -20 -16 -26" fill="none" stroke="${o('#3a2a3a')}" stroke-width="7" stroke-linecap="round"/><path d="M-3 0 L-4 -26 Q-14 -34 -20 -44 M-4 -26 Q2 -38 10 -42 M-4 -18 Q-12 -20 -16 -26" fill="none" stroke="#3a2a3a" stroke-width="4" stroke-linecap="round"/></g>${mushroom(40, -14, 1.1, '#c77dff', true)}<circle cx="20" cy="-50" r="9" fill="#e9e1ff" opacity=".85"/><circle cx="24" cy="-53" r="8" fill="#4b2f6e"/>`,
+  },
+  light: {
+    ground: '#fff6dc', side: '#e6cf93',
+    deco: () => `<path d="${dia(0.6)}" fill="none" stroke="#ffd84d" stroke-width="2"/><circle r="6" fill="#ffe58a"/>`,
+    back: () => `${pillar(-46, -4, 0.9)}${pillar(-14, -22, 0.9)}${pillar(18, -22, 0.9)}<g transform="translate(40 -40)"><g class="bob"><circle r="16" fill="#ffe58a" opacity=".35"/><circle r="10" fill="#fff07a" ${ol('#e6b800', 1.5)}/></g></g>`,
+  },
+  war: {
+    ground: '#e3c088', side: '#b08a50',
+    deco: () => `<ellipse cx="0" cy="2" rx="42" ry="20" fill="none" stroke="#c9a46a" stroke-width="2.5"/>`,
+    back: () => `${banner(-50, -2, '#c0392b', '⚔')}${banner(48, -4, '#c0392b', '⚔')}<g transform="translate(-10 -26)"><rect x="-22" y="-2" width="44" height="5" fill="#6b4a2a"/>${sword(-14, 0, -8)}${sword(0, 0)}${sword(14, 0, 8)}</g>`,
+  },
+  mystic: {
+    ground: '#ffc2f0', side: '#d48ac4',
+    deco: () => `${star(-30, 6, 0.6)}${star(28, 14, 0.5, '#fff')}<path d="${dia(0.5)}" fill="none" stroke="#ff7ce5" stroke-width="2" stroke-dasharray="4 4"/>`,
+    back: () => `${crystalProp(-40, -10, 1.2, '#ff9ee8')}${crystalProp(36, -16, 0.9, '#d9a6ff')}${star(-6, -50, 1)}${star(24, -62, 0.7, '#fff')}`,
+  },
+  ancient: {
+    ground: '#e8c868', side: '#b08a30',
+    deco: () => `<path d="${dia(0.6)}" fill="none" stroke="#b08a30" stroke-width="2"/><path d="M-26 -13 L26 13 M26 -13 L-26 13" stroke="#c9a040" stroke-width="1.5"/>`,
+    back: () => `${pillar(-46, -4, 0.95, '#f0d070')}<g transform="translate(14 -24)"><path d="M-30 4 L-30 -40 Q0 -62 30 -40 L30 4 L20 4 L20 -34 Q0 -48 -20 -34 L-20 4Z" fill="#e8c868" ${ol('#e8c868', 2)}/><circle cy="-44" r="5" fill="#ff5277" ${ol('#a0203a', 1.2)}/></g>`,
+  },
+};
+
+export function habitatBack(element, level) {
+  const t = HAB[element] || HAB.earth;
+  return `${slab(t.ground, t.side)}${t.deco()}${t.back()}${level >= 2 ? banner(-66, -6, shade(t.ground, -0.2), '★') : ''}<path class="hit" d="${D}" fill="transparent"/>`;
+}
+export function habitatFront(element, level) {
+  const t = HAB[element] || HAB.earth;
+  return level >= 1 ? fence(element === 'ice' ? '#d6ecff' : element === 'metal' ? '#8a95a0' : element === 'ancient' ? '#e8c868' : '#b07a48') : '';
+}
+
+// ---------------------------------------------------------------- farm
+
+// progress 0..1, crop icon shown when ready.
+export function farmArt(progress, icon, ready) {
+  let rows = '';
+  const plants = [];
+  for (let u = -0.6; u <= 0.61; u += 0.4) for (let v = -0.6; v <= 0.61; v += 0.4) plants.push(iso(u, v));
+  plants.sort((a, b) => a[1] - b[1]);
+  for (let i = -2; i <= 2; i++) {
+    const [x1, y1] = iso(-0.8, i * 0.3), [x2, y2] = iso(0.8, i * 0.3);
+    rows += `<path d="M${x1} ${y1} L${x2} ${y2}" stroke="#6b4a2a" stroke-width="3" stroke-linecap="round" opacity=".5"/>`;
+  }
+  const plant = ([x, y]) => {
+    if (progress < 0) return '';
+    if (ready) return `<text x="${x}" y="${y + 4}" font-size="20" text-anchor="middle" class="bob">${icon}</text>`;
+    if (progress < 0.33) return `<ellipse cx="${x}" cy="${y}" rx="4" ry="2.5" fill="#5a3a22"/><path d="M${x} ${y} l0 -4" stroke="#56c85a" stroke-width="2"/>`;
+    const h = progress < 0.66 ? 8 : 13;
+    return `<path d="M${x} ${y} L${x} ${y - h} M${x} ${y - h * 0.6} q-6 -3 -8 -8 M${x} ${y - h * 0.6} q6 -3 8 -8 M${x} ${y - h} q-3 -6 0 -9 q3 3 0 9" stroke="#2e8b3a" stroke-width="2.4" fill="#56c85a" stroke-linecap="round"/>`;
+  };
+  return `${slab('#8a5a32', '#5e3a1c')}<path d="${dia(0.8)}" fill="#7a4a26"/>${rows}${plants.map(plant).join('')}${fence('#c9925a', 0.95)}<path class="hit" d="${D}" fill="transparent"/>`;
+}
+
+// ---------------------------------------------------------------- special buildings
+
+export function hatcheryArt(eggs) {
+  return `${slab('#7ccf5a', '#4e9e36')}
+    <g transform="translate(0 -6)">
+      <path d="M-56 0 L-56 -60 Q0 -96 56 -60 L56 0" fill="none" stroke="${o('#c98a4a')}" stroke-width="12"/>
+      <path d="M-56 0 L-56 -60 Q0 -96 56 -60 L56 0" fill="none" stroke="#c98a4a" stroke-width="8"/>
+      <path d="M-64 -58 Q0 -104 64 -58 L56 -50 Q0 -88 -56 -50Z" fill="#e5484d" ${ol('#e5484d', 2)}/>
+      <ellipse cx="0" cy="-2" rx="50" ry="20" fill="#9a6a3a" ${ol('#9a6a3a', 2.2)}/>
+      <ellipse cx="0" cy="-6" rx="40" ry="13" fill="#5e3a1c"/>
+      <path d="M-46 -4 Q-30 6 -10 2 M10 2 Q30 6 46 -4 M-40 4 Q0 12 40 4" stroke="#c98a4a" stroke-width="2" fill="none"/>
+      ${eggs}
+    </g><path class="hit" d="${D}" fill="transparent"/><path class="hit" d="M-60 -2 L-60 -80 L60 -80 L60 -2Z" fill="transparent"/>`;
+}
+
+export function sanctuaryArt(busy) {
+  const heart = (x, y, s) => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 6 C-12 -2 -10 -12 -4 -12 C-1 -12 0 -9 0 -8 C0 -9 1 -12 4 -12 C10 -12 12 -2 0 6Z" fill="#ff5c8a" ${ol('#ff5c8a', 1.2)}/>`;
+  return `${slab('#ffd6e8', '#e58ab0')}
+    <path d="M-50 4 C-60 -30 -50 -70 -20 -78 C-6 -80 0 -70 0 -64 C0 -70 6 -80 20 -78 C50 -70 60 -30 50 4 L38 4 C46 -28 38 -60 20 -64 C10 -66 4 -60 0 -50 C-4 -60 -10 -66 -20 -64 C-38 -60 -46 -28 -38 4Z" fill="#f4a6c8" ${ol('#d0608a', 2.4)}/>
+    <path d="M-44 -20 Q-48 -50 -24 -70 M44 -20 Q48 -50 24 -70" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none"/>
+    ${heart(0, -86, 1.4)}<g class="float-hearts">${heart(-30, -96, 0.6)}${heart(34, -100, 0.5)}</g>
+    ${busy ? `<g class="pulse"><circle cx="0" cy="-20" r="20" fill="#fff6a0" opacity=".45"/><path d="M0 -40 C14 -40 18 -24 18 -16 C18 -6 10 0 0 0 C-10 0 -18 -6 -18 -16 C-18 -24 -14 -40 0 -40Z" fill="#fff" ${ol('#d0608a', 2)}/><text x="0" y="-12" font-size="16" text-anchor="middle" fill="#d0608a" font-weight="800">?</text></g>` : ''}
+    <path class="hit" d="${D}" fill="transparent"/><path class="hit" d="M-56 -2 L-56 -96 L56 -96 L56 -2Z" fill="transparent"/>`;
+}
+
+export function totemArt(portrait) {
+  return `${slab('#7ccf5a', '#4e9e36', 0.6)}
+    <g transform="translate(0 0)">
+      <path d="M-14 0 L-14 -96 L14 -96 L14 0Z" fill="#a8743f" ${ol('#a8743f', 2.2)}/>
+      <path d="M-14 -30 L14 -30 M-14 -62 L14 -62" stroke="${o('#a8743f')}" stroke-width="2"/>
+      <circle cx="-6" cy="-46" r="3" fill="#222"/><circle cx="6" cy="-46" r="3" fill="#222"/><path d="M-6 -38 Q0 -34 6 -38" stroke="#222" stroke-width="2" fill="none"/>
+      <circle cx="-6" cy="-14" r="3" fill="#222"/><circle cx="6" cy="-14" r="3" fill="#222"/>
+      <path d="M-14 -88 Q-46 -110 -50 -80 Q-34 -86 -14 -76Z M14 -88 Q46 -110 50 -80 Q34 -86 14 -76Z" fill="#e5484d" ${ol('#e5484d', 2)}/>
+      <g transform="translate(0 -112)"><g class="bob"><circle r="16" fill="#fff07a" opacity=".35"/>${portrait || star(0, 0, 1.4)}</g></g>
+    </g><path class="hit" d="${dia(0.6)}" fill="transparent"/><path class="hit" d="M-30 0 L-30 -128 L30 -128 L30 0Z" fill="transparent"/>`;
+}
+
+const DECO_ART = {
+  torch: () => `<g transform="translate(0 0)"><path d="M-8 0 L-6 -40 L6 -40 L8 0Z" fill="#9b8b7a" ${ol('#9b8b7a', 2)}/><path d="M-12 -40 L12 -40 L8 -48 L-8 -48Z" fill="#6b5a4a" ${ol('#6b5a4a', 2)}/>${flameProp(0, -50, 1.1)}</g>`,
+  fountain: () => `<ellipse cx="0" cy="0" rx="40" ry="17" fill="#c9d4de" ${ol('#c9d4de', 2)}/><ellipse cx="0" cy="-2" rx="33" ry="12" fill="#5fb0ff"/><rect x="-5" y="-38" width="10" height="36" fill="#c9d4de" ${ol('#c9d4de', 1.5)}/><ellipse cx="0" cy="-38" rx="16" ry="6" fill="#c9d4de" ${ol('#c9d4de', 1.5)}/><path d="M0 -44 Q-12 -58 -20 -30 M0 -44 Q12 -58 20 -30" stroke="#8fd0ff" stroke-width="3" fill="none" class="ripple"/>`,
+  statue: () => `<path d="M-24 0 L-24 -14 L24 -14 L24 0Z" fill="#b8b0a4" ${ol('#b8b0a4', 2)}/><g transform="translate(0 -14)"><path d="M-14 0 Q-18 -24 -2 -30 Q-6 -40 4 -46 Q16 -48 18 -38 Q20 -30 10 -30 Q16 -16 14 0Z" fill="#a8a094" ${ol('#a8a094', 2)}/><path d="M-6 -24 Q-28 -40 -30 -60 Q-14 -50 -4 -34" fill="#a8a094" ${ol('#a8a094', 2)}/><circle cx="10" cy="-40" r="2" fill="#555"/></g>`,
+  goldtree: () => tree(0, 0, 1.6, '#ffd54f') + `${star(-14, -64, 0.5)}${star(16, -50, 0.4, '#fff')}`,
+  crystal: () => `<g class="bob"><ellipse cx="0" cy="-30" rx="26" ry="26" fill="#9fe3ff" opacity=".25"/>${crystalProp(0, -16, 1.6, '#9fe3ff')}</g><ellipse cx="0" cy="2" rx="22" ry="8" fill="#000" opacity=".15"/>`,
+};
+
+export function decoArt(id) {
+  return `${slab('#7ccf5a', '#4e9e36', 0.55)}${(DECO_ART[id] || DECO_ART.torch)()}<path class="hit" d="${dia(0.6)}" fill="transparent"/><path class="hit" d="M-30 0 L-30 -80 L30 -80 L30 0Z" fill="transparent"/>`;
+}
+
+export function emptyArt() {
+  return `<path d="${dia(0.9)}" fill="#ffffff" fill-opacity=".14" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-dasharray="7 6"/><text x="0" y="8" font-size="26" text-anchor="middle" fill="#fff" opacity=".85" font-weight="300">+</text><path class="hit" d="${D}" fill="transparent"/>`;
+}
+
+// ---------------------------------------------------------------- islands
+
+// Smooth closed curve through points (Catmull-Rom -> cubic Bezier).
+function smooth(pts) {
+  const n = pts.length;
+  let d = `M${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 0; i < n; i++) {
+    const p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n], p3 = pts[(i + 2) % n];
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0]} ${p2[1]}`;
+  }
+  return d + 'Z';
+}
+
+// hull: points of the grassy top (centred on 0,0). Returns svg markup in local coords.
+export function islandArt(hull, depth, { waterfall = false, ghost = false, seed = 1 } = {}) {
+  const top = smooth(hull);
+  const minX = Math.min(...hull.map((p) => p[0])), maxX = Math.max(...hull.map((p) => p[0]));
+  const maxY = Math.max(...hull.map((p) => p[1]));
+  const lower = hull.filter((p) => p[1] > -10).sort((a, b) => a[0] - b[0]);
+  // rocky underside: from the lower rim down to a jagged point
+  const under = [];
+  under.push([minX, 10]);
+  const steps = 7;
+  for (let i = 1; i < steps; i++) {
+    const t = i / steps;
+    const x = minX + (maxX - minX) * t;
+    const bulge = Math.sin(t * Math.PI);
+    const jag = ((i * 37 + seed * 13) % 17) - 8;
+    under.push([x, maxY * 0.6 + depth * bulge * (0.7 + (i % 2) * 0.25) + jag]);
+  }
+  under.push([maxX, 10]);
+  const underD = smooth([...under, [maxX * 0.4, maxY * 0.5], [minX * 0.4, maxY * 0.5]]);
+  const tipX = (minX + maxX) / 2;
+  const rocks = `<path d="M${tipX - 30} ${maxY * 0.6 + depth * 0.8} L${tipX} ${maxY * 0.6 + depth * 1.18} L${tipX + 26} ${maxY * 0.6 + depth * 0.82}Z" fill="#6b5446"/>`;
+  const strata = [0.35, 0.6, 0.85].map((k) => `<path d="M${minX * (1 - k * 0.5)} ${maxY * 0.6 + depth * k * 0.6} Q${tipX} ${maxY * 0.6 + depth * k * 0.85} ${maxX * (1 - k * 0.5)} ${maxY * 0.6 + depth * k * 0.6}" stroke="#5a4438" stroke-width="3" fill="none" opacity=".45"/>`).join('');
+  const roots = lower.filter((_, i) => i % 2).map(([x, y]) => `<path d="M${x} ${y + 14} q-4 16 2 30 q4 10 -2 20" stroke="#6b4a2a" stroke-width="3" fill="none" opacity=".7"/>`).join('');
+  const fall = waterfall ? `<g class="waterfall"><path d="M${maxX * 0.55} ${maxY * 0.55} L${maxX * 0.55 + 22} ${maxY * 0.55} L${maxX * 0.55 + 26} ${maxY + depth * 1.4} L${maxX * 0.55 - 4} ${maxY + depth * 1.4}Z" fill="url(#fallgrad)"/><path d="M${maxX * 0.55 + 6} ${maxY * 0.6} L${maxX * 0.55 + 8} ${maxY + depth}" stroke="#fff" stroke-width="2" opacity=".6" class="flow"/></g>` : '';
+  const grassEdge = `<path d="${top}" fill="none" stroke="#3f8f2e" stroke-width="5" transform="translate(0 16)"/>`;
+  return `<g ${ghost ? 'opacity=".45"' : ''}>
+    <defs><linearGradient id="fallgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0ff"/><stop offset="1" stop-color="#8fd0ff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="rockgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9b7a62"/><stop offset="1" stop-color="#5a4438"/></linearGradient>
+    <radialGradient id="grassgrad" cx=".45" cy=".35" r=".75"><stop offset="0" stop-color="#a8e67e"/><stop offset=".7" stop-color="#7ccf5a"/><stop offset="1" stop-color="#5cb043"/></radialGradient></defs>
+    ${roots}
+    <path d="${underD}" fill="url(#rockgrad)" stroke="#4a362c" stroke-width="3"/>${rocks}${strata}${fall}
+    <path d="${top}" fill="#8a6440" transform="translate(0 18)" stroke="#5e4028" stroke-width="3"/>
+    ${grassEdge}
+    <path d="${top}" fill="url(#grassgrad)" stroke="#3f8f2e" stroke-width="3"/>
+  </g>`;
+}
+
+// Scenery placed on an island: [kind, x, y, scale].
+export function rimDecor(items) {
+  return items.map(([k, x, y, s = 1]) => {
+    if (k === 'pine') return pine(x, y, s * 1.3);
+    if (k === 'tree') return tree(x, y, s * 1.2, '#56c85a');
+    if (k === 'bush') return `<g transform="translate(${x} ${y}) scale(${s})"><circle cx="-8" cy="-6" r="9" fill="#4fb84a" ${ol('#4fb84a', 2)}/><circle cx="6" cy="-8" r="11" fill="#5cc855" ${ol('#5cc855', 2)}/>${flower(0, -10, '#ff7aa8')}</g>`;
+    return `${flower(x, y)}${flower(x + 12, y + 5, '#ffd84d')}${flower(x - 10, y + 6, '#b388ff')}`;
+  }).join('');
+}
+
+export function cloudArt(s = 1) {
+  return `<svg viewBox="-60 -30 120 50" width="${120 * s}" height="${50 * s}"><path d="M-50 14 Q-58 -2 -38 -4 Q-34 -24 -12 -18 Q0 -34 18 -20 Q40 -26 44 -4 Q60 0 52 14Z" fill="#fff" opacity=".9"/></svg>`;
+}
