@@ -78,18 +78,29 @@ function walkers(h) {
   }).join('');
 }
 
+let upgraded = { id: null, until: 0 };
+export function markUpgraded(id) {
+  upgraded = { id, until: G.now() + 1600 };
+}
+
 function slotInner(i) {
   const b = G.buildingAt(i);
+  if (b && b.id === upgraded.id && G.now() < upgraded.until) return slotBody(i, b).replace('class="slot-in"', 'class="slot-in upgraded"') + '<div class="dust"></div>';
+  return slotBody(i, b);
+}
+
+function slotBody(i, b) {
   if (!b) return `<div class="slot-in${moving ? ' target' : ''}" data-act="${moving ? 'move-here' : 'build'}" data-plot="${i}">${svgBox(W.emptyArt(), 'faint')}</div>`;
   const open = `data-act="open-b" data-id="${b.id}"`;
   switch (b.type) {
     case 'habitat': {
       const gold = G.habitatGold(b);
       const full = gold >= G.habitatGoldCap(b);
-      const showCoin = gold >= 1;
+      // Like Dragon City: a coin only pops up once a fair amount has built up.
+      const showCoin = gold >= Math.max(1, G.habitatGoldCap(b) * 0.2);
       return `<div class="slot-in" ${open}>${svgBox(W.habitatBack(b.element, b.level))}
         <div class="walkers">${walkers(b)}</div>${svgBox(W.habitatFront(b.element, b.level), 'front')}
-        ${showCoin ? `<button class="wbub ${full ? 'full' : ''}" data-act="collect" data-id="${b.id}">🪙<span data-hgold="${b.id}">${G.fmt(gold)}</span></button>` : ''}</div>`;
+        ${showCoin ? `<button class="wcoin ${full ? 'full' : ''}" data-act="collect" data-id="${b.id}" aria-label="Collect gold">🪙</button>` : ''}</div>`;
     }
     case 'farm': {
       const c = b.crop && D.CROPS.find((x) => x.id === b.crop.id);
@@ -100,7 +111,7 @@ function slotInner(i) {
         progress = Math.min(1, 1 - (b.crop.readyAt - G.now()) / total);
       }
       return `<div class="slot-in" ${open}>${svgBox(W.farmArt(progress, c ? c.icon : '', ready))}
-        ${ready ? `<button class="wbub food" data-act="harvest" data-id="${b.id}">🍖+${G.fmt(c.food)}</button>` : c ? `<span class="wtimer" data-until="${b.crop.readyAt}">${G.fmtTime(b.crop.readyAt - G.now())}</span>` : `<span class="wtimer idle">Plant!</span>`}</div>`;
+        ${ready ? `<button class="wcoin food" data-act="harvest" data-id="${b.id}" aria-label="Harvest">🍖</button>` : c ? `<span class="wtimer" data-until="${b.crop.readyAt}">${G.fmtTime(b.crop.readyAt - G.now())}</span>` : `<span class="wtimer idle">Plant!</span>`}</div>`;
     }
     case 'hatchery': {
       const eggs = S().eggs.slice(0, 4).map((e, k) => `<g transform="translate(${-30 + k * 20} ${-36 + (k % 2) * 6}) scale(.3)">${eggInner(D.DRAGONS[e.sp])}</g>`).join('');
@@ -131,9 +142,15 @@ function hudHTML() {
     return `<div class="goal move-hint">✋ Tap a free spot to move the building <button class="btn small" data-act="move-cancel">Cancel</button></div>`;
   }
   const goal = G.nextGoal();
+  // The goal hint shrinks to a small chip after a few seconds; tap it to read it again.
+  if (goal !== goalText) {
+    goalText = goal;
+    goalAt = G.now();
+  }
+  const goalMini = !goalOpen && G.now() - goalAt > 6000;
   const readyCrops = G.buildingsOf('farm').filter((f) => f.crop && f.crop.readyAt <= G.now()).length;
   const qb = questsClaimable();
-  return `${goal ? `<div class="goal">💡 ${goal}</div>` : ''}
+  return `${goal ? (goalMini ? `<button class="goal-chip" data-act="goal-open">💡</button>` : `<div class="goal">💡 ${goal}</div>`) : ''}
     ${!S().daily.loginClaimed ? `<button class="banner" data-act="quests">🎁 Daily reward ready! Day ${S().daily.streak}</button>` : ''}
     <div class="hud-col">
       <button class="hud-btn" data-act="collect-all" aria-label="Collect all gold">🪙<small>Collect</small></button>
@@ -142,6 +159,14 @@ function hudHTML() {
       <button class="hud-btn" data-act="build-any" aria-label="Build">🔨<small>Build</small></button>
     </div>`;
 }
+
+let goalText = null, goalAt = 0, goalOpen = false;
+act('goal-open', () => {
+  goalOpen = true;
+  goalAt = G.now();
+  G.changed();
+  setTimeout(() => (goalOpen = false), 6000);
+});
 
 function renderIsland() {
   builtPlots = G.plotCount();
@@ -201,6 +226,8 @@ function mountIsland(el) {
     inner.style.transform = `translate(${cam.x}px, ${cam.y}px) scale(${cam.z})`;
     // Bubbles and timers keep a steady on-screen size whatever the zoom.
     inner.style.setProperty('--iz', Math.min(1.6, Math.max(0.7, 1 / cam.z)).toFixed(3));
+    // Far zoomed out, parts stop animating to save battery.
+    inner.classList.toggle('calm', cam.z < 0.5);
   };
   apply();
   const pts = new Map();
@@ -475,7 +502,16 @@ function habitatSheet(h) {
     ${up != null ? `<button class="btn wide" data-act="up-hab" data-id="${h.id}">Upgrade: ${D.HABITAT_LEVELS[h.level + 1].capacity} dragons, ${G.fmt(D.HABITAT_LEVELS[h.level + 1].goldCap * (D.HABITAT_CAP_MULT[h.element] || 1))} gold cap · ${cost({ gold: up })}</button>` : '<p class="muted">Max level</p>'}
     <button class="btn wide ghost danger" data-act="sell-b" data-id="${h.id}">Remove habitat</button>`;
 }
-act('up-hab', (d) => G.upgradeHabitat(G.buildingById(+d.id)));
+act('up-hab', (d) => {
+  const h = G.buildingById(+d.id);
+  const lvl = h.level;
+  G.upgradeHabitat(h);
+  if (h.level > lvl) {
+    markUpgraded(h.id);
+    play('level');
+    closeSheet();
+  }
+});
 
 export function dragonCard(d) {
   const sp = D.DRAGONS[d.sp];
@@ -548,7 +584,15 @@ function hatcherySheet(b) {
     }).join('')}
     ${next ? `<button class="btn wide" data-act="up-special" data-id="${b.id}">${S().player.level < next.unlock ? `Upgrade to ${next.slots} slots ${lockNote(next.unlock)}` : `Upgrade to ${next.slots} slots · ${cost({ gold: next.cost })}`}</button>` : ''}`;
 }
-act('up-special', (d) => G.upgradeSpecial(G.buildingById(+d.id)));
+act('up-special', (d) => {
+  const b = G.buildingById(+d.id);
+  const lvl = b.level;
+  G.upgradeSpecial(b);
+  if (b.level > lvl) {
+    markUpgraded(b.id);
+    play('level');
+  }
+});
 
 act('hatch', (d) => {
   const egg = S().eggs.find((e) => e.uid === +d.uid);

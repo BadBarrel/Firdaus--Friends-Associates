@@ -48,10 +48,10 @@ function newState() {
   };
   S = s;
   // Plots 0-15 form a 4x4 grid on the main island; start everything near the middle.
-  addBuilding('hatchery', { level: 0 }, 5);
-  addBuilding('sanctuary', { level: 0 }, 6);
-  addBuilding('habitat', { element: 'fire', level: 0, stored: 0, last: t }, 9);
-  addBuilding('farm', { crop: null }, 10);
+  addBuilding('hatchery', { level: 0 }, 1);
+  addBuilding('sanctuary', { level: 0 }, 2);
+  addBuilding('habitat', { element: 'fire', level: 0, stored: 0, last: t }, 5);
+  addBuilding('farm', { crop: null }, 6);
   s.eggs.push({ uid: nid(), sp: 'emberjaw', readyAt: t + 5000 });
   return s;
 }

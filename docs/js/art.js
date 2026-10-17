@@ -647,9 +647,17 @@ const PLANS = {
 
 // ---------------------------------------------------------------- colours per species
 
+function idHash(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) h = Math.imul(h ^ str.charCodeAt(i), 16777619);
+  return h >>> 0;
+}
+
 function palette(sp, spec) {
   let els = sp.elements;
   if (els[1] && (els[0] === 'mystic' || els[0] === 'ancient')) els = [els[1], els[0], ...els.slice(2)];
+  // About half the hybrids wear their second element as body colour, so e.g. not every Fire hybrid is red.
+  else if (sp.rarity === 'rare' && !spec.main && idHash(sp.id) % 2) els = [els[1], els[0]];
   const col = (e) => ELEMENTS[e].color;
   let main = spec.main || col(els[0]);
   if (spec.tone) main = shade(main, spec.tone);
@@ -786,16 +794,63 @@ export function eggSVG(species, cls = '') {
   return `<svg class="egg-art ${cls}" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">${eggInner(species)}</svg>`;
 }
 
-// Egg drawing in a 100x120 box, for embedding in other SVGs.
+// Egg drawing in a 100x120 box, for embedding in other SVGs. The pattern comes from the
+// main element; hybrids get a second-colour lower half; high rarities a gold band.
+const EGG_SHELL = 'M50 16 C76 16 88 50 88 72 C88 96 72 110 50 110 C28 110 12 96 12 72 C12 50 24 16 50 16Z';
+const EGG_PATTERN = {
+  fire: (c) => `<path d="M22 96 Q26 74 34 84 Q36 62 46 78 Q50 56 58 76 Q66 60 68 82 Q76 72 78 94" fill="${c}" opacity=".9"/><path d="M36 94 Q40 80 46 88 Q50 76 56 88 Q62 80 64 94" fill="#ffe066" opacity=".9"/>`,
+  water: (c) => `<path d="M14 54 Q26 46 38 54 Q50 62 62 54 Q74 46 86 54 M12 76 Q24 68 36 76 Q48 84 60 76 Q72 68 88 76" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round"/><circle cx="34" cy="38" r="4" fill="#fff" opacity=".6"/><circle cx="62" cy="96" r="3" fill="#fff" opacity=".6"/>`,
+  plant: (c) => `<path d="M50 104 C30 90 28 60 50 34 C72 60 70 90 50 104Z" fill="${c}" opacity=".85"/><path d="M50 100 L50 40 M50 80 L38 68 M50 66 L62 54 M50 88 L62 78" stroke="#2e7a32" stroke-width="2" fill="none"/>`,
+  earth: (c) => `<path d="M26 40 L38 52 L32 66 L44 78 M64 32 L58 50 L70 60 M58 84 L68 96" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/><circle cx="72" cy="78" r="5" fill="${c}"/><circle cx="30" cy="90" r="4" fill="${c}"/>`,
+  storm: (c) => `<path d="M14 64 L30 56 L40 70 L54 54 L64 70 L78 56 L88 64 L88 72 L78 66 L64 80 L54 64 L40 80 L30 66 L14 74Z" fill="${c}"/><path d="M54 28 L44 46 L52 46 L46 60 L62 40 L54 40 L60 28Z" fill="#ffe14d" stroke="#b38f00" stroke-width="1.2"/>`,
+  ice: (c) => `<g stroke="${c}" stroke-width="3" stroke-linecap="round" fill="none"><path d="M36 50 L36 70 M27 55 L45 65 M27 65 L45 55"/><path d="M64 74 L64 92 M56 78 L72 88 M56 88 L72 78"/></g><path d="M60 30 L66 40 L60 50 L54 40Z" fill="#fff" opacity=".8"/>`,
+  metal: (c) => `<path d="M12 64 L88 64" stroke="${c}" stroke-width="7"/>${[22, 38, 54, 70].map((x) => `<circle cx="${x + 4}" cy="64" r="2.4" fill="#fff" opacity=".8"/>`).join('')}<path d="M30 30 L70 30 M24 92 L76 92" stroke="${c}" stroke-width="3" opacity=".7"/>`,
+  shadow: (c) => `<circle cx="58" cy="52" r="14" fill="#e9e1ff"/><circle cx="64" cy="48" r="13" fill="${c}"/>${[[30, 40], [36, 84], [70, 90], [26, 66]].map(([x, y]) => `<path transform="translate(${x} ${y}) scale(.45)" d="M0 -10 Q1 -1 10 0 Q1 1 0 10 Q-1 1 -10 0 Q-1 -1 0 -10Z" fill="#fff"/>`).join('')}`,
+  light: (c) => `<circle cx="50" cy="62" r="13" fill="#fff6b0" stroke="${c}" stroke-width="2.5"/>${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<path transform="translate(50 62) rotate(${a})" d="M0 -18 L3 -26 L-3 -26Z" fill="${c}"/>`).join('')}`,
+  war: (c) => `<path d="M20 44 L50 58 L80 44 M20 62 L50 76 L80 62 M22 80 L50 94 L78 80" fill="none" stroke="${c}" stroke-width="5" stroke-linejoin="round"/>`,
+  mystic: (c) => [[34, 42, 0.9], [64, 56, 1.2], [40, 84, 0.8], [70, 92, 0.6]].map(([x, y, k]) => `<path transform="translate(${x} ${y}) scale(${k})" d="M0 -10 Q1 -1 10 0 Q1 1 0 10 Q-1 1 -10 0 Q-1 -1 0 -10Z" fill="${c}"/>`).join(''),
+  ancient: (c) => `<g fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"><path d="M30 46 L40 46 L35 54 L40 62 L30 62"/><path d="M58 70 L70 70 M64 70 L64 84 M58 84 L70 84"/><circle cx="62" cy="44" r="6"/></g>`,
+};
 export function eggInner(species) {
-  const { c1, c2 } = dragonColors(species);
-  const ring = RARITIES[species.rarity].color;
-  const o = shade(c1, -0.55);
-  return `<ellipse cx="50" cy="112" rx="30" ry="5" fill="#000" opacity=".18"/>
-  <path d="M50 16 C76 16 88 50 88 72 C88 96 72 110 50 110 C28 110 12 96 12 72 C12 50 24 16 50 16Z" fill="${grad(c1)}" stroke="${o}" stroke-width="3"/>
-  <path d="M30 40 l5 -6 l5 6 l-5 6Z M64 34 l4 -5 l4 5 l-4 5Z M66 76 l6 -7 l6 7 l-6 7Z M34 84 l4 -5 l4 5 l-4 5Z" fill="${c2}" stroke="${o}" stroke-width="1.5"/>
-  <path d="M14 66 Q30 58 40 66 Q50 74 60 66 Q72 58 86 66" stroke="${ring}" stroke-width="5" fill="none"/>
-  <ellipse cx="34" cy="36" rx="7" ry="12" fill="#fff" opacity=".4" transform="rotate(-20 34 36)"/>`;
+  const spec = designFor(species);
+  const C = palette(species, spec);
+  let els = species.elements;
+  if (els[1] && (els[0] === 'mystic' || els[0] === 'ancient')) els = [els[1], els[0]];
+  const main = C.main;
+  const o = shade(main, -0.55);
+  const id = 'egg' + species.id;
+  const second = els[1] ? ELEMENTS[els[1]].color : null;
+  const fancy = species.rarity === 'legendary' || species.rarity === 'mythic';
+  return `<defs><clipPath id="${id}"><path d="${EGG_SHELL}"/></clipPath></defs>
+  <ellipse cx="50" cy="112" rx="30" ry="5" fill="#000" opacity=".18"/>
+  <path d="${EGG_SHELL}" fill="${grad(main)}"/>
+  <g clip-path="url(#${id})">
+    ${second ? `<path d="M0 82 Q25 70 50 82 Q75 94 100 82 L100 130 L0 130Z" fill="${grad(second)}"/>` : ''}
+    ${(EGG_PATTERN[els[0]] || EGG_PATTERN.earth)(shade(main, -0.28))}
+    ${fancy ? `<path d="M0 60 L100 60 L100 68 L0 68Z" fill="${grad('#ffd54f')}"/><circle cx="50" cy="64" r="6" fill="${species.rarity === 'mythic' ? '#ff5277' : '#7fd6ff'}" stroke="#7a4a00" stroke-width="1.5"/>` : ''}
+  </g>
+  <path d="${EGG_SHELL}" fill="none" stroke="${o}" stroke-width="3"/>
+  <ellipse cx="34" cy="36" rx="7" ry="12" fill="#fff" opacity=".42" transform="rotate(-20 34 36)"/>`;
+}
+
+// Attack projectile drawn from the same motifs as the dragons.
+export function projectileSVG(el, big = false) {
+  const C = { o: '#5a3a1a', accent: '#ff7ce5', wing: '#7fd6ff', leafCol: '#4fd65c', rockCol: '#9b6b43', metalCol: '#b8c2cc', smokeCol: '#5b4a7a', glow: '#fff35a' };
+  const motif = {
+    fire: () => flame(C, 1.6),
+    water: () => `<path d="M0 -20 C10 -6 14 4 0 14 C-14 4 -10 -6 0 -20Z" fill="${grad('#5fb0ff')}" ${ol('#1d5fbf', 2)}/><ellipse cx="-4" cy="2" rx="3" ry="5" fill="#fff" opacity=".7"/>`,
+    plant: () => `<g transform="rotate(30)">${leaf(C, 1.3)}</g><g transform="rotate(-40)">${leaf(C, 1)}</g>`,
+    earth: () => rock(C, 1.6),
+    storm: () => bolt(C, 1.5),
+    ice: () => shard(C, 1.4),
+    metal: () => gear(C, 1.1),
+    shadow: () => `<circle r="14" fill="${glowGrad('#c77dff')}"/>${smoke(C, 1.6, '#4b2f6e')}`,
+    light: () => `<circle r="16" fill="${glowGrad('#fff07a')}"/>${star(C, 1.2)}`,
+    war: () => `<g transform="rotate(45)"><path d="M-3 12 L-3 -18 L0 -26 L3 -18 L3 12 Z" fill="#e6e9ee" ${ol('#5c6670', 1.5)}/><rect x="-9" y="6" width="18" height="4" rx="2" fill="#c0392b"/></g>`,
+    mystic: () => `<circle r="16" fill="${glowGrad('#ff7ce5')}"/>${sparkle(1.6, '#ffc2f3')}`,
+    ancient: () => `<circle r="18" fill="${glowGrad('#ffd54f')}"/>${star(C, 1.1, '#ffd54f')}`,
+  }[el] || (() => `${sparkle(2, '#fff')}`);
+  return `<svg viewBox="-32 -32 64 64" width="${big ? 74 : 54}" height="${big ? 74 : 54}">${motif()}</svg>`;
 }
 
 export function stageFor(level) {

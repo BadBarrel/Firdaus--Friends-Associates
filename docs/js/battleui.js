@@ -2,12 +2,12 @@
 import * as D from './data.js';
 import * as G from './game.js';
 import * as B from './battle.js';
-import { dragonSVG, stageFor } from './art.js';
+import { dragonSVG, stageFor, projectileSVG } from './art.js';
 import { $, act, view, openSheet, closeSheet, closeAllSheets, refresh, elChip, dragonArt, lockNote, esc } from './ui.js';
 import { play } from './sound.js';
 
 // A small floating grass platform for each fighter to stand on.
-const PLATFORM = '<svg class="plat" viewBox="-100 -30 200 90"><path d="M-90 0 Q-60 70 0 80 Q60 70 90 0Z" fill="#8a6440" stroke="#5e4028" stroke-width="3"/><path d="M-40 30 L0 78 L36 32" fill="#6b5446"/><ellipse cx="0" cy="0" rx="92" ry="24" fill="#7ccf5a" stroke="#3f8f2e" stroke-width="3"/><ellipse cx="-20" cy="-6" rx="40" ry="8" fill="#a8e67e" opacity=".6"/></svg>';
+const PLATFORM = '<svg class="plat" viewBox="-100 -30 200 115"><path d="M-90 0 Q-60 70 0 80 Q60 70 90 0Z" fill="#8a6440" stroke="#5e4028" stroke-width="3"/><path d="M-40 30 L0 78 L36 32" fill="#6b5446"/><ellipse cx="0" cy="0" rx="92" ry="24" fill="#7ccf5a" stroke="#3f8f2e" stroke-width="3"/><ellipse cx="-20" cy="-6" rx="40" ry="8" fill="#a8e67e" opacity=".6"/></svg>';
 
 const S = () => G.S;
 const UNLOCK = { campaign: 1, arena: 4, tower: 8 };
@@ -236,7 +236,7 @@ async function animate(evt) {
     const a = atkEl.getBoundingClientRect(), d = defEl.getBoundingClientRect();
     const shot = document.createElement('div');
     shot.className = 'shot';
-    shot.textContent = evt.attack.el === 'neutral' ? '💥' : D.ELEMENTS[evt.attack.el].icon;
+    shot.innerHTML = projectileSVG(evt.attack.el, evt.attack.tier > 0);
     shot.style.left = `${a.left + a.width / 2}px`;
     shot.style.top = `${a.top + a.height * 0.45}px`;
     document.body.appendChild(shot);
@@ -249,6 +249,15 @@ async function animate(evt) {
   play(evt.mult > 1 || evt.crit ? 'strong' : 'hit');
   if (defEl) {
     defEl.classList.add('hit');
+    const burst = document.createElement('span');
+    burst.className = 'burst' + (evt.mult > 1 || evt.crit ? ' big' : '');
+    defEl.appendChild(burst);
+    if (evt.mult > 1 || evt.crit) {
+      const bt = $('.bt');
+      bt?.classList.remove('shake');
+      void bt?.offsetWidth;
+      bt?.classList.add('shake');
+    }
     const n = document.createElement('span');
     n.className = 'dmg' + (evt.mult > 1 ? ' strong' : evt.mult < 1 ? ' weak' : '');
     n.textContent = `-${evt.dmg}${evt.crit ? '!' : ''}`;
