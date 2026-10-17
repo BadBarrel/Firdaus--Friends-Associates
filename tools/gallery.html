@@ -12,7 +12,12 @@
 <script type="module">
   // Dev page: ?ids=a,b,c  ?stage=baby|young|adult|all  ?cols=8
   import { DRAGON_LIST, DRAGONS } from '../docs/js/data.js';
-  import { dragonSVG } from '../docs/js/art.js';
+  import { dragonSVG, setArtManifest } from '../docs/js/art.js';
+  // Show generated images too (pass ?drawn=1 to see only the drawn art).
+  if (!q0().get('drawn')) {
+    try { setArtManifest(await (await fetch('../docs/art/manifest.json', { cache: 'no-cache' })).json(), '../docs/'); } catch (e) { /* none yet */ }
+  }
+  function q0() { return new URLSearchParams(location.search); }
   const q = new URLSearchParams(location.search);
   const ids = q.get('ids') ? q.get('ids').split(',') : DRAGON_LIST.map((d) => d.id);
   const stages = q.get('stage') === 'all' ? ['baby', 'young', 'adult'] : [q.get('stage') || 'adult'];

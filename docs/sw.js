@@ -1,11 +1,11 @@
 // Offline support: serve files from cache, refresh the cache in the background
 // so the next launch picks up updates.
-const CACHE = 'dragon-isles-v7';
+const CACHE = 'dragon-isles-v8';
 const FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/style.css',
   'js/main.js', 'js/data.js', 'js/art.js', 'js/designs.js', 'js/world.js', 'js/sound.js', 'js/game.js', 'js/battle.js',
   'js/ui.js', 'js/island.js', 'js/dragons.js', 'js/battleui.js', 'js/shop.js',
-  'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png',
+  'art/manifest.json', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png',
 ];
 
 self.addEventListener('install', (e) => {

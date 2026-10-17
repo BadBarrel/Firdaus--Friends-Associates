@@ -6,6 +6,7 @@ import './dragons.js';
 import { inBattle } from './battleui.js';
 import { levelUpSheet } from './shop.js';
 import { play } from './sound.js';
+import { setArtManifest } from './art.js';
 
 G.load();
 
@@ -36,6 +37,16 @@ G.on('levelup', (lvl) => {
 
 show('island');
 renderTop();
+// Painted dragon images, if any have been generated; the drawn art shows until then.
+fetch('art/manifest.json', { cache: 'no-cache' })
+  .then((r) => (r.ok ? r.json() : {}))
+  .then((m) => {
+    if (Object.keys(m).length) {
+      setArtManifest(m);
+      refresh();
+    }
+  })
+  .catch(() => {});
 let seconds = 0;
 setInterval(() => {
   if (inBattle()) return;

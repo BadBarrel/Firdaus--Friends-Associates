@@ -1,0 +1,1314 @@
+[
+ {
+  "id": "emberjaw",
+  "name": "Emberjaw",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, fiery red and orange body, lighter belly plates, fire elemental theme, rounded head, two curved swept-back horns, a mane of flames, a row of spikes along its back, large leathery dragon wings with a glowing membrane (bright orange), tail tipped with a flame, bold tiger-stripe markings in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "emberjaw",
+  "name": "Emberjaw",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, fiery red and orange body, lighter belly plates, fire elemental theme, tiny leathery dragon wings with a glowing membrane (bright orange), tail tipped with a flame, bold tiger-stripe markings in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "boulderhorn",
+  "name": "Boulderhorn",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, earthy brown and sandstone body, lighter belly plates, earth elemental theme, heavy blunt jaw, a big rhino horn on its snout, rocks along its back, no wings, spiked club tail, cracked stone-like texture",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "boulderhorn",
+  "name": "Boulderhorn",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, earthy brown and sandstone body, lighter belly plates, earth elemental theme, no wings, spiked club tail, cracked stone-like texture",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "mossback",
+  "name": "Mossback",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, leaf green body, lighter belly plates, plant elemental theme, rounded head, small branch-like horns with leaves, leaves growing along its back, no wings, leaf-tipped tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "mossback",
+  "name": "Mossback",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, leaf green body, lighter belly plates, plant elemental theme, no wings, leaf-tipped tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "tidefin",
+  "name": "Tidefin",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, aquatic sea dragon with fins instead of legs and a fish-like tail fin, swimming pose, ocean blue body, lighter belly plates, water elemental theme, finned fish-like face, spiky fin crest with webbing, webbed fin spines along its back, no wings, glowing swirling tribal markings in light cyan",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "tidefin",
+  "name": "Tidefin",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, little finned sea dragon body, ocean blue body, lighter belly plates, water elemental theme, no wings, glowing swirling tribal markings in light cyan",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "sparkwing",
+  "name": "Sparkwing",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, electric yellow body, lighter belly plates, storm elemental theme, long elegant snout, two straight spiked horns, a crest of lightning bolts, lightning-shaped spines, large leathery dragon wings with a glowing membrane (midnight navy), lightning-bolt tail tip, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "sparkwing",
+  "name": "Sparkwing",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, electric yellow body, lighter belly plates, storm elemental theme, tiny leathery dragon wings with a glowing membrane (midnight navy), lightning-bolt tail tip, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "rimeclaw",
+  "name": "Rimeclaw",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, crystalline dragon with an angular faceted gemstone body, icy pale blue and white body, lighter belly plates, ice elemental theme, angular crystal head, crystal horns, a crest of icicles, crystal shards along its spine, wings of crystal shards, crystal-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "rimeclaw",
+  "name": "Rimeclaw",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small crystalline body, icy pale blue and white body, lighter belly plates, ice elemental theme, tiny wings of crystal shards, crystal-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironscale",
+  "name": "Ironscale",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, upright armored knight dragon wearing a metal chest plate and helmet, steel grey and silver body, lighter belly plates, metal elemental theme, head in a knight helmet, two straight spiked horns, armor plates along its spine, mechanical riveted metal wings, blade-tipped tail",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironscale",
+  "name": "Ironscale",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny armored body, steel grey and silver body, lighter belly plates, metal elemental theme, tiny mechanical riveted metal wings, blade-tipped tail",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "duskfang",
+  "name": "Duskfang",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, ghostly spectral dragon whose lower body fades into smoke, long reaching claws, floating, deep violet and black body, lighter belly plates, shadow elemental theme, skull-like bony face with glowing eyes, crescent-moon horns, wisps of smoke around its head, tattered torn bat wings, tail fading into smoke, glowing swirling tribal markings in pink",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "duskfang",
+  "name": "Duskfang",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small ghostly body fading into wisps, deep violet and black body, lighter belly plates, shadow elemental theme, tiny tattered torn bat wings, tail fading into smoke, glowing swirling tribal markings in pink",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "glimmer",
+  "name": "Glimmer",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, phoenix-like feathered dragon standing on long bird legs, sweeping tail plume, radiant gold and white body, lighter belly plates, light elemental theme, hooked bird-like beak, a glowing golden halo, feathers along its back, large white feathered angel wings, starry speckled markings like a night sky in cream",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "glimmer",
+  "name": "Glimmer",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, fluffy feathered chick-like body, radiant gold and white body, lighter belly plates, light elemental theme, tiny white feathered angel wings, starry speckled markings like a night sky in cream",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "warbrand",
+  "name": "Warbrand",
+  "rarity": "common",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, crimson and dark iron body, lighter belly plates, war elemental theme, long elegant snout, curling ram horns, a shaggy mane, a row of spikes along its back, no wings, spade-tipped tail, bold tiger-stripe markings in dark brown",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "warbrand",
+  "name": "Warbrand",
+  "rarity": "common",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, crimson and dark iron body, lighter belly plates, war elemental theme, no wings, spade-tipped tail, bold tiger-stripe markings in dark brown",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "steamcoil",
+  "name": "Steamcoil",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, fiery red and orange body with ocean blue accents, lighter belly plates, fire and water elemental theme, long whiskered eastern-dragon face, two curved swept-back horns, wisps of smoke around its head, webbed fin spines along its back, no wings, tail tipped with a flame, ring markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "steamcoil",
+  "name": "Steamcoil",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, fiery red and orange body with ocean blue accents, lighter belly plates, fire and water elemental theme, no wings, tail tipped with a flame, ring markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ashbloom",
+  "name": "Ashbloom",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, small slender fairy dragon hovering, delicate body, long thin tail, fiery red and orange body with leaf green accents, lighter belly plates, fire and plant elemental theme, rounded head, two thin antennae, a ring of flower petals around its head, translucent dragonfly-like wings with eye spots, leaf-tipped tail",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ashbloom",
+  "name": "Ashbloom",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny hovering fairy body, fiery red and orange body with leaf green accents, lighter belly plates, fire and plant elemental theme, tiny translucent dragonfly-like wings with eye spots, leaf-tipped tail",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "magmaw",
+  "name": "Magmaw",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, dark brown body with earthy brown and sandstone accents, lighter belly plates, fire and earth elemental theme, heavy blunt jaw, curling ram horns, a mane of flames, rocks along its back, no wings, spiked club tail, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "magmaw",
+  "name": "Magmaw",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, dark brown body with earthy brown and sandstone accents, lighter belly plates, fire and earth elemental theme, no wings, spiked club tail, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "blazebolt",
+  "name": "Blazebolt",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, fiery red and orange body with electric yellow accents, lighter belly plates, fire and storm elemental theme, long elegant snout, two straight spiked horns, a crest of lightning bolts, flames along its spine, wings made of fire, lightning-bolt tail tip, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "blazebolt",
+  "name": "Blazebolt",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, fiery red and orange body with electric yellow accents, lighter belly plates, fire and storm elemental theme, tiny wings made of fire, lightning-bolt tail tip, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "frostflare",
+  "name": "Frostflare",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, crystalline dragon with an angular faceted gemstone body, fiery red and orange body with icy pale blue and white accents, lighter belly plates, fire and ice elemental theme, angular crystal head, crystal horns, a mane of flames, crystal shards along its spine, wings of crystal shards, tail tipped with a flame, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "frostflare",
+  "name": "Frostflare",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small crystalline body, fiery red and orange body with icy pale blue and white accents, lighter belly plates, fire and ice elemental theme, tiny wings of crystal shards, tail tipped with a flame, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "forgeheart",
+  "name": "Forgeheart",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, upright armored knight dragon wearing a metal chest plate and helmet, fiery red and orange body with steel grey and silver accents, lighter belly plates, fire and metal elemental theme, heavy blunt jaw, two straight spiked horns, a mane of flames, flames along its spine, mechanical riveted metal wings, blade-tipped tail, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "forgeheart",
+  "name": "Forgeheart",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny armored body, fiery red and orange body with steel grey and silver accents, lighter belly plates, fire and metal elemental theme, tiny mechanical riveted metal wings, blade-tipped tail, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "smoldermoon",
+  "name": "Smoldermoon",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, fiery red and orange body with deep violet and black accents, lighter belly plates, fire and shadow elemental theme, skull-like bony face with glowing eyes, crescent-moon horns, a mane of flames, tattered torn bat wings, tail tipped with a flame, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "smoldermoon",
+  "name": "Smoldermoon",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, fiery red and orange body with deep violet and black accents, lighter belly plates, fire and shadow elemental theme, tiny tattered torn bat wings, tail tipped with a flame, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "solarion",
+  "name": "Solarion",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, phoenix-like feathered dragon standing on long bird legs, sweeping tail plume, fiery red and orange body with radiant gold and white accents, lighter belly plates, fire and light elemental theme, hooked bird-like beak, a mane of flames, flames along its spine, wings made of fire, glowing rune markings in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "solarion",
+  "name": "Solarion",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, fluffy feathered chick-like body, fiery red and orange body with radiant gold and white accents, lighter belly plates, fire and light elemental theme, tiny wings made of fire, glowing rune markings in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "pyrolance",
+  "name": "Pyrolance",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, fiery red and orange body with crimson and dark iron accents, lighter belly plates, fire and war elemental theme, long elegant snout, two straight spiked horns, a mane of flames, armor plates along its spine, large leathery dragon wings with a glowing membrane, blade-tipped tail, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "pyrolance",
+  "name": "Pyrolance",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, fiery red and orange body with crimson and dark iron accents, lighter belly plates, fire and war elemental theme, tiny leathery dragon wings with a glowing membrane, blade-tipped tail, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "lilyfin",
+  "name": "Lilyfin",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, aquatic sea dragon with fins instead of legs and a fish-like tail fin, swimming pose, teal body with leaf green accents, lighter belly plates, water and plant elemental theme, finned fish-like face, a ring of flower petals around its head, leaves growing along its back, no wings, spotted markings in pink",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "lilyfin",
+  "name": "Lilyfin",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, little finned sea dragon body, teal body with leaf green accents, lighter belly plates, water and plant elemental theme, no wings, spotted markings in pink",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "mudslinger",
+  "name": "Mudslinger",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, dark brown body with earthy brown and sandstone accents, pale blue belly plates, water and earth elemental theme, heavy blunt jaw, a crest of leaves, rocks along its back, no wings, spiked club tail, cracked stone-like texture",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "mudslinger",
+  "name": "Mudslinger",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, dark brown body with earthy brown and sandstone accents, pale blue belly plates, water and earth elemental theme, no wings, spiked club tail, cracked stone-like texture",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thunderwave",
+  "name": "Thunderwave",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, ocean blue body with electric yellow accents, lighter belly plates, water and storm elemental theme, long whiskered eastern-dragon face, two straight spiked horns, a crest of lightning bolts, webbed fin spines along its back, storm-cloud wings crackling with lightning, lightning-bolt tail tip, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thunderwave",
+  "name": "Thunderwave",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, ocean blue body with electric yellow accents, lighter belly plates, water and storm elemental theme, tiny storm-cloud wings crackling with lightning, lightning-bolt tail tip, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "glacierfin",
+  "name": "Glacierfin",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, aquatic sea dragon with fins instead of legs and a fish-like tail fin, swimming pose, pale blue body with icy pale blue and white accents, lighter belly plates, water and ice elemental theme, finned fish-like face, crystal horns, a crest of icicles, crystal shards along its spine, no wings, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "glacierfin",
+  "name": "Glacierfin",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, little finned sea dragon body, pale blue body with icy pale blue and white accents, lighter belly plates, water and ice elemental theme, no wings, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "anchorjaw",
+  "name": "Anchorjaw",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, ocean blue body with steel grey and silver accents, lighter belly plates, water and metal elemental theme, head in a knight helmet, webbed fin spines along its back, fin-like wings, anchor-shaped tail tip, fine detailed scales in red-orange",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "anchorjaw",
+  "name": "Anchorjaw",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, ocean blue body with steel grey and silver accents, lighter belly plates, water and metal elemental theme, tiny fin-like wings, anchor-shaped tail tip, fine detailed scales in red-orange",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "abyssal",
+  "name": "Abyssal",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, dragon lying down resting, chest raised, forelegs stretched forward, tail curled around the front, midnight navy body with deep violet and black accents, light cyan belly plates, water and shadow elemental theme, long elegant snout, two straight spiked horns, spiky fin crest with webbing, webbed fin spines along its back, no wings, finned tail, glowing swirling tribal markings in glowing cyan, red eyes",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "abyssal",
+  "name": "Abyssal",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, lying down, midnight navy body with deep violet and black accents, light cyan belly plates, water and shadow elemental theme, no wings, finned tail, glowing swirling tribal markings in glowing cyan, red eyes",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "pearlwing",
+  "name": "Pearlwing",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, small slender fairy dragon hovering, delicate body, long thin tail, ocean blue body with radiant gold and white accents, lighter belly plates, water and light elemental theme, rounded head, two thin antennae, spiky fin crest with webbing, translucent dragonfly-like wings with eye spots, gem-tipped tail, fine detailed scales in cream",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "pearlwing",
+  "name": "Pearlwing",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny hovering fairy body, ocean blue body with radiant gold and white accents, lighter belly plates, water and light elemental theme, tiny translucent dragonfly-like wings with eye spots, gem-tipped tail, fine detailed scales in cream",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "riptide",
+  "name": "Riptide",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, ocean blue body with crimson and dark iron accents, lighter belly plates, water and war elemental theme, long elegant snout, two straight spiked horns, spiky fin crest with webbing, webbed fin spines along its back, fin-like wings, blade-tipped tail, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "riptide",
+  "name": "Riptide",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, ocean blue body with crimson and dark iron accents, lighter belly plates, water and war elemental theme, tiny fin-like wings, blade-tipped tail, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "rootgrove",
+  "name": "Rootgrove",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, green body with earthy brown and sandstone accents, lighter belly plates, plant and earth elemental theme, heavy blunt jaw, branching antlers, leaves growing along its back, no wings, leaf-tipped tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "rootgrove",
+  "name": "Rootgrove",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, green body with earthy brown and sandstone accents, lighter belly plates, plant and earth elemental theme, no wings, leaf-tipped tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thornvolt",
+  "name": "Thornvolt",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, leaf green body with electric yellow accents, lighter belly plates, plant and storm elemental theme, long elegant snout, two straight spiked horns, a crest of lightning bolts, thorny vines along its back, wings made of giant leaves, spade-tipped tail, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thornvolt",
+  "name": "Thornvolt",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, leaf green body with electric yellow accents, lighter belly plates, plant and storm elemental theme, tiny wings made of giant leaves, spade-tipped tail, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "winterpine",
+  "name": "Winterpine",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, slate blue body with icy pale blue and white accents, lighter belly plates, plant and ice elemental theme, rounded head, branching antlers, a crest of icicles, leaves growing along its back, no wings, crystal-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "winterpine",
+  "name": "Winterpine",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, slate blue body with icy pale blue and white accents, lighter belly plates, plant and ice elemental theme, no wings, crystal-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironvine",
+  "name": "Ironvine",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, upright armored knight dragon wearing a metal chest plate and helmet, leaf green body with steel grey and silver accents, lighter belly plates, plant and metal elemental theme, head in a knight helmet, small branch-like horns with leaves, leaves growing along its back, wings made of giant leaves, leaf-tipped tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironvine",
+  "name": "Ironvine",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny armored body, leaf green body with steel grey and silver accents, lighter belly plates, plant and metal elemental theme, tiny wings made of giant leaves, leaf-tipped tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "nightshade",
+  "name": "Nightshade",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, small slender fairy dragon hovering, delicate body, long thin tail, leaf green body with deep violet and black accents, lighter belly plates, plant and shadow elemental theme, long elegant snout, small branch-like horns with leaves, a crest of leaves, wings made of giant leaves, leaf-tipped tail, spotted markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "nightshade",
+  "name": "Nightshade",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny hovering fairy body, leaf green body with deep violet and black accents, lighter belly plates, plant and shadow elemental theme, tiny wings made of giant leaves, leaf-tipped tail, spotted markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "sunpetal",
+  "name": "Sunpetal",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, small slender fairy dragon hovering, delicate body, long thin tail, leaf green body with radiant gold and white accents, lighter belly plates, plant and light elemental theme, rounded head, two thin antennae, a ring of flower petals around its head, wings made of giant leaves, star-tipped tail",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "sunpetal",
+  "name": "Sunpetal",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny hovering fairy body, leaf green body with radiant gold and white accents, lighter belly plates, plant and light elemental theme, tiny wings made of giant leaves, star-tipped tail",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thornguard",
+  "name": "Thornguard",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, leaf green body with crimson and dark iron accents, lighter belly plates, plant and war elemental theme, heavy blunt jaw, two straight spiked horns, a crest of leaves, thorny vines along its back, no wings, spiked club tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thornguard",
+  "name": "Thornguard",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, leaf green body with crimson and dark iron accents, lighter belly plates, plant and war elemental theme, no wings, spiked club tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "quakebolt",
+  "name": "Quakebolt",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, brown body with electric yellow accents, lighter belly plates, earth and storm elemental theme, heavy blunt jaw, a big rhino horn on its snout, a crest of lightning bolts, rocks along its back, no wings, lightning-bolt tail tip, cracked stone-like texture",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "quakebolt",
+  "name": "Quakebolt",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, brown body with electric yellow accents, lighter belly plates, earth and storm elemental theme, no wings, lightning-bolt tail tip, cracked stone-like texture",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "permafrost",
+  "name": "Permafrost",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, grey body with icy pale blue and white accents, lighter belly plates, earth and ice elemental theme, heavy blunt jaw, crystal horns, a crest of icicles, crystal shards along its spine, no wings, crystal-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "permafrost",
+  "name": "Permafrost",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, grey body with icy pale blue and white accents, lighter belly plates, earth and ice elemental theme, no wings, crystal-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "orecrusher",
+  "name": "Orecrusher",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, slate blue body with steel grey and silver accents, lighter belly plates, earth and metal elemental theme, heavy blunt jaw, two straight spiked horns, rocky plates on its head, crystal shards along its spine, no wings, spiked club tail, gems embedded in its hide in pale blue",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "orecrusher",
+  "name": "Orecrusher",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, slate blue body with steel grey and silver accents, lighter belly plates, earth and metal elemental theme, no wings, spiked club tail, gems embedded in its hide in pale blue",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "cavernmaw",
+  "name": "Cavernmaw",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, dark brown body with deep violet and black accents, lighter belly plates, earth and shadow elemental theme, skull-like bony face with glowing eyes, two curved swept-back horns, rocky plates on its head, crystal shards along its spine, tattered torn bat wings, spade-tipped tail, cracked stone-like texture",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "cavernmaw",
+  "name": "Cavernmaw",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, dark brown body with deep violet and black accents, lighter belly plates, earth and shadow elemental theme, tiny tattered torn bat wings, spade-tipped tail, cracked stone-like texture",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "crystalback",
+  "name": "Crystalback",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, crystalline dragon with an angular faceted gemstone body, earthy brown and sandstone body with radiant gold and white accents, lighter belly plates, earth and light elemental theme, angular crystal head, crystal horns, crystal shards along its spine, no wings, gem-tipped tail, gems embedded in its hide in cream",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "crystalback",
+  "name": "Crystalback",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small crystalline body, earthy brown and sandstone body with radiant gold and white accents, lighter belly plates, earth and light elemental theme, no wings, gem-tipped tail, gems embedded in its hide in cream",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "golemfist",
+  "name": "Golemfist",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, earthy brown and sandstone body with crimson and dark iron accents, lighter belly plates, earth and war elemental theme, head in a knight helmet, two straight spiked horns, rocks along its back, no wings, spiked club tail, bold tiger-stripe markings in crimson",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "golemfist",
+  "name": "Golemfist",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, earthy brown and sandstone body with crimson and dark iron accents, lighter belly plates, earth and war elemental theme, no wings, spiked club tail, bold tiger-stripe markings in crimson",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "blizzardwing",
+  "name": "Blizzardwing",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, phoenix-like feathered dragon standing on long bird legs, sweeping tail plume, white body with icy pale blue and white accents, lighter belly plates, storm and ice elemental theme, hooked bird-like beak, a crest of icicles, crystal shards along its spine, storm-cloud wings crackling with lightning, frosty snowflake markings in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "blizzardwing",
+  "name": "Blizzardwing",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, fluffy feathered chick-like body, white body with icy pale blue and white accents, lighter belly plates, storm and ice elemental theme, tiny storm-cloud wings crackling with lightning, frosty snowflake markings in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "voltplate",
+  "name": "Voltplate",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, upright armored knight dragon wearing a metal chest plate and helmet, electric yellow body with steel grey and silver accents, lighter belly plates, storm and metal elemental theme, head in a knight helmet, two thin antennae, a crest of lightning bolts, armor plates along its spine, mechanical riveted metal wings, lightning-bolt tail tip, glowing circuit-line markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "voltplate",
+  "name": "Voltplate",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny armored body, electric yellow body with steel grey and silver accents, lighter belly plates, storm and metal elemental theme, tiny mechanical riveted metal wings, lightning-bolt tail tip, glowing circuit-line markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "stormshade",
+  "name": "Stormshade",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, slate blue body with deep violet and black accents, lighter belly plates, storm and shadow elemental theme, skull-like bony face with glowing eyes, crescent-moon horns, a crest of lightning bolts, storm-cloud wings crackling with lightning, lightning-bolt tail tip, starry speckled markings like a night sky",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "stormshade",
+  "name": "Stormshade",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, slate blue body with deep violet and black accents, lighter belly plates, storm and shadow elemental theme, tiny storm-cloud wings crackling with lightning, lightning-bolt tail tip, starry speckled markings like a night sky",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "aurora",
+  "name": "Aurora",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, electric yellow body with radiant gold and white accents, lighter belly plates, storm and light elemental theme, long whiskered eastern-dragon face, branching antlers, a glowing golden halo, feathers along its back, large white feathered angel wings, star-tipped tail, glowing swirling tribal markings in light cyan",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "aurora",
+  "name": "Aurora",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, electric yellow body with radiant gold and white accents, lighter belly plates, storm and light elemental theme, tiny white feathered angel wings, star-tipped tail, glowing swirling tribal markings in light cyan",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thunderknight",
+  "name": "Thunderknight",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, upright armored knight dragon wearing a metal chest plate and helmet, slate blue body with crimson and dark iron accents, lighter belly plates, storm and war elemental theme, head in a knight helmet, two straight spiked horns, a crest of lightning bolts, lightning-shaped spines, large leathery dragon wings with a glowing membrane, spade-tipped tail, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thunderknight",
+  "name": "Thunderknight",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny armored body, slate blue body with crimson and dark iron accents, lighter belly plates, storm and war elemental theme, tiny leathery dragon wings with a glowing membrane, spade-tipped tail, bold tiger-stripe markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "chromefrost",
+  "name": "Chromefrost",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, crystalline dragon with an angular faceted gemstone body, icy pale blue and white body with steel grey and silver accents, lighter belly plates, ice and metal elemental theme, angular crystal head, two straight spiked horns, a gear-shaped crest, crystal shards along its spine, mechanical riveted metal wings, blade-tipped tail, glowing circuit-line markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "chromefrost",
+  "name": "Chromefrost",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small crystalline body, icy pale blue and white body with steel grey and silver accents, lighter belly plates, ice and metal elemental theme, tiny mechanical riveted metal wings, blade-tipped tail, glowing circuit-line markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "wraithfrost",
+  "name": "Wraithfrost",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, ghostly spectral dragon whose lower body fades into smoke, long reaching claws, floating, icy pale blue and white body with deep violet and black accents, lighter belly plates, ice and shadow elemental theme, angular crystal head, crystal horns, a crest of icicles, tattered torn bat wings, crystal-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "wraithfrost",
+  "name": "Wraithfrost",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small ghostly body fading into wisps, icy pale blue and white body with deep violet and black accents, lighter belly plates, ice and shadow elemental theme, tiny tattered torn bat wings, crystal-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "snowglow",
+  "name": "Snowglow",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, small slender fairy dragon hovering, delicate body, long thin tail, icy pale blue and white body with radiant gold and white accents, lighter belly plates, ice and light elemental theme, rounded head, crystal horns, a crest of icicles, wings of crystal shards, star-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "snowglow",
+  "name": "Snowglow",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny hovering fairy body, icy pale blue and white body with radiant gold and white accents, lighter belly plates, ice and light elemental theme, tiny wings of crystal shards, star-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "frostblade",
+  "name": "Frostblade",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, icy pale blue and white body with crimson and dark iron accents, lighter belly plates, ice and war elemental theme, long elegant snout, two straight spiked horns, a crest of icicles, crystal shards along its spine, large leathery dragon wings with a glowing membrane, blade-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "frostblade",
+  "name": "Frostblade",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, icy pale blue and white body with crimson and dark iron accents, lighter belly plates, ice and war elemental theme, tiny leathery dragon wings with a glowing membrane, blade-tipped tail, frosty snowflake markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "gloomgear",
+  "name": "Gloomgear",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, steel grey and silver body with deep violet and black accents, lighter belly plates, metal and shadow elemental theme, heavy blunt jaw, two straight spiked horns, a gear-shaped crest, gears along its spine, tattered torn bat wings, gear-tipped tail, glowing circuit-line markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "gloomgear",
+  "name": "Gloomgear",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, steel grey and silver body with deep violet and black accents, lighter belly plates, metal and shadow elemental theme, tiny tattered torn bat wings, gear-tipped tail, glowing circuit-line markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "mirrorscale",
+  "name": "Mirrorscale",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, phoenix-like feathered dragon standing on long bird legs, sweeping tail plume, steel grey and silver body with radiant gold and white accents, lighter belly plates, metal and light elemental theme, hooked bird-like beak, a glowing golden halo, armor plates along its spine, mechanical riveted metal wings, fine detailed scales in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "mirrorscale",
+  "name": "Mirrorscale",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, fluffy feathered chick-like body, steel grey and silver body with radiant gold and white accents, lighter belly plates, metal and light elemental theme, tiny mechanical riveted metal wings, fine detailed scales in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironclad",
+  "name": "Ironclad",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, grey body with crimson and dark iron accents, lighter belly plates, metal and war elemental theme, head in a knight helmet, curling ram horns, armor plates along its spine, no wings, spiked club tail, bold tiger-stripe markings in crimson",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironclad",
+  "name": "Ironclad",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, grey body with crimson and dark iron accents, lighter belly plates, metal and war elemental theme, no wings, spiked club tail, bold tiger-stripe markings in crimson",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "eclipsar",
+  "name": "Eclipsar",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-headed dragon with two long necks, deep violet and black body with radiant gold and white accents, lighter belly plates, shadow and light elemental theme, long elegant snout, crescent-moon horns, wisps of smoke around its head, a glowing golden halo, a row of spikes along its back, large leathery dragon wings with a glowing membrane, star-tipped tail, glowing swirling tribal markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "eclipsar",
+  "name": "Eclipsar",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, two small heads, deep violet and black body with radiant gold and white accents, lighter belly plates, shadow and light elemental theme, tiny leathery dragon wings with a glowing membrane, star-tipped tail, glowing swirling tribal markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "dreadfang",
+  "name": "Dreadfang",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, deep violet and black body with crimson and dark iron accents, lighter belly plates, shadow and war elemental theme, skull-like bony face with glowing eyes, curling ram horns, a shaggy mane, a row of spikes along its back, tattered torn bat wings, spade-tipped tail, bold tiger-stripe markings in very dark purple",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "dreadfang",
+  "name": "Dreadfang",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, deep violet and black body with crimson and dark iron accents, lighter belly plates, shadow and war elemental theme, tiny tattered torn bat wings, spade-tipped tail, bold tiger-stripe markings in very dark purple",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "paladrake",
+  "name": "Paladrake",
+  "rarity": "rare",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, upright armored knight dragon wearing a metal chest plate and helmet, cream body with crimson and dark iron accents, lighter belly plates, light and war elemental theme, head in a knight helmet, a glowing golden halo, feathers along its back, large white feathered angel wings, blade-tipped tail, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "paladrake",
+  "name": "Paladrake",
+  "rarity": "rare",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny armored body, cream body with crimson and dark iron accents, lighter belly plates, light and war elemental theme, tiny white feathered angel wings, blade-tipped tail, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "volcanyx",
+  "name": "Volcanyx",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, very dark purple body with earthy brown and sandstone accents, lighter belly plates, fire and earth and war elemental theme, heavy blunt jaw, curling ram horns, a mane of flames, a small smoking volcano on its back, large leathery dragon wings with a glowing membrane, spiked club tail, glowing lava cracks across its body, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "volcanyx",
+  "name": "Volcanyx",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, very dark purple body with earthy brown and sandstone accents, lighter belly plates, fire and earth and war elemental theme, tiny leathery dragon wings with a glowing membrane, spiked club tail, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "tempestra",
+  "name": "Tempestra",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, electric yellow body with ocean blue accents, lighter belly plates, storm and water and ice elemental theme, long whiskered eastern-dragon face, branching antlers, a small storm cloud crest, lightning-shaped spines, storm-cloud wings crackling with lightning, finned tail, ring markings, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "tempestra",
+  "name": "Tempestra",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, electric yellow body with ocean blue accents, lighter belly plates, storm and water and ice elemental theme, tiny storm-cloud wings crackling with lightning, finned tail, ring markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "verdantis",
+  "name": "Verdantis",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, leaf green body with radiant gold and white accents, lighter belly plates, plant and light and earth elemental theme, long elegant snout, branching antlers, a glowing golden halo, leaves growing along its back, wings made of giant leaves, leaf-tipped tail, glowing rune markings, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "verdantis",
+  "name": "Verdantis",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, leaf green body with radiant gold and white accents, lighter belly plates, plant and light and earth elemental theme, tiny wings made of giant leaves, leaf-tipped tail, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "obsidrake",
+  "name": "Obsidrake",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, very dark purple body with fiery red and orange accents, lighter belly plates, shadow and fire and metal elemental theme, long elegant snout, two curved swept-back horns, a mane of flames, a row of spikes along its back, tattered torn bat wings, blade-tipped tail, glowing lava cracks across its body, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "obsidrake",
+  "name": "Obsidrake",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, very dark purple body with fiery red and orange accents, lighter belly plates, shadow and fire and metal elemental theme, tiny tattered torn bat wings, blade-tipped tail, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "cryonix",
+  "name": "Cryonix",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, icy pale blue and white body with steel grey and silver accents, lighter belly plates, ice and metal and light elemental theme, long whiskered eastern-dragon face, crystal horns, a crest of icicles, crystal shards along its spine, wings of crystal shards, crystal-tipped tail, glowing circuit-line markings, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "cryonix",
+  "name": "Cryonix",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, icy pale blue and white body with steel grey and silver accents, lighter belly plates, ice and metal and light elemental theme, tiny wings of crystal shards, crystal-tipped tail, glowing circuit-line markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thornwraith",
+  "name": "Thornwraith",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, ghostly spectral dragon whose lower body fades into smoke, long reaching claws, floating, leaf green body with deep violet and black accents, lighter belly plates, plant and shadow and war elemental theme, long elegant snout, small branch-like horns with leaves, a crest of leaves, thorny vines along its back, wings made of giant leaves, spade-tipped tail, patches of moss, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "thornwraith",
+  "name": "Thornwraith",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small ghostly body fading into wisps, leaf green body with deep violet and black accents, lighter belly plates, plant and shadow and war elemental theme, tiny wings made of giant leaves, spade-tipped tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "maelstrom",
+  "name": "Maelstrom",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-headed dragon with two long necks, ocean blue body with electric yellow accents, lighter belly plates, water and storm and shadow elemental theme, long whiskered eastern-dragon face, two curved swept-back horns, a crest of lightning bolts, spiky fin crest with webbing, webbed fin spines along its back, fin-like wings, finned tail, glowing swirling tribal markings, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "maelstrom",
+  "name": "Maelstrom",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, two small heads, ocean blue body with electric yellow accents, lighter belly plates, water and storm and shadow elemental theme, tiny fin-like wings, finned tail, glowing swirling tribal markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "sunforge",
+  "name": "Sunforge",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, upright armored knight dragon wearing a metal chest plate and helmet, gold body with fiery red and orange accents, lighter belly plates, light and fire and metal elemental theme, head in a knight helmet, two straight spiked horns, a mane of flames, flames along its spine, wings made of fire, blade-tipped tail, glowing rune markings, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "sunforge",
+  "name": "Sunforge",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny armored body, gold body with fiery red and orange accents, lighter belly plates, light and fire and metal elemental theme, tiny wings made of fire, blade-tipped tail, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "gaiadon",
+  "name": "Gaiadon",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, slate blue body with leaf green accents, lighter belly plates, earth and plant and water elemental theme, heavy blunt jaw, small branch-like horns with leaves, a crest of leaves, leaves growing along its back, no wings, spiked club tail, patches of moss, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "gaiadon",
+  "name": "Gaiadon",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, slate blue body with leaf green accents, lighter belly plates, earth and plant and water elemental theme, no wings, spiked club tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "stormbreaker",
+  "name": "Stormbreaker",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, crimson and dark iron body with electric yellow accents, lighter belly plates, war and storm and metal elemental theme, long elegant snout, curling ram horns, a crest of lightning bolts, armor plates along its spine, mechanical riveted metal wings, blade-tipped tail, glowing circuit-line markings, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "stormbreaker",
+  "name": "Stormbreaker",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, crimson and dark iron body with electric yellow accents, lighter belly plates, war and storm and metal elemental theme, tiny mechanical riveted metal wings, blade-tipped tail, glowing circuit-line markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "moonfrost",
+  "name": "Moonfrost",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, phoenix-like feathered dragon standing on long bird legs, sweeping tail plume, icy pale blue and white body with deep violet and black accents, lighter belly plates, ice and shadow and light elemental theme, hooked bird-like beak, crescent-moon horns, a crest of icicles, crystal shards along its spine, wings of crystal shards, starry speckled markings like a night sky, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "moonfrost",
+  "name": "Moonfrost",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, fluffy feathered chick-like body, icy pale blue and white body with deep violet and black accents, lighter belly plates, ice and shadow and light elemental theme, tiny wings of crystal shards, starry speckled markings like a night sky",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "coralord",
+  "name": "Coralord",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, aquatic sea dragon with fins instead of legs and a fish-like tail fin, swimming pose, coral body with leaf green accents, lighter belly plates, water and plant and light elemental theme, finned fish-like face, small branch-like horns with leaves, a glowing golden halo, leaves growing along its back, no wings, gems embedded in its hide in coral, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "coralord",
+  "name": "Coralord",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, little finned sea dragon body, coral body with leaf green accents, lighter belly plates, water and plant and light elemental theme, no wings, gems embedded in its hide in coral",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "embergale",
+  "name": "Embergale",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, bright orange body with electric yellow accents, lighter belly plates, fire and storm and plant elemental theme, long whiskered eastern-dragon face, two straight spiked horns, a crest of lightning bolts, flames along its spine, storm-cloud wings crackling with lightning, tail tipped with a flame, bold tiger-stripe markings in green, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "embergale",
+  "name": "Embergale",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, bright orange body with electric yellow accents, lighter belly plates, fire and storm and plant elemental theme, tiny storm-cloud wings crackling with lightning, tail tipped with a flame, bold tiger-stripe markings in green",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironroot",
+  "name": "Ironroot",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, steel grey and silver body with earthy brown and sandstone accents, lighter belly plates, metal and earth and plant elemental theme, head in a knight helmet, branching antlers, a crest of leaves, gears along its spine, wings made of giant leaves, gear-tipped tail, patches of moss, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironroot",
+  "name": "Ironroot",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, steel grey and silver body with earthy brown and sandstone accents, lighter belly plates, metal and earth and plant elemental theme, tiny wings made of giant leaves, gear-tipped tail, patches of moss",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "bloodmoon",
+  "name": "Bloodmoon",
+  "rarity": "epic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, dark brown body with deep violet and black accents, lighter belly plates, war and shadow and fire elemental theme, skull-like bony face with glowing eyes, crescent-moon horns, a mane of flames, a shaggy mane, a row of spikes along its back, tattered torn bat wings, spade-tipped tail, glowing lava cracks across its body in very dark purple, ornate and impressive, faint magical aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "bloodmoon",
+  "name": "Bloodmoon",
+  "rarity": "epic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, dark brown body with deep violet and black accents, lighter belly plates, war and shadow and fire elemental theme, tiny tattered torn bat wings, spade-tipped tail, glowing lava cracks across its body in very dark purple",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "celestia",
+  "name": "Celestia",
+  "rarity": "legendary",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, cream body with radiant gold and white accents, lighter belly plates, mystic and light elemental theme, long whiskered eastern-dragon face, branching antlers, a glowing golden halo, feathers along its back, large white feathered angel wings, star-tipped tail, glowing swirling tribal markings in gold, majestic legendary creature, gem on its forehead, golden horns, radiant glowing aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "celestia",
+  "name": "Celestia",
+  "rarity": "legendary",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, cream body with radiant gold and white accents, lighter belly plates, mystic and light elemental theme, tiny white feathered angel wings, star-tipped tail, glowing swirling tribal markings in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "nyxara",
+  "name": "Nyxara",
+  "rarity": "legendary",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, ghostly spectral dragon whose lower body fades into smoke, long reaching claws, floating, magenta and pink with sparkles body with deep violet and black accents, lighter belly plates, mystic and shadow elemental theme, long elegant snout, crescent-moon horns, wisps of smoke around its head, translucent dragonfly-like wings with eye spots, star-tipped tail, glowing swirling tribal markings in pink, majestic legendary creature, gem on its forehead, golden horns, radiant glowing aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "nyxara",
+  "name": "Nyxara",
+  "rarity": "legendary",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small ghostly body fading into wisps, magenta and pink with sparkles body with deep violet and black accents, lighter belly plates, mystic and shadow elemental theme, tiny translucent dragonfly-like wings with eye spots, star-tipped tail, glowing swirling tribal markings in pink",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "aetherion",
+  "name": "Aetherion",
+  "rarity": "legendary",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-legged wyvern standing upright, strong hind legs, small clawed arms, periwinkle body with electric yellow accents, lighter belly plates, mystic and storm elemental theme, long elegant snout, branching antlers, a crest of lightning bolts, lightning-shaped spines, storm-cloud wings crackling with lightning, lightning-bolt tail tip, glowing rune markings, majestic legendary creature, gem on its forehead, golden horns, radiant glowing aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "aetherion",
+  "name": "Aetherion",
+  "rarity": "legendary",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, standing on two stubby legs, periwinkle body with electric yellow accents, lighter belly plates, mystic and storm elemental theme, tiny storm-cloud wings crackling with lightning, lightning-bolt tail tip, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "floradin",
+  "name": "Floradin",
+  "rarity": "legendary",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, small slender fairy dragon hovering, delicate body, long thin tail, magenta and pink with sparkles body with leaf green accents, lighter belly plates, mystic and plant elemental theme, rounded head, branching antlers, a ring of flower petals around its head, translucent dragonfly-like wings with eye spots, leaf-tipped tail, glowing swirling tribal markings in pink, majestic legendary creature, gem on its forehead, golden horns, radiant glowing aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "floradin",
+  "name": "Floradin",
+  "rarity": "legendary",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny hovering fairy body, magenta and pink with sparkles body with leaf green accents, lighter belly plates, mystic and plant elemental theme, tiny translucent dragonfly-like wings with eye spots, leaf-tipped tail, glowing swirling tribal markings in pink",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "infernyx",
+  "name": "Infernyx",
+  "rarity": "legendary",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, small slender fairy dragon hovering, delicate body, long thin tail, bright orange body with fiery red and orange accents, lighter belly plates, mystic and fire elemental theme, long elegant snout, crescent-moon horns, a mane of flames, wings made of fire, glowing lava cracks across its body in gold, majestic legendary creature, gem on its forehead, golden horns, radiant glowing aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "infernyx",
+  "name": "Infernyx",
+  "rarity": "legendary",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny hovering fairy body, bright orange body with fiery red and orange accents, lighter belly plates, mystic and fire elemental theme, tiny wings made of fire, glowing lava cracks across its body in gold",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "rimeking",
+  "name": "Rimeking",
+  "rarity": "legendary",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, hulking hunched titan dragon with massive armored shoulders and huge fists, magenta and pink with sparkles body with icy pale blue and white accents, lighter belly plates, mystic and ice elemental theme, angular crystal head, crystal horns, a crest of icicles, crystal shards along its spine, wings of crystal shards, crystal-tipped tail, glowing rune markings, majestic legendary creature, gem on its forehead, golden horns, radiant glowing aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "rimeking",
+  "name": "Rimeking",
+  "rarity": "legendary",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, stocky little rocky body, magenta and pink with sparkles body with icy pale blue and white accents, lighter belly plates, mystic and ice elemental theme, tiny wings of crystal shards, crystal-tipped tail, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironwyrm",
+  "name": "Ironwyrm",
+  "rarity": "legendary",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, magenta and pink with sparkles body with steel grey and silver accents, lighter belly plates, mystic and metal elemental theme, head in a knight helmet, two straight spiked horns, a gear-shaped crest, armor plates along its spine, mechanical riveted metal wings, blade-tipped tail, glowing circuit-line markings in pink, majestic legendary creature, gem on its forehead, golden horns, radiant glowing aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "ironwyrm",
+  "name": "Ironwyrm",
+  "rarity": "legendary",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, magenta and pink with sparkles body with steel grey and silver accents, lighter belly plates, mystic and metal elemental theme, tiny mechanical riveted metal wings, blade-tipped tail, glowing circuit-line markings in pink",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "valkyrax",
+  "name": "Valkyrax",
+  "rarity": "legendary",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, upright armored knight dragon wearing a metal chest plate and helmet, magenta and pink with sparkles body with crimson and dark iron accents, lighter belly plates, mystic and war elemental theme, head in a knight helmet, two curved swept-back horns, a crest of long feathers, feathers along its back, large white feathered angel wings, blade-tipped tail, glowing rune markings in pink, majestic legendary creature, gem on its forehead, golden horns, radiant glowing aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "valkyrax",
+  "name": "Valkyrax",
+  "rarity": "legendary",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, tiny armored body, magenta and pink with sparkles body with crimson and dark iron accents, lighter belly plates, mystic and war elemental theme, tiny white feathered angel wings, blade-tipped tail, glowing rune markings in pink",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "primordius",
+  "name": "Primordius",
+  "rarity": "mythic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, two-headed dragon with two long necks, ancient gold and bronze body with fiery red and orange accents, lighter belly plates, ancient and fire elemental theme, long elegant snout, curling ram horns, a crest of icicles, a mane of flames, flames along its spine, wings made of fire, tail tipped with a flame, glowing lava cracks across its body, mythic god-like dragon, crown of golden horn spikes, glowing rune circle behind it, divine aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "primordius",
+  "name": "Primordius",
+  "rarity": "mythic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, two small heads, ancient gold and bronze body with fiery red and orange accents, lighter belly plates, ancient and fire elemental theme, tiny wings made of fire, tail tipped with a flame, glowing lava cracks across its body",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "chronodrake",
+  "name": "Chronodrake",
+  "rarity": "mythic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, long serpentine eastern dragon with a coiled snake-like body and small clawed legs, floating, bronze body with radiant gold and white accents, lighter belly plates, ancient and light elemental theme, long whiskered eastern-dragon face, branching antlers, a gear-shaped crest, gears along its spine, large white feathered angel wings, gear-tipped tail, glowing rune markings, mythic god-like dragon, crown of golden horn spikes, glowing rune circle behind it, divine aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "chronodrake",
+  "name": "Chronodrake",
+  "rarity": "mythic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, small coiled serpent-like body, bronze body with radiant gold and white accents, lighter belly plates, ancient and light elemental theme, tiny white feathered angel wings, gear-tipped tail, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "terravore",
+  "name": "Terravore",
+  "rarity": "mythic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, powerful four-legged dragon standing, muscular legs, raised chest, long S-curved neck, dark brown body with earthy brown and sandstone accents, lighter belly plates, ancient and earth elemental theme, long elegant snout, curling ram horns, rocky plates on its head, crystal shards along its spine, large leathery dragon wings with a glowing membrane, spiked club tail, glowing rune markings, mythic god-like dragon, crown of golden horn spikes, glowing rune circle behind it, divine aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "terravore",
+  "name": "Terravore",
+  "rarity": "mythic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, sitting on four stubby legs, dark brown body with earthy brown and sandstone accents, lighter belly plates, ancient and earth elemental theme, tiny leathery dragon wings with a glowing membrane, spiked club tail, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "zephyros",
+  "name": "Zephyros",
+  "rarity": "mythic",
+  "stage": "adult",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, phoenix-like feathered dragon standing on long bird legs, sweeping tail plume, ancient gold and bronze body with electric yellow accents, lighter belly plates, ancient and storm elemental theme, hooked bird-like beak, branching antlers, a crest of lightning bolts, lightning-shaped spines, storm-cloud wings crackling with lightning, glowing rune markings, mythic god-like dragon, crown of golden horn spikes, glowing rune circle behind it, divine aura",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ },
+ {
+  "id": "zephyros",
+  "name": "Zephyros",
+  "rarity": "mythic",
+  "stage": "baby",
+  "prompt": "single original fantasy dragon creature, full body visible, three-quarter side view facing right, hand-painted digital illustration, polished mobile game character art, soft painterly shading, clean thin dark lineart, rich saturated colors, detailed scales and belly plates, glossy eyes, centered, isolated on a plain flat white background, cute baby hatchling dragon, chubby body, big head, big round eyes, small horn nubs, fluffy feathered chick-like body, ancient gold and bronze body with electric yellow accents, lighter belly plates, ancient and storm elemental theme, tiny storm-cloud wings crackling with lightning, glowing rune markings",
+  "negative": "text, letters, watermark, signature, logo, frame, border, multiple creatures, duplicate, cropped, cut off, background scenery, landscape, floor, shadow on background, human, rider, blurry, lowres, deformed, extra heads, extra legs"
+ }
+]

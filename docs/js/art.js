@@ -953,7 +953,27 @@ export function dragonColors(species) {
 
 // Drawings are pure functions of species + stage, so cache them (the island redraws often).
 const cache = new Map();
+// Painted art: images listed in art/manifest.json (made with tools/art). A dragon without
+// an image for its stage uses its adult image scaled down, or else the drawn SVG.
+let ART = {};
+let artBase = '';
+export function setArtManifest(manifest, base = '') {
+  ART = manifest || {};
+  artBase = base;
+}
+function rasterSVG(species, stage, cls) {
+  const own = ART[`${species.id}-${stage}`];
+  if (!own && !ART[`${species.id}-adult`]) return null;
+  const file = `${artBase}art/dragons/${species.id}-${own ? stage : 'adult'}.webp`;
+  const k = own ? 1 : stage === 'baby' ? 0.62 : stage === 'young' ? 0.82 : 1;
+  return `<svg class="dragon-art raster ${cls}" viewBox="-30 -44 260 260" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="100" cy="190" rx="${62 * k}" ry="${8 * k}" fill="#000" opacity=".18"/>
+    <g transform="translate(100 196) scale(${k}) translate(-100 -196)"><image href="${file}" x="-26" y="-40" width="252" height="236" preserveAspectRatio="xMidYMax meet"/></g></svg>`;
+}
+
 export function dragonSVG(species, { stage = 'adult', cls = '' } = {}) {
+  const raster = rasterSVG(species, stage, cls);
+  if (raster) return raster;
   const key = `${species.id}|${stage}`;
   if (!cache.has(key)) cache.set(key, drawDragon(species, stage));
   return `<svg class="dragon-art ${cls}" viewBox="-30 -44 260 260" xmlns="http://www.w3.org/2000/svg">${cache.get(key)}</svg>`;
