@@ -6,25 +6,26 @@ import * as W from './world.js';
 import { designFor } from './designs.js';
 import { act, view, openSheet, closeSheet, toast, elChip, rarityChip, dragonArt, cost, lockNote, esc } from './ui.js';
 import { openDragon, openSpecies } from './dragons.js';
+import { play } from './sound.js';
 
 const S = () => G.S;
 
 // ---------------------------------------------------------------- island world view
 
-// World layout: the main island holds plots 0-8 in a 3x3 isometric grid; every expansion adds
+// World layout: the main island holds plots 0-15 in a 4x4 isometric grid; every expansion adds
 // a small floating island with 3 plots. Coordinates are world pixels around ORIGIN.
-const ORIGIN = { x: 1200, y: 900 };
-const WORLD = { w: 2400, h: 1900 };
-const MAIN_HULL = [[0, -185], [195, -112], [330, 0], [195, 112], [0, 185], [-195, 112], [-330, 0], [-195, -112]];
+const ORIGIN = { x: 1500, y: 1150 };
+const WORLD = { w: 3000, h: 2400 };
+const MAIN_HULL = [[0, -232], [250, -142], [425, 0], [250, 142], [0, 232], [-250, 142], [-425, 0], [-250, -142]];
 // Trees and flowers on the back rim of the main island (front ones would hide buildings).
-const MAIN_DECOR = [['pine', 0, -150, 1], ['tree', -70, -150, 0.9], ['tree', 80, -146, 0.85], ['pine', -250, -30, 0.9], ['tree', 262, -24, 0.9], ['flowers', -160, -100], ['flowers', 150, -104], ['pine', -300, 6, 0.75], ['bush', 300, 10, 1], ['bush', -40, -168, 0.8]];
+const MAIN_DECOR = [['pine', 0, -200, 1.05], ['tree', -86, -196, 0.95], ['tree', 96, -190, 0.9], ['pine', -330, -36, 0.95], ['tree', 340, -30, 0.95], ['flowers', -210, -124], ['flowers', 196, -130], ['pine', -390, 8, 0.8], ['bush', 384, 12, 1.1], ['bush', -40, -214, 0.85], ['flowers', -300, -70], ['bush', 290, -84, 0.9]];
 const SMALL_HULL = [[-240, -46], [-104, -128], [14, -72], [122, -16], [240, 46], [104, 128], [-14, 72], [-122, 16]];
-const SMALL_ISLANDS = [[470, -330], [-470, -330], [470, 350], [-470, 350], [0, -600], [0, 640], [900, 10], [-900, 10]];
+const SMALL_ISLANDS = [[640, -430], [-640, -430], [640, 460], [-640, 460], [0, -760], [0, 800], [1140, 10], [-1140, 10]];
 
 function plotPos(i) {
   if (i < D.START_PLOTS) {
-    const r = Math.floor(i / 3), c = i % 3;
-    return { x: (c - r) * W.TILE_W, y: (c + r - 2) * W.TILE_H };
+    const r = Math.floor(i / 4), c = i % 4;
+    return { x: (c - r) * W.TILE_W, y: (c + r - 3) * W.TILE_H };
   }
   const k = Math.floor((i - D.START_PLOTS) / D.PLOTS_PER_EXPANSION);
   const j = (i - D.START_PLOTS) % D.PLOTS_PER_EXPANSION;
@@ -37,7 +38,7 @@ let builtPlots = -1;
 const slotCache = new Map();
 
 function islandsHTML() {
-  let html = `<div class="isl" style="left:${ORIGIN.x}px;top:${ORIGIN.y}px"><svg viewBox="-350 -200 700 560" style="left:-350px;top:-200px;width:700px;height:560px">${W.islandArt(MAIN_HULL, 190, { waterfall: true })}${W.rimDecor(MAIN_DECOR)}</svg></div>`;
+  let html = `<div class="isl" style="left:${ORIGIN.x}px;top:${ORIGIN.y}px"><svg viewBox="-440 -250 880 700" style="left:-440px;top:-250px;width:880px;height:700px">${W.islandArt(MAIN_HULL, 230, { waterfall: true })}${W.rimDecor(MAIN_DECOR)}</svg></div>`;
   for (let k = 0; k < S().expansions; k++) {
     const [x, y] = SMALL_ISLANDS[k];
     html += `<div class="isl" style="left:${ORIGIN.x + x}px;top:${ORIGIN.y + y}px"><svg viewBox="-260 -150 520 400" style="left:-260px;top:-150px;width:520px;height:400px">${W.islandArt(SMALL_HULL, 120, { seed: k + 2 })}</svg></div>`;
@@ -52,14 +53,15 @@ function islandsHTML() {
 }
 
 function cloudsHTML() {
-  const spots = [[150, 0.9, 90], [420, 1.4, 130], [760, 1.1, 110], [1120, 1.6, 150], [1480, 1, 100], [1700, 1.3, 140]];
+  const spots = [[180, 0.9, 110], [520, 1.4, 150], [930, 1.1, 130], [1380, 1.6, 170], [1820, 1, 120], [2150, 1.3, 160]];
   return spots.map(([y, s, dur], i) => `<div class="cloud" style="top:${y}px;animation-duration:${dur}s;animation-delay:-${(i * 37) % dur}s">${W.cloudArt(s)}</div>`).join('');
 }
 
 const svgBox = (inner, cls = '') => `<svg class="bsvg ${cls}" viewBox="${W.BOX.x} ${W.BOX.y} ${W.BOX.w} ${W.BOX.h}" style="left:${W.BOX.x}px;top:${W.BOX.y}px;width:${W.BOX.w}px;height:${W.BOX.h}px">${inner}</svg>`;
 
 const FLOATERS = new Set(['serpent', 'sea', 'sprite', 'wraith']);
-const WALK_SPOTS = [[-14, -2], [18, 8], [-30, 14], [28, -12]];
+// Start points chosen so start + walk path (about +-20, +-10) stays well inside the plot diamond.
+const WALK_SPOTS = [[0, 0], [12, -5], [-12, 5], [-4, -9]];
 
 function walkers(h) {
   const t = G.now() / 1000;
@@ -67,17 +69,18 @@ function walkers(h) {
     const sp = D.DRAGONS[d.sp];
     const [x, y] = WALK_SPOTS[i % WALK_SPOTS.length];
     const dur = 9 + ((d.uid * 7) % 7);
+    // Negative delays keep each dragon's position continuous when the slot is redrawn.
     const delay = -((t + d.uid * 3.7) % dur).toFixed(2);
     const path = d.uid % 2 ? 'A' : 'B';
     const fly = FLOATERS.has(designFor(sp).body) ? ' fly' : '';
     const timing = `animation-duration:${dur}s;animation-delay:${delay}s`;
-    return `<div class="walk walk${path}" style="left:${x}px;top:${y}px;${timing}"><div class="flip flip${path}" style="${timing}"><div class="dhop${fly}">${dragonArt(d)}</div></div></div>`;
+    return `<div class="walk walk${path}${fly}" style="left:${x}px;top:${y}px;--d:${-((d.uid * 0.77) % 3).toFixed(2)}s;${timing}"><div class="dshadow"></div><div class="flip flip${path}" style="${timing}"><div class="dhop${fly}">${dragonArt(d)}</div></div></div>`;
   }).join('');
 }
 
 function slotInner(i) {
   const b = G.buildingAt(i);
-  if (!b) return `<div class="slot-in" data-act="build" data-plot="${i}">${svgBox(W.emptyArt(), 'faint')}</div>`;
+  if (!b) return `<div class="slot-in${moving ? ' target' : ''}" data-act="${moving ? 'move-here' : 'build'}" data-plot="${i}">${svgBox(W.emptyArt(), 'faint')}</div>`;
   const open = `data-act="open-b" data-id="${b.id}"`;
   switch (b.type) {
     case 'habitat': {
@@ -97,21 +100,21 @@ function slotInner(i) {
         progress = Math.min(1, 1 - (b.crop.readyAt - G.now()) / total);
       }
       return `<div class="slot-in" ${open}>${svgBox(W.farmArt(progress, c ? c.icon : '', ready))}
-        ${ready ? `<button class="wbub food" data-act="harvest" data-id="${b.id}">🍖+${G.fmt(c.food)}</button>` : c ? `<span class="wtimer" data-until="${b.crop.readyAt}"></span>` : `<span class="wtimer idle">Plant!</span>`}</div>`;
+        ${ready ? `<button class="wbub food" data-act="harvest" data-id="${b.id}">🍖+${G.fmt(c.food)}</button>` : c ? `<span class="wtimer" data-until="${b.crop.readyAt}">${G.fmtTime(b.crop.readyAt - G.now())}</span>` : `<span class="wtimer idle">Plant!</span>`}</div>`;
     }
     case 'hatchery': {
       const eggs = S().eggs.slice(0, 4).map((e, k) => `<g transform="translate(${-30 + k * 20} ${-36 + (k % 2) * 6}) scale(.3)">${eggInner(D.DRAGONS[e.sp])}</g>`).join('');
       const ready = S().eggs.filter((e) => e.readyAt <= G.now()).length;
       const next = S().eggs.filter((e) => e.readyAt > G.now()).sort((x, y) => x.readyAt - y.readyAt)[0];
       return `<div class="slot-in" ${open}>${svgBox(W.hatcheryArt(eggs))}
-        ${ready ? `<span class="wbub egg">🥚 ${ready}!</span>` : next ? `<span class="wtimer" data-until="${next.readyAt}"></span>` : ''}</div>`;
+        ${ready ? `<span class="wbub egg">🥚 ${ready}!</span>` : next ? `<span class="wtimer" data-until="${next.readyAt}">${G.fmtTime(next.readyAt - G.now())}</span>` : ''}</div>`;
     }
     case 'sanctuary': {
       const slots = S().breeding;
       const ready = slots.filter((x) => x.readyAt <= G.now()).length;
       const next = slots.filter((x) => x.readyAt > G.now()).sort((x, y) => x.readyAt - y.readyAt)[0];
       return `<div class="slot-in" ${open}>${svgBox(W.sanctuaryArt(slots.length > 0))}
-        ${ready ? `<span class="wbub love">💞 Egg!</span>` : next ? `<span class="wtimer" data-until="${next.readyAt}"></span>` : ''}</div>`;
+        ${ready ? `<span class="wbub love">💞 Egg!</span>` : next ? `<span class="wtimer" data-until="${next.readyAt}">${G.fmtTime(next.readyAt - G.now())}</span>` : ''}</div>`;
     }
     case 'totem': {
       const w = S().wish && D.DRAGONS[S().wish];
@@ -124,6 +127,9 @@ function slotInner(i) {
 }
 
 function hudHTML() {
+  if (moving) {
+    return `<div class="goal move-hint">✋ Tap a free spot to move the building <button class="btn small" data-act="move-cancel">Cancel</button></div>`;
+  }
   const goal = G.nextGoal();
   const readyCrops = G.buildingsOf('farm').filter((f) => f.crop && f.crop.readyAt <= G.now()).length;
   const qb = questsClaimable();
@@ -180,9 +186,9 @@ function mountIsland(el) {
   const inner = el.querySelector('#world-inner');
   const vw = world.clientWidth, vh = world.clientHeight;
   if (cam.x == null) {
-    cam.z = Math.max(0.45, Math.min(1.2, vw / 470));
+    cam.z = Math.max(0.45, Math.min(1.2, vw / 520));
     cam.x = vw / 2 - ORIGIN.x * cam.z;
-    cam.y = vh / 2 - (ORIGIN.y + 30) * cam.z;
+    cam.y = vh / 2 - (ORIGIN.y - 20) * cam.z;
   }
   const clamp = () => {
     cam.z = Math.max(0.3, Math.min(1.6, cam.z));
@@ -193,15 +199,20 @@ function mountIsland(el) {
   const apply = () => {
     clamp();
     inner.style.transform = `translate(${cam.x}px, ${cam.y}px) scale(${cam.z})`;
+    // Bubbles and timers keep a steady on-screen size whatever the zoom.
+    inner.style.setProperty('--iz', Math.min(1.6, Math.max(0.7, 1 / cam.z)).toFixed(3));
   };
   apply();
   const pts = new Map();
   let moved = 0, last = null, suppress = false;
+  let vel = { x: 0, y: 0 }, lastT = 0, glide = 0;
   const mid = () => {
     const a = [...pts.values()];
     return a.length === 1 ? { x: a[0].x, y: a[0].y, d: 0 } : { x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2, d: Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y) };
   };
   world.addEventListener('pointerdown', (e) => {
+    cancelAnimationFrame(glide);
+    vel = { x: 0, y: 0 };
     pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pts.size === 1) moved = 0;
     last = mid();
@@ -220,6 +231,10 @@ function mountIsland(el) {
     }
     cam.x += m.x - last.x;
     cam.y += m.y - last.y;
+    const now = performance.now();
+    const dt = Math.max(8, now - lastT);
+    lastT = now;
+    if (pts.size === 1) vel = { x: (m.x - last.x) / dt, y: (m.y - last.y) / dt };
     moved += Math.abs(m.x - last.x) + Math.abs(m.y - last.y);
     if (moved > 10 && !suppress) {
       suppress = true;
@@ -231,7 +246,21 @@ function mountIsland(el) {
   const up = (e) => {
     pts.delete(e.pointerId);
     last = pts.size ? mid() : null;
-    if (!pts.size) setTimeout(() => (suppress = false), 0);
+    if (!pts.size) {
+      setTimeout(() => (suppress = false), 0);
+      // Flick momentum: keep gliding and slow down.
+      if (moved > 10 && performance.now() - lastT < 80) {
+        let v = { x: vel.x * 16, y: vel.y * 16 };
+        const step = () => {
+          v = { x: v.x * 0.92, y: v.y * 0.92 };
+          cam.x += v.x;
+          cam.y += v.y;
+          apply();
+          if (Math.abs(v.x) + Math.abs(v.y) > 0.5) glide = requestAnimationFrame(step);
+        };
+        glide = requestAnimationFrame(step);
+      }
+    }
   };
   world.addEventListener('pointerup', up);
   world.addEventListener('pointercancel', up);
@@ -273,16 +302,82 @@ function floatText(t, text) {
   setTimeout(() => el.remove(), 1100);
 }
 
+// Coins (or food) fly from where you tapped to the counter in the top bar, which then bumps.
+function flyTo(t, icon, target) {
+  const from = t.getBoundingClientRect();
+  const to = document.querySelector(target)?.getBoundingClientRect();
+  if (!to) return;
+  for (let i = 0; i < 7; i++) {
+    const el = document.createElement('div');
+    el.className = 'fly-coin';
+    el.textContent = icon;
+    el.style.left = `${from.left + from.width / 2 + (Math.random() - 0.5) * 30}px`;
+    el.style.top = `${from.top + (Math.random() - 0.5) * 20}px`;
+    document.body.appendChild(el);
+    const dx = to.left + 12 - parseFloat(el.style.left), dy = to.top + 6 - parseFloat(el.style.top);
+    el.animate([
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+      { transform: `translate(${dx * 0.3 + (Math.random() - 0.5) * 60}px, ${dy * 0.3 - 40}px) scale(1.2)`, offset: 0.35 },
+      { transform: `translate(${dx}px, ${dy}px) scale(.6)`, opacity: 0.9 },
+    ], { duration: 650 + i * 50, easing: 'ease-in', fill: 'forwards' }).onfinish = () => el.remove();
+  }
+  setTimeout(() => {
+    const pill = document.querySelector(target);
+    pill?.classList.remove('bump');
+    void pill?.offsetWidth;
+    pill?.classList.add('bump');
+  }, 700);
+}
+
 act('collect', (d, t) => {
   const g = G.collect(G.buildingById(+d.id));
-  if (g) floatText(t, `+${G.fmt(g)} 🪙`);
+  if (g) {
+    floatText(t, `+${G.fmt(g)}`);
+    flyTo(t, '🪙', '#topbar .gold');
+    play('coin');
+  }
 });
-act('collect-all', () => G.collectAll());
+act('collect-all', (d, t) => {
+  if (G.collectAll()) {
+    flyTo(t, '🪙', '#topbar .gold');
+    play('coin');
+  }
+});
 act('harvest', (d, t) => {
   const f = G.harvest(G.buildingById(+d.id));
-  if (f) floatText(t, `+${G.fmt(f)} 🍖`);
+  if (f) {
+    floatText(t, `+${G.fmt(f)}`);
+    flyTo(t, '🍖', '#topbar .food');
+    play('harvest');
+  }
 });
-act('harvest-all', () => G.harvestAll());
+act('harvest-all', (d, t) => {
+  if (G.harvestAll()) {
+    flyTo(t, '🍖', '#topbar .food');
+    play('harvest');
+  }
+});
+
+// Moving buildings: pick "Move" in a building's sheet, then tap a free spot.
+let moving = null;
+act('move-b', (d) => {
+  moving = +d.id;
+  closeSheet();
+  G.changed();
+});
+act('move-here', (d) => {
+  const b = G.buildingById(moving);
+  moving = null;
+  if (b) {
+    G.moveBuilding(b, +d.plot);
+    play('build');
+  }
+  G.changed();
+});
+act('move-cancel', () => {
+  moving = null;
+  G.changed();
+});
 act('expand', () => G.expand());
 act('build-any', () => {
   for (let i = 0; i < G.plotCount(); i++) {
@@ -297,7 +392,8 @@ act('build-any', () => {
 act('open-b', (d) => {
   const b = G.buildingById(+d.id);
   const open = { habitat: habitatSheet, farm: farmSheet, hatchery: hatcherySheet, sanctuary: sanctuarySheet, totem: totemSheet, deco: decoSheet }[b.type];
-  openSheet(() => (G.buildingById(b.id) ? open(b) : null));
+  play('tap');
+  openSheet(() => (G.buildingById(b.id) ? open(b) + `<button class="btn wide ghost" data-act="move-b" data-id="${b.id}">✋ Move building</button>` : null));
 });
 
 // ---------------------------------------------------------------- build menu
@@ -348,6 +444,7 @@ act('do-build', (d) => {
   const opt = G.buildOptions().find((o) => o.key === d.key);
   if (opt && G.build(opt, +d.plot)) {
     closeSheet();
+    play('build');
     toast('Built!');
   }
 });
@@ -401,7 +498,7 @@ function farmSheet(f) {
       <p class="center"><b>${c.name}</b> · 🍖 ${G.fmt(c.food)} food</p>
       ${ready
         ? `<button class="btn wide gold" data-act="harvest" data-id="${f.id}">Harvest 🍖 ${G.fmt(c.food)}</button>`
-        : `<p class="center">Ready in <b data-until="${f.crop.readyAt}"></b></p>
+        : `<p class="center">Ready in <b data-until="${f.crop.readyAt}">${G.fmtTime(f.crop.readyAt - G.now())}</b></p>
            <button class="btn wide" data-act="speed" data-kind="farm" data-id="${f.id}">Finish now · 💎 ${G.speedUpCost(f.crop.readyAt)}</button>`}
       <button class="btn wide ghost danger" data-act="sell-b" data-id="${f.id}">Remove farm</button>`;
   }
@@ -443,7 +540,7 @@ function hatcherySheet(b) {
       return `<div class="egg-row">
         ${eggSVG(sp)}
         <div class="row-main"><b>${sp.name}</b>${rarityChip(sp.rarity)} ${sp.elements.map((x) => elChip(x, false)).join('')}
-          <small>${ready ? 'Ready to hatch!' : `Hatching in <b data-until="${e.readyAt}"></b>`}</small></div>
+          <small>${ready ? 'Ready to hatch!' : `Hatching in <b data-until="${e.readyAt}">${G.fmtTime(e.readyAt - G.now())}</b>`}</small></div>
         ${ready
           ? `<button class="btn gold" data-act="hatch" data-uid="${e.uid}">Hatch</button>`
           : `<button class="btn" data-act="speed" data-kind="egg" data-id="${e.uid}">💎 ${G.speedUpCost(e.readyAt)}</button>`}
@@ -482,18 +579,29 @@ act('place', (d) => {
   const res = egg && G.hatch(egg, d.hab === '' ? null : +d.hab);
   if (!res) return;
   closeSheet();
-  const sp = D.DRAGONS[res.dragon.sp];
-  if (res.firstTime) {
-    openSheet(() => `<div class="reveal">
-      <p class="muted">New dragon discovered!</p>
-      ${dragonSVG(sp, { cls: 'hero' })}
-      <h2>${sp.name}</h2>
-      <p>${rarityChip(sp.rarity)} ${sp.elements.map((x) => elChip(x)).join(' ')}</p>
-      <button class="btn wide gold" data-act="close-sheet">Awesome!</button></div>`, { cls: 'celebrate' });
-  } else {
-    toast(`${sp.name} hatched!`);
-  }
+  hatchReveal(D.DRAGONS[res.dragon.sp], res.firstTime);
 });
+
+// The egg wobbles, cracks three times, flashes and the baby pops out (CSS-timed, about 1.4s).
+function hatchReveal(sp, firstTime) {
+  const crack = '<svg class="cracks" viewBox="0 0 100 120"><path class="c1" d="M50 30 L44 44 L54 52" /><path class="c2" d="M54 52 L46 64 L58 74" /><path class="c3" d="M30 60 L40 66 L36 78 M70 50 L62 60 L72 66" /></svg>';
+  const confetti = Array.from({ length: 12 }, (_, i) => `<i style="--a:${i * 30}deg;--c:${['#ffd54f', '#ff7aa8', '#7be06b', '#5fb0ff'][i % 4]}"></i>`).join('');
+  openSheet(() => `<div class="reveal hatching">
+      <div class="hatch-stage">
+        <div class="egg-wob">${eggSVG(sp)}${crack}</div>
+        <div class="flash"></div>
+        <div class="born">${dragonSVG(sp, { stage: 'baby', cls: 'hero' })}</div>
+        <div class="confetti">${confetti}</div>
+      </div>
+      <div class="hatch-text">
+        <p class="muted">${firstTime ? '✨ New dragon discovered!' : 'Hatched!'}</p>
+        <h2>${sp.name}</h2>
+        <p>${rarityChip(sp.rarity)} ${sp.elements.map((x) => elChip(x)).join(' ')}</p>
+        <button class="btn wide gold" data-act="close-sheet">${firstTime ? 'Awesome!' : 'Nice!'}</button>
+      </div></div>`, { cls: 'celebrate' });
+  [300, 650, 1000].forEach((ms) => setTimeout(() => play('crack'), ms));
+  setTimeout(() => play('hatch'), 1250);
+}
 
 // ---------------------------------------------------------------- breeding sanctuary
 
@@ -527,7 +635,7 @@ function sanctuarySheet(b) {
         ${ready ? eggSVG(sp) : '<div class="mystery">❓</div>'}
         <div class="row-main"><b>${ready ? sp.name + ' egg!' : 'Mystery egg'}</b>
           <small>${pa ? esc(G.dragonName(pa)) : '?'} + ${pb ? esc(G.dragonName(pb)) : '?'}</small>
-          <small>${ready ? 'Move it to the Hatchery' : `Ready in <b data-until="${x.readyAt}"></b>`}</small></div>
+          <small>${ready ? 'Move it to the Hatchery' : `Ready in <b data-until="${x.readyAt}">${G.fmtTime(x.readyAt - G.now())}</b>`}</small></div>
         ${ready
           ? `<button class="btn gold" data-act="breed-collect" data-uid="${x.uid}">Take egg</button>`
           : `<button class="btn" data-act="speed" data-kind="breed" data-id="${x.uid}">💎 ${G.speedUpCost(x.readyAt)}</button>`}
@@ -565,9 +673,19 @@ act('set-parent', (d) => {
 act('breed', () => {
   const A = G.dragonByUid(sel.a), B = G.dragonByUid(sel.b);
   if (!A || !B) return;
-  if (G.startBreed(A, B)) {
+  const slot = G.startBreed(A, B);
+  if (slot) {
     sel.a = sel.b = null;
-    toast('Breeding started! 💞');
+    play('breed');
+    // Parents lean in, a heart pops and the mystery egg drops.
+    openSheet(() => `<div class="reveal breeding">
+        <div class="breed-stage">
+          <div class="pa">${dragonArt(A, 'hero')}</div><div class="pb">${dragonArt(B, 'hero')}</div>
+          <div class="bheart">❤️</div><div class="begg">🥚</div>
+        </div>
+        <h2>Breeding started!</h2>
+        <p class="muted">${esc(G.dragonName(A))} + ${esc(G.dragonName(B))} · ${slot.readyAt > G.now() ? `egg in ${G.fmtTime(slot.readyAt - G.now())}` : "egg ready now!"}</p>
+        <button class="btn wide gold" data-act="close-sheet">OK</button></div>`, { cls: 'celebrate' });
   }
 });
 act('breed-collect', (d) => {

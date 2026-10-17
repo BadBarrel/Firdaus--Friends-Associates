@@ -153,7 +153,9 @@ function cloudPuff(C, s = 1, col = '#e9f1fb') {
 // ---------------------------------------------------------------- eyes, mouths, horns
 
 function eye(C, type, x, y, size = 1) {
-  const g = (inner) => `<g ${at(x, y, 0, size)}>${inner}</g>`;
+  // The lid is collapsed (scale 0) unless a CSS blink animation runs on it.
+  const lid = type === 'happy' ? '' : `<g class="blink" transform="scale(1 0)"><ellipse rx="10" ry="11.5" fill="${C.main}" ${ol(C.o, 1.4)}/></g>`;
+  const g = (inner) => `<g ${at(x, y, 0, size)}>${inner}${lid}</g>`;
   const iris = C.iris;
   switch (type) {
     case 'fierce':
@@ -262,6 +264,12 @@ function drawHead(C, spec, stage, slot = 0) {
   if (hornType === 'rhino' || (spec.horns === 'rhino' && !baby)) out += `<g ${at(28, -2, 20, 1.05)}>${horn(C, 'spike', C.horn)}</g>`;
   if (h.helm) {
     out += `<path d="M-25 4 Q-26 -28 2 -28 Q28 -27 32 -2 L22 -2 Q18 -6 10 -6 L-6 -6 Q-12 -2 -14 4Z" fill="${grad(C.metalCol)}" ${ol(C.o, 2.4)}/><path d="M-4 -26 Q4 -34 14 -27" fill="none" stroke="${C.accent}" stroke-width="5" stroke-linecap="round"/><circle cx="-14" cy="-12" r="2" fill="${shade(C.metalCol, -0.4)}"/><circle cx="-4" cy="-18" r="2" fill="${shade(C.metalCol, -0.4)}"/>`;
+  }
+  if (h.helm && spec.plume && !baby) {
+    out += `<g ${at(2, -30, -20)}><path d="M0 0 C-6 -14 -24 -26 -40 -22 C-30 -14 -26 -6 -14 2Z" fill="${grad(C.accent)}" ${ol(C.o, 2)}/><path d="M-4 -2 C-12 -12 -24 -18 -34 -18" stroke="${shade(C.accent, -0.3)}" stroke-width="1.4" fill="none"/></g>`;
+  }
+  if (h.helm && spec.helmWings && !baby) {
+    out += `<g ${at(-16, -18, -30, 0.36)}>${featherWing(C, '#fbfdff', 1)}</g>`;
   }
   if (h.whiskers && !baby) {
     out += `<path d="M40 8 Q58 8 64 22 Q66 32 58 36 M36 12 Q48 22 44 34" fill="none" stroke="${C.o}" stroke-width="3.6" stroke-linecap="round"/><path d="M40 8 Q58 8 64 22 Q66 32 58 36 M36 12 Q48 22 44 34" fill="none" stroke="${C.accent}" stroke-width="1.8" stroke-linecap="round"/>`;
@@ -432,6 +440,7 @@ const PLANS = {
       heads: [{ x: 158, y: 72, s: 0.95 }],
       wing: { x: 98, y: 104, s: 0.9 },
       back: [[60, 104, -30], [76, 96, -15], [94, 94, 0], [112, 96, 10]],
+      gloss: [84, 110],
       spots: [[72, 116], [96, 110], [118, 118, 0.8], [60, 128, 0.8]],
     };
   },
@@ -448,37 +457,47 @@ const PLANS = {
       heads: [{ x: 130, y: 52, s: 0.92 }],
       wing: { x: 92, y: 96, s: 1.18 },
       back: [[80, 96, -40], [74, 112, -70], [74, 128, -90]],
+      gloss: [92, 104],
       spots: [[88, 114], [86, 134, 0.8], [96, 100, 0.7]],
     };
   },
-  serpent(C) {
-    const body = tube([
-      { p: [[18, 140], [30, 190], [86, 192], [98, 150]], r: [5, 15] },
-      { p: [[98, 150], [106, 116], [146, 128], [150, 84]], r: [15, 15] },
-    ], 14);
+  serpent(C, spec) {
+    // Three poses so serpents don't all share one S-curve.
+    const POSES = {
+      1: { segs: [{ p: [[18, 140], [30, 190], [86, 192], [98, 150]], r: [5, 15] }, { p: [[98, 150], [106, 116], [146, 128], [150, 84]], r: [15, 15] }], head: [154, 70] },
+      2: { segs: [{ p: [[36, 112], [6, 140], [40, 186], [86, 172]], r: [5, 14] }, { p: [[86, 172], [134, 158], [148, 124], [120, 112]], r: [14, 15] }, { p: [[120, 112], [96, 98], [116, 76], [146, 76]], r: [15, 15] }], head: [152, 66] },
+      3: { segs: [{ p: [[12, 178], [58, 198], [100, 188], [110, 156]], r: [5, 14] }, { p: [[110, 156], [120, 126], [98, 102], [122, 78]], r: [14, 15] }], head: [130, 62] },
+    };
+    const pose = POSES[spec.curve] || POSES[1];
+    const body = tube(pose.segs, 14);
+    const pt = (f) => body[Math.round((body.length - 1) * f)];
     const belly = body.filter((_, i) => i > 4 && i < body.length - 3).map((c, i, a) => {
       const n = a[Math.min(i + 1, a.length - 1)], p = a[Math.max(i - 1, 0)];
       const ang = Math.atan2(n.y - p.y, n.x - p.x);
       return { x: c.x - Math.sin(ang) * -c.r * 0.45, y: c.y + Math.cos(ang) * c.r * 0.45, r: c.r * 0.5 };
     });
     const back = [];
-    for (const i of [8, 12, 16, 20]) {
+    for (const f of [0.3, 0.45, 0.6, 0.75]) {
+      const i = Math.round((body.length - 2) * f);
       const c = body[i], n = body[i + 1];
       const ang = Math.atan2(n.y - c.y, n.x - c.x);
       back.push([c.x + Math.sin(ang) * c.r * 0.8, c.y - Math.cos(ang) * c.r * 0.8, (ang * 180) / Math.PI]);
     }
+    const leg = (c, dx) => tube([{ p: [[c.x, c.y + 6], [c.x + dx * 0.3, c.y + 12], [c.x + dx * 0.6, c.y + 16], [c.x + dx, c.y + 20]], r: [6, 5] }], 3);
+    const l1 = pt(0.32), l2 = pt(0.8), w = pt(0.62);
     return {
       tail: body,
       floats: true,
-      far: sil([{ k: 'c', c: tube([{ p: [[64, 168], [62, 176], [60, 182], [58, 186]], r: [6, 5] }], 3), f: shade(C.main, -0.2), hl: false }], C.o),
+      far: sil([{ k: 'c', c: leg(l1, -4), f: shade(C.main, -0.2), hl: false }], C.o),
       body: [{ k: 'c', c: body, f: C.main }],
-      front: sil([{ k: 'c', c: tube([{ p: [[126, 124], [130, 130], [134, 136], [138, 140]], r: [6, 5] }], 3), f: C.main, hl: false }], C.o),
+      front: sil([{ k: 'c', c: leg(l2, 8), f: C.main, hl: false }], C.o),
       bellyChain: belly,
-      claws: [[58, 190], [140, 143]],
-      heads: [{ x: 154, y: 70, s: 0.95 }],
-      wing: { x: 108, y: 128, s: 0.85 },
+      claws: [[l1.x - 4, l1.y + 26], [l2.x + 8, l2.y + 26]],
+      heads: [{ x: pose.head[0], y: pose.head[1], s: 0.95 }],
+      wing: { x: w.x, y: w.y - 4, s: 0.85 },
       back,
-      spots: [[56, 180, 0.8], [96, 156, 0.9], [130, 118, 0.8]],
+      spots: [pt(0.25), pt(0.5), pt(0.72)].map((c, i) => [c.x, c.y, 0.8 + (i % 2) * 0.1]),
+      gloss: [pt(0.55).x - 4, pt(0.55).y - 8],
     };
   },
   golem(C) {
@@ -493,6 +512,7 @@ const PLANS = {
       heads: [{ x: 116, y: 74, s: 0.82 }],
       wing: { x: 82, y: 98, s: 0.75 },
       back: [[60, 104, -40], [72, 90, -25], [86, 84, -10]],
+      gloss: [92, 100],
       spots: [[72, 128], [70, 150, 0.8], [132, 140, 0.8], [100, 98, 0.8]],
     };
   },
@@ -509,6 +529,7 @@ const PLANS = {
       heads: [{ x: 152, y: 88, s: 0.92 }],
       wing: { x: 100, y: 130, s: 0.95 },
       back: [[64, 138, -40], [84, 140, -10], [104, 136, 10], [122, 124, 30]],
+      gloss: [108, 136],
       spots: [[70, 152, 0.8], [100, 150], [126, 128, 0.8]],
       tailFin: true,
     };
@@ -526,6 +547,7 @@ const PLANS = {
       heads: [{ x: 132, y: 58, s: 0.88 }],
       wing: { x: 96, y: 106, s: 1.1 },
       back: [[76, 100, -40], [88, 92, -20]],
+      gloss: [90, 108],
       spots: [[84, 112, 0.8], [80, 132, 0.7], [96, 98, 0.6]],
     };
   },
@@ -543,6 +565,7 @@ const PLANS = {
       heads: [{ x: 120, y: 88, s: 1.08 }],
       wing: { x: 96, y: 114, s: 1.15 },
       back: [[82, 112, -50], [90, 104, -30]],
+      gloss: [96, 118],
       spots: [[92, 120, 0.7], [96, 140, 0.7]],
     };
   },
@@ -563,6 +586,7 @@ const PLANS = {
       heads: [{ x: 124, y: 56, s: 0.92 }],
       wing: { x: 86, y: 96, s: 1.05 },
       back: [[74, 102, -45], [68, 118, -75], [68, 134, -95]],
+      gloss: [96, 104],
       spots: [[80, 132, 0.8]],
     };
   },
@@ -579,6 +603,7 @@ const PLANS = {
       heads: [{ x: 114, y: 78, s: 0.98 }],
       wing: { x: 84, y: 106, s: 1.05 },
       back: [[70, 110, -50], [80, 98, -30]],
+      gloss: [92, 100],
       spots: [[82, 128, 0.8], [96, 156, 0.8], [118, 148, 0.7]],
       wisps: true,
     };
@@ -614,6 +639,7 @@ const PLANS = {
       heads: [{ x: 156, y: 74, s: 0.92 }],
       wing: { x: 92, y: 100, s: 1 },
       back: [[70, 104, -40], [86, 96, -20], [104, 92, 0]],
+      gloss: [96, 112],
       spots: [[78, 132, 0.8], [120, 128, 0.8]],
     };
   },
@@ -663,16 +689,20 @@ export function dragonSVG(species, { stage = 'adult', cls = '' } = {}) {
 }
 
 function drawDragon(species, stage) {
-  const spec = designFor(species);
+  const rarity = species.rarity;
+  const fancy = rarity === 'legendary' || rarity === 'mythic';
+  const base = designFor(species);
+  // Higher rarities get extra ornament: second wing pair, forehead gem, gold horns.
+  const spec = fancy ? { ...base, gem: true, wings2: base.wings2 || (base.wings !== 'none' ? base.wings : undefined) } : base;
   const C = palette(species, spec);
+  if (fancy && !base.horn) C.horn = '#ffe08a';
   const plan = PLANS[spec.body] ? spec.body : 'classic';
-  const P = PLANS[plan](C);
+  const P = PLANS[plan](C, spec);
   const baby = stage === 'baby';
   const young = stage === 'young';
   const scale = baby ? 0.7 : young ? 0.86 : 1;
   const wingScale = baby ? 0.42 : young ? 0.72 : 1;
   const headBoost = baby ? 1.3 : young ? 1.12 : 1;
-  const rarity = species.rarity;
   let s = '';
 
   // aura
@@ -680,15 +710,22 @@ function drawDragon(species, stage) {
     const ac = rarity === 'mythic' ? '#ffd54f' : rarity === 'legendary' ? '#ffb74d' : RARITIES.epic.color;
     s += `<circle cx="100" cy="112" r="96" fill="${glowGrad(ac)}"/>`;
   }
+  if (rarity === 'mythic' && !baby) {
+    const glyphs = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => `<g transform="rotate(${i * 45}) translate(0 -88)"><path d="M-4 -4 L4 -4 L0 1 L4 5 L-4 5" fill="none" stroke="#ffd54f" stroke-width="2" stroke-linecap="round"/></g>`).join('');
+    s += `<g transform="translate(100 118)"><g class="runering"><circle r="88" fill="none" stroke="#ffd54f" stroke-width="2.5" stroke-dasharray="5 9" opacity=".85"/>${glyphs}</g></g>`;
+  }
   s += `<ellipse cx="100" cy="${P.floats ? 192 : 186}" rx="${(P.floats ? 40 : 58) * scale}" ry="${P.floats ? 5 : 8}" fill="#000" opacity="${P.floats ? 0.12 : 0.2}"/>`;
 
   let g = '';
   const wings = spec.wings && spec.wings !== 'none';
   const W = P.wing;
-  const wingAt = (dx, dy, extra, col) => `<g ${at(W.x + dx, W.y + dy, extra, W.s * wingScale)}>${wingShape(C, spec.wings, col)}</g>`;
+  const wingAt = (dx, dy, extra, col) => `<g ${at(W.x + dx, W.y + dy, extra, W.s * wingScale)}><g class="flap">${wingShape(C, spec.wings, col)}</g></g>`;
   if (wings) g += `<g opacity=".95">${wingAt(-12, 6, -14, shade(C.wing, -0.25))}</g>`;
-  if (spec.wings2 && !baby) g += `<g ${at(W.x - 4, W.y + 18, 0, W.s * 0.7 * wingScale)}>${wingShape(C, spec.wings2, shade(C.wing, -0.1))}</g>`;
-  if (!baby && spec.back) g += P.back.map(([x, y, r], i) => `<g ${at(x, y, r, young ? 0.8 : 1)}>${backItem(C, spec.back, i)}</g>`).join('');
+  if (spec.wings2 && !baby) g += `<g ${at(W.x - 4, W.y + 18, 0, W.s * 0.7 * wingScale)}><g class="flap slow">${wingShape(C, spec.wings2, shade(C.wing, -0.1))}</g></g>`;
+  if (!baby && spec.back === 'volcano') {
+    const [x, y] = P.back[Math.floor(P.back.length / 2)];
+    g += `<g ${at(x, y + 4, 0, young ? 0.8 : 1.1)}><path d="M-22 6 L-8 -26 L8 -26 L22 6Z" fill="${grad(C.rockCol)}" ${ol(C.o, 2)}/><path d="M-8 -26 Q0 -20 8 -26 L5 -18 Q0 -14 -5 -18Z" fill="#ff7a1a"/><path d="M-3 -22 Q-6 -8 -12 0 M3 -20 Q8 -8 10 2" stroke="#ff5a1a" stroke-width="2.6" fill="none" stroke-linecap="round"/><g transform="translate(0 -30)"><g class="flick">${flame(C, 1.1)}</g></g></g>`;
+  } else if (!baby && spec.back) g += P.back.map(([x, y, r], i) => `<g ${at(x, y, r, young ? 0.8 : 1)}>${backItem(C, spec.back, i)}</g>`).join('');
   if (P.plume) {
     g += [[-150, 1.5, C.accent], [-165, 1.65, shade(C.accent, 0.2)], [-180, 1.4, C.wing]].map(([r, sc, col]) => `<g ${at(70, 130, r + 90, sc * (baby ? 0.6 : 1))}>${feather(C, 1, col)}</g>`).join('');
   }
@@ -698,11 +735,11 @@ function drawDragon(species, stage) {
   const tl = P.tail;
   if (P.tailFin) {
     const a = tl[1], b = tl[0];
-    g += `<g ${at(b.x, b.y, angleOf(a, b), baby ? 0.8 : 1.25)}>${tailTip(C, 'fin')}</g>`;
+    g += `<g ${at(b.x, b.y, angleOf(a, b), baby ? 0.8 : 1.25)}><g class="sway">${tailTip(C, 'fin')}</g></g>`;
   } else if (tl.length > 1 && spec.tail && spec.tail !== 'none') {
     const a = tl[tl.length - 2], b = tl[tl.length - 1];
     const first = plan === 'serpent' ? [tl[1], tl[0]] : [a, b];
-    g += `<g ${at(first[1].x, first[1].y, angleOf(first[0], first[1]), baby ? 0.7 : 1)}>${tailTip(C, spec.tail)}</g>`;
+    g += `<g ${at(first[1].x, first[1].y, angleOf(first[0], first[1]), baby ? 0.7 : 1)}><g class="sway">${tailTip(C, spec.tail)}</g></g>`;
   }
   // belly
   if (P.belly) {
@@ -721,7 +758,8 @@ function drawDragon(species, stage) {
     P.bellyChain.filter((_, i) => i % 2).map((c) => `<path d="M${r1(c.x - c.r * 0.7)} ${r1(c.y)} q${r1(c.r * 0.7)} ${r1(c.r * 0.4)} ${r1(c.r * 1.4)} 0" fill="none" stroke="${shade(C.belly, -0.2)}" stroke-width="1.4"/>`).join('');
   if (spec.pattern && !baby) g += markings(C, spec.pattern, P.spots);
   // body gloss
-  g += `<ellipse cx="88" cy="112" rx="14" ry="8" fill="#fff" opacity=".2" transform="rotate(-30 88 112)"/>`;
+  const [gx, gy] = P.gloss || [88, 112];
+  g += `<ellipse cx="${r1(gx)}" cy="${r1(gy)}" rx="13" ry="7" fill="#fff" opacity=".22" transform="rotate(-30 ${r1(gx)} ${r1(gy)})"/>`;
   if (P.wisps) g += `<path d="M78 178 q4 8 -2 14 M100 182 q4 8 -2 12 M118 174 q5 8 0 14" fill="none" stroke="${C.main}" stroke-width="4" stroke-linecap="round" opacity=".55"/>`;
   g += P.front;
   g += P.claws.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.6" fill="#fff8e8" ${ol(C.o, 1.2)}/>`).join('');
@@ -729,7 +767,7 @@ function drawDragon(species, stage) {
   // heads (back to front)
   P.heads.forEach((h, i) => {
     const hs = h.s * headBoost;
-    g += `<g ${at(h.x, h.y + (baby ? 6 : 0), h.rot || 0, hs)}>${drawHead(C, spec, stage, i)}</g>`;
+    g += `<g ${at(h.x, h.y + (baby ? 6 : 0), h.rot || 0, hs)}><g class="hbob">${drawHead(C, spec, stage, i)}</g></g>`;
   });
   // rarity extras
   if ((rarity === 'legendary' || rarity === 'mythic') && !baby) {

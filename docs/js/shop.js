@@ -1,7 +1,7 @@
 // Shop tab, settings, profile and level-up sheets.
 import * as D from './data.js';
 import * as G from './game.js';
-import { dragonSVG } from './art.js';
+import { eggSVG } from './art.js';
 import { act, view, openSheet, closeSheet, toast, elChip, cost, lockNote } from './ui.js';
 
 const S = () => G.S;
@@ -16,7 +16,7 @@ view('shop', () => {
     <div class="cards">${eggs.map((sp) => {
       const locked = lvl < sp.unlock;
       return `<button class="dcard ${locked ? 'locked' : ''}" data-act="${locked ? 'species' : 'buy-egg'}" data-id="${sp.id}" style="--r:${D.RARITIES.common.color}">
-        ${dragonSVG(sp, { stage: 'baby', cls: locked ? 'unowned' : '' })}<b>${sp.name}</b>
+        <div class="shop-egg">${eggSVG(sp, locked ? 'unowned' : '')}</div><b>${sp.name}</b>
         <small>${elChip(sp.elements[0], false)} ${locked ? lockNote(sp.unlock) : cost({ gold: sp.price })}</small></button>`;
     }).join('')}</div>
     <p class="muted small">Hybrid, Epic, Legendary and Mythic dragons come from breeding. See the Dragon Book for recipes.</p>
@@ -48,6 +48,8 @@ function settingsSheet() {
     <h3>Game speed</h3>
     <p class="muted small">Speeds up breeding, hatching and crops. It's your game, play it how you like.</p>
     <div class="pills">${D.SPEEDS.map((s) => `<button class="pill ${sp === s.id ? 'on' : ''}" data-act="speed-set" data-v="${s.id}">${s.name}</button>`).join('')}</div>
+    <h3>Sound</h3>
+    <div class="pills"><button class="pill ${S().settings.sound !== false ? 'on' : ''}" data-act="sound" data-v="1">🔊 On</button><button class="pill ${S().settings.sound === false ? 'on' : ''}" data-act="sound" data-v="0">🔇 Off</button></div>
     <h3>Backup</h3>
     <p class="muted small">Your save lives only on this phone. Copy a backup code now and then to be safe.</p>
     <button class="btn wide" data-act="export">📋 Copy backup code</button>
@@ -56,6 +58,11 @@ function settingsSheet() {
     <button class="btn wide ghost danger" data-act="reset">Start a new game</button>
     <p class="muted small center">Dragon Isles · free forever, no ads, no purchases.</p>`;
 }
+
+act('sound', (d) => {
+  S().settings.sound = d.v === '1';
+  G.changed();
+});
 
 act('speed-set', (d) => {
   G.setSpeed(+d.v);

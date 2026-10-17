@@ -4,6 +4,10 @@ import * as G from './game.js';
 import * as B from './battle.js';
 import { dragonSVG, stageFor } from './art.js';
 import { $, act, view, openSheet, closeSheet, closeAllSheets, refresh, elChip, dragonArt, lockNote, esc } from './ui.js';
+import { play } from './sound.js';
+
+// A small floating grass platform for each fighter to stand on.
+const PLATFORM = '<svg class="plat" viewBox="-100 -30 200 90"><path d="M-90 0 Q-60 70 0 80 Q60 70 90 0Z" fill="#8a6440" stroke="#5e4028" stroke-width="3"/><path d="M-40 30 L0 78 L36 32" fill="#6b5446"/><ellipse cx="0" cy="0" rx="92" ry="24" fill="#7ccf5a" stroke="#3f8f2e" stroke-width="3"/><ellipse cx="-20" cy="-6" rx="40" ry="8" fill="#a8e67e" opacity=".6"/></svg>';
 
 const S = () => G.S;
 const UNLOCK = { campaign: 1, arena: 4, tower: 8 };
@@ -182,11 +186,11 @@ function renderBattle(result) {
     <div class="bt-top"><div class="pips">${pips(b.e, b.ei)}</div><button class="btn ghost small" data-act="forfeit">Run away</button></div>
     <div class="bt-side foe">
       <div class="bt-card"><b>${esc(foe.name)}</b> <small>Lv ${foe.lvl}</small><div>${foe.sp.elements.map((x) => elChip(x, false)).join('')}</div>${hpBar(foe)}</div>
-      <div class="bt-art" id="art-e">${dragonSVG(foe.sp, { stage: stageFor(foe.lvl) })}</div>
+      <div class="bt-art" id="art-e">${PLATFORM}${dragonSVG(foe.sp, { stage: stageFor(foe.lvl) })}</div>
     </div>
     <div class="bt-log">${log}</div>
     <div class="bt-side me">
-      <div class="bt-art" id="art-p">${dragonSVG(me.sp, { stage: stageFor(me.lvl) })}</div>
+      <div class="bt-art" id="art-p">${PLATFORM}${dragonSVG(me.sp, { stage: stageFor(me.lvl) })}</div>
       <div class="bt-card"><b>${esc(me.name)}</b> <small>Lv ${me.lvl}</small><div>${me.sp.elements.map((x) => elChip(x, false)).join('')}</div>${hpBar(me)}</div>
     </div>
     <div class="pips mine">${pips(b.p, b.pi)}</div>
@@ -223,17 +227,33 @@ function effectText(evt) {
   return t;
 }
 
+// The attacker lunges, an element projectile flies across, the target shakes and shows damage.
 async function animate(evt) {
   const atkEl = $(evt.side === 'p' ? '#art-p' : '#art-e');
   const defEl = $(evt.side === 'p' ? '#art-e' : '#art-p');
   atkEl?.classList.add('lunge');
-  await wait(220);
+  if (atkEl && defEl) {
+    const a = atkEl.getBoundingClientRect(), d = defEl.getBoundingClientRect();
+    const shot = document.createElement('div');
+    shot.className = 'shot';
+    shot.textContent = evt.attack.el === 'neutral' ? '💥' : D.ELEMENTS[evt.attack.el].icon;
+    shot.style.left = `${a.left + a.width / 2}px`;
+    shot.style.top = `${a.top + a.height * 0.45}px`;
+    document.body.appendChild(shot);
+    shot.animate([
+      { transform: 'translate(-50%, -50%) scale(.6)', opacity: 0.4 },
+      { transform: `translate(calc(-50% + ${d.left - a.left}px), calc(-50% + ${d.top - a.top}px)) scale(${evt.attack.tier ? 1.8 : 1.3})`, opacity: 1 },
+    ], { duration: 300, easing: 'ease-in', fill: 'forwards' }).onfinish = () => shot.remove();
+  }
+  await wait(300);
+  play(evt.mult > 1 || evt.crit ? 'strong' : 'hit');
   if (defEl) {
     defEl.classList.add('hit');
     const n = document.createElement('span');
     n.className = 'dmg' + (evt.mult > 1 ? ' strong' : evt.mult < 1 ? ' weak' : '');
-    n.textContent = `-${evt.dmg}`;
+    n.textContent = `-${evt.dmg}${evt.crit ? '!' : ''}`;
     defEl.appendChild(n);
+    if (evt.fainted) setTimeout(() => defEl.classList.add('faint'), 350);
   }
   await wait(650);
 }
@@ -280,6 +300,7 @@ act('atk', (d) => turn(+d.i));
 
 function end() {
   busy = false;
+  play(battle.won ? 'win' : 'lose');
   const r = G.recordBattle(battle.mode, { won: battle.won, info: battle.info, fainted: B.faintedCount(battle) });
   if (battle.mode === 'arena') opponents = null;
   log = battle.won ? 'You won the battle!' : 'Your team was defeated.';

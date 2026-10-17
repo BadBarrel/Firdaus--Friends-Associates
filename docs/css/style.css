@@ -51,7 +51,7 @@ h3 { font-size: 15px; margin: 18px 0 8px; color: var(--muted); text-transform: u
   background: linear-gradient(#ffd54f, #ff9800); color: #5a3200; font-weight: 800; font-size: 15px;
   border: 2px solid #fff;
 }
-.xpbar { width: 34px; height: 7px; border-radius: 4px; background: rgba(255,255,255,.3); overflow: hidden; }
+.xpbar { width: 52px; height: 10px; border-radius: 5px; background: rgba(0,0,0,.35); overflow: hidden; border: 1px solid rgba(255,255,255,.4); }
 .xpbar i { display: block; height: 100%; background: #7cf06a; }
 .cur {
   flex: 1; min-width: 0; text-align: center; font-weight: 700; font-size: 14px; white-space: nowrap;
@@ -250,7 +250,7 @@ textarea.code { width: 100%; height: 120px; font: 12px monospace; border-radius:
 .hp i { display: block; height: 100%; transition: width .4s; }
 .bt-art { position: relative; height: 100%; max-height: 220px; aspect-ratio: 1; max-width: 48%; flex: none; }
 .bt-art svg { width: 100%; height: 100%; display: block; }
-.foe .bt-art svg { transform: scaleX(-1); }
+.foe .bt-art > svg.dragon-art { transform: scaleX(-1); }
 .bt-log {
   background: rgba(255,255,255,.95); border-radius: 12px; padding: 8px 12px; font-weight: 600; font-size: 14px;
   min-height: 42px; display: flex; align-items: center; justify-content: center; text-align: center; margin: 4px 0;
@@ -324,16 +324,16 @@ textarea.code { width: 100%; height: 120px; font: 12px monospace; border-radius:
 .flip.flipB { animation-name: flipB; }
 .dhop { animation: hop .45s ease-in-out infinite alternate; }
 .dhop.fly { animation: hover 1.8s ease-in-out infinite alternate; }
-.dhop svg { position: absolute; width: 112px; height: 112px; left: -56px; top: -102px; }
-.dhop.fly svg { top: -114px; }
-@keyframes walkA { 0% { transform: translate(-26px, -12px); } 42%, 50% { transform: translate(26px, 13px); } 92%, 100% { transform: translate(-26px, -12px); } }
-@keyframes walkB { 0% { transform: translate(24px, -12px); } 42%, 50% { transform: translate(-24px, 12px); } 92%, 100% { transform: translate(24px, -12px); } }
+.dhop svg { position: absolute; width: 96px; height: 96px; left: -48px; top: -88px; }
+.dhop.fly svg { top: -100px; }
+@keyframes walkA { 0% { transform: translate(-20px, -10px); z-index: 1; } 42%, 50% { transform: translate(20px, 10px); z-index: 20; } 92%, 100% { transform: translate(-20px, -10px); z-index: 1; } }
+@keyframes walkB { 0% { transform: translate(20px, -10px); z-index: 1; } 42%, 50% { transform: translate(-20px, 10px); z-index: 20; } 92%, 100% { transform: translate(20px, -10px); z-index: 1; } }
 @keyframes flipA { 0%, 43% { transform: scaleX(1); } 47%, 93% { transform: scaleX(-1); } 97%, 100% { transform: scaleX(1); } }
 @keyframes flipB { 0%, 43% { transform: scaleX(-1); } 47%, 93% { transform: scaleX(1); } 97%, 100% { transform: scaleX(-1); } }
 @keyframes hop { to { transform: translateY(-3px); } }
 @keyframes hover { from { transform: translateY(-2px); } to { transform: translateY(-12px); } }
 .wbub {
-  position: absolute; left: 0; top: -92px; transform: translateX(-50%); z-index: 5; white-space: nowrap;
+  position: absolute; left: 0; top: -92px; transform: translateX(-50%) scale(var(--iz, 1)); transform-origin: 50% 100%; z-index: 5; white-space: nowrap;
   background: #fff7d1; border: 3px solid var(--gold); border-radius: 20px; padding: 3px 10px 3px 6px;
   font-size: 17px; font-weight: 800; color: #6b4200; box-shadow: 0 4px 0 var(--gold-dark);
   animation: bubble 1.4s ease-in-out infinite; pointer-events: auto;
@@ -343,8 +343,10 @@ textarea.code { width: 100%; height: 120px; font: 12px monospace; border-radius:
 .wbub.food { background: #e8ffd9; border-color: #5cb043; box-shadow: 0 4px 0 #3f8f2e; color: #2c4a1a; font-size: 17px; }
 .wbub.egg, .wbub.love { background: #fff; border-color: #ff80ab; box-shadow: 0 4px 0 #d0608a; color: #a0305a; font-size: 17px; }
 @keyframes bubble { 50% { margin-top: -6px; } }
+.slot-in.target .bsvg path:first-child { fill: #fff; fill-opacity: .45; stroke: #ffd54f; stroke-width: 4; stroke-dasharray: none; }
+.move-hint { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .wtimer {
-  position: absolute; left: 0; top: 34px; transform: translateX(-50%); z-index: 4; white-space: nowrap;
+  position: absolute; left: 0; top: 34px; transform: translateX(-50%) scale(var(--iz, 1)); transform-origin: 50% 0; z-index: 4; white-space: nowrap;
   background: rgba(20, 35, 55, .78); color: #fff; font-weight: 700; font-size: 14px; padding: 2px 9px; border-radius: 12px;
 }
 .wtimer.idle { background: rgba(92, 176, 67, .9); }
@@ -373,7 +375,7 @@ textarea.code { width: 100%; height: 120px; font: 12px monospace; border-radius:
 #hud .goal, #hud .banner { width: auto; max-width: calc(100% - 74px); box-shadow: 0 3px 0 rgba(0,0,0,.12); }
 .hud-col { position: absolute; right: 8px; top: 8px; display: flex; flex-direction: column; gap: 8px; }
 .hud-btn {
-  position: relative; width: 58px; height: 58px; border-radius: 50%; background: #fff; font-size: 24px; line-height: 1;
+  position: relative; width: 50px; height: 50px; border-radius: 50%; background: #fff; font-size: 21px; line-height: 1;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   border: 3px solid #fff; box-shadow: 0 4px 0 rgba(0,0,0,.2); background: linear-gradient(#ffffff, #dcefff);
 }
@@ -385,3 +387,76 @@ textarea.code { width: 100%; height: 120px; font: 12px monospace; border-radius:
   -webkit-text-stroke: 2px #8a5a00; paint-order: stroke; pointer-events: none; animation: rise-out 1.1s ease-out forwards;
 }
 @keyframes rise-out { to { transform: translate(-50%, -60px); opacity: 0; } }
+
+/* ---------------------------------------------------------------- living dragons
+   Wings flap, tail tips sway, heads bob and eyes blink, but only where dragons are on
+   stage (island, battle, detail sheets). Each part's pivot is its local origin. */
+.flap, .sway, .hbob, .blink, .runering { transform-box: view-box; transform-origin: 0 0; }
+:is(.walk, .bt-art) .flap, svg.hero .flap { animation: flap .75s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+:is(.walk, .bt-art) .flap.slow, svg.hero .flap.slow { animation-duration: 1.1s; }
+:is(.walk, .bt-art) .sway, svg.hero .sway { animation: sway 1.3s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+:is(.walk, .bt-art) .hbob, svg.hero .hbob { animation: hbob 1.2s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+:is(.walk, .bt-art) .blink, svg.hero .blink { animation: blink 4.6s linear infinite; animation-delay: var(--d, 0s); }
+:is(.walk, .bt-art) .runering, svg.hero .runering { animation: spin 24s linear infinite; }
+:is(.walk, .bt-art) .flick, svg.hero .flick { animation: flicker .4s ease-in-out infinite alternate; }
+@keyframes flap { from { transform: rotate(5deg); } to { transform: rotate(-9deg) scale(1, .88); } }
+@keyframes sway { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
+@keyframes hbob { from { transform: translateY(0); } to { transform: translateY(-2.5px) rotate(-2deg); } }
+@keyframes blink { 0%, 93%, 100% { transform: scale(1, 0); } 95.5% { transform: scale(1, 1); } }
+.dshadow { position: absolute; left: -24px; top: -8px; width: 48px; height: 14px; border-radius: 50%; background: rgba(0,0,0,.18); }
+.walk.fly .dshadow { left: -16px; width: 32px; background: rgba(0,0,0,.1); }
+
+/* ---------------------------------------------------------------- juice */
+.fly-coin { position: fixed; z-index: 70; font-size: 22px; pointer-events: none; }
+#topbar .cur.bump { animation: bump .35s ease-out; }
+@keyframes bump { 40% { transform: scale(1.18); background: rgba(255, 213, 79, .55); } }
+
+.hatch-stage, .breed-stage { position: relative; height: 210px; margin: 6px auto 0; max-width: 320px; }
+.egg-wob { position: absolute; left: 50%; top: 30px; width: 120px; margin-left: -60px; animation: wobble .25s ease-in-out 4 alternate, egg-out .25s ease-in 1.15s forwards; transform-origin: 50% 90%; }
+.egg-wob svg { width: 100%; height: auto; display: block; }
+.egg-wob .cracks { position: absolute; inset: 0; }
+.cracks path { fill: none; stroke: #3a2a1a; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+.cracks .c1 { animation: show 0s .3s forwards; } .cracks .c2 { animation: show 0s .65s forwards; } .cracks .c3 { animation: show 0s 1s forwards; }
+@keyframes show { to { opacity: 1; } }
+@keyframes wobble { from { transform: rotate(-9deg); } to { transform: rotate(9deg); } }
+@keyframes egg-out { to { transform: scale(1.4); opacity: 0; } }
+.flash { position: absolute; left: 50%; top: 100px; width: 20px; height: 20px; margin: -10px; border-radius: 50%; background: #fff; opacity: 0; animation: flash .5s ease-out 1.1s; }
+@keyframes flash { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(16); } }
+.born { position: absolute; inset: 0; animation: born .55s cubic-bezier(.3, 1.6, .5, 1) 1.25s backwards; }
+@keyframes born { 0% { opacity: 0; transform: scale(.3); } 100% { opacity: 1; transform: scale(1); } }
+.hatching svg.hero, .breeding svg.hero { animation: none; }
+.born svg.hero { width: 200px; }
+.confetti i { position: absolute; left: 50%; top: 100px; width: 9px; height: 9px; border-radius: 2px; background: var(--c); opacity: 0; animation: confetti .9s ease-out 1.25s; }
+@keyframes confetti { 0% { opacity: 1; transform: rotate(var(--a)) translateY(0); } 100% { opacity: 0; transform: rotate(var(--a)) translateY(-120px) rotate(200deg); } }
+.hatching .hatch-text { animation: show-up .4s ease-out 1.4s backwards; }
+@keyframes show-up { from { opacity: 0; transform: translateY(10px); } }
+.breed-stage { height: 170px; }
+.breed-stage .pa, .breed-stage .pb { position: absolute; top: 10px; width: 140px; }
+.breed-stage .pa { left: 0; animation: lean-r .7s ease-out forwards; }
+.breed-stage .pb { right: 0; animation: lean-l .7s ease-out forwards; }
+.breed-stage .pb svg { transform: scaleX(-1); }
+.breed-stage svg.hero { width: 140px; }
+@keyframes lean-r { to { transform: translateX(22px); } }
+@keyframes lean-l { to { transform: translateX(-22px); } }
+.bheart { position: absolute; left: 50%; top: 20px; font-size: 36px; margin-left: -18px; animation: born .5s cubic-bezier(.3, 1.6, .5, 1) .6s backwards; }
+.begg { position: absolute; left: 50%; top: 110px; font-size: 40px; margin-left: -20px; animation: drop .6s cubic-bezier(.4, 1.6, .6, 1) 1s backwards; }
+@keyframes drop { from { transform: translateY(-80px); opacity: 0; } }
+
+/* ---------------------------------------------------------------- battle staging */
+#battle.on { background: linear-gradient(180deg, #3d7fc4 0%, #7cc0f5 55%, #c7ecff 100%); }
+#battle.on::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .8;
+  background: radial-gradient(ellipse 80px 26px at 18% 22%, #fff 60%, transparent 62%), radial-gradient(ellipse 120px 34px at 80% 48%, #fff 60%, transparent 62%), radial-gradient(ellipse 90px 26px at 30% 78%, #fff 60%, transparent 62%);
+}
+.bt { position: relative; }
+.bt-art .plat { position: absolute; left: 6%; bottom: -6%; width: 88%; height: auto; }
+.bt-art > svg.dragon-art { position: relative; animation: idle 1.6s ease-in-out infinite alternate; }
+@keyframes idle { to { transform: translateY(-4px); } }
+.foe .bt-art > svg.dragon-art { animation-name: idle-flip; }
+@keyframes idle-flip { from { transform: scaleX(-1); } to { transform: scaleX(-1) translateY(-4px); } }
+.bt-art.faint > svg.dragon-art { animation: faint .6s ease-in forwards; }
+@keyframes faint { to { transform: translateY(20px) rotate(70deg) scale(.8); filter: grayscale(1); opacity: 0; } }
+.shot { position: fixed; z-index: 40; font-size: 34px; pointer-events: none; filter: drop-shadow(0 0 8px rgba(255,255,255,.9)); }
+
+.shop-egg { width: 64%; margin: 6px auto 2px; }
+.shop-egg svg { width: 100%; height: auto; display: block; }

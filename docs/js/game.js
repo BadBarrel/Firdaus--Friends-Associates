@@ -31,7 +31,7 @@ function newState() {
     created: t,
     nextId: 1,
     player: { level: 1, xp: 0, gold: 600, food: 100, gems: 10 },
-    settings: { speed: 1 },
+    settings: { speed: 1, sound: true },
     expansions: 0,
     buildings: [],
     dragons: [],
@@ -47,10 +47,11 @@ function newState() {
     achievements: {},
   };
   S = s;
-  addBuilding('hatchery', { level: 0 }, 0);
-  addBuilding('sanctuary', { level: 0 }, 1);
-  addBuilding('habitat', { element: 'fire', level: 0, stored: 0, last: t }, 3);
-  addBuilding('farm', { crop: null }, 4);
+  // Plots 0-15 form a 4x4 grid on the main island; start everything near the middle.
+  addBuilding('hatchery', { level: 0 }, 5);
+  addBuilding('sanctuary', { level: 0 }, 6);
+  addBuilding('habitat', { element: 'fire', level: 0, stored: 0, last: t }, 9);
+  addBuilding('farm', { crop: null }, 10);
   s.eggs.push({ uid: nid(), sp: 'emberjaw', readyAt: t + 5000 });
   return s;
 }
@@ -230,6 +231,12 @@ export function build(opt, plot) {
   addXp(Math.max(5, opt.cost / 20));
   changed();
   return b;
+}
+
+export function moveBuilding(b, plot) {
+  if (buildingAt(plot) || plot >= plotCount()) return;
+  b.plot = plot;
+  changed();
 }
 
 export function sellBuilding(b) {

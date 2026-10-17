@@ -187,7 +187,7 @@ Attack slots unlock as the dragon levels: slot 1 at Lv 1 (main element), slot 2 
 | 💎 Sky Crystal | +18% gold from all habitats (total cap +60%) | 200,000 (Lv 20) |
 | 🏚️ Dragon Den | Unlimited storage for dragons without a habitat (they can still breed and fight) | built in |
 
-The island starts with 9 plots; 8 expansions add 3 each (1,000, 3,000, 8,000, 20,000, 50,000, 100,000, 200,000, 400,000 gold).
+The island starts with 16 plots; 8 expansions add 3 each (1,000, 3,000, 8,000, 20,000, 50,000, 100,000, 200,000, 400,000 gold).
 
 ## Crops
 

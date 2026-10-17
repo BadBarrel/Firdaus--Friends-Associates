@@ -61,14 +61,16 @@ await page.evaluate(async () => {
   S.daily.loginClaimed = true;
   S.buildings.find((b) => b.type === 'sanctuary').level = 1;
   const now = Date.now();
-  [['earth', 2], ['plant', 5], ['water', 6], ['storm', 7], ['ice', 8]].forEach(([e, plot], i) =>
+  [['earth', 0], ['plant', 1], ['water', 2], ['storm', 3], ['ice', 4]].forEach(([e, plot], i) =>
     S.buildings.push({ id: 900 + i, type: 'habitat', element: e, level: i % 3, stored: 300, last: now - 600000, plot }));
-  S.buildings.push({ id: 950, type: 'farm', crop: { id: 'wheat', readyAt: now + 100000 }, plot: 9 });
-  S.buildings.push({ id: 951, type: 'farm', crop: { id: 'berries', readyAt: now - 1 }, plot: 10 });
+  S.buildings.push({ id: 950, type: 'farm', crop: { id: 'wheat', readyAt: now + 100000 }, plot: 7 });
+  S.buildings.push({ id: 951, type: 'farm', crop: { id: 'berries', readyAt: now - 1 }, plot: 8 });
   S.buildings.push({ id: 952, type: 'totem', plot: 11 });
+  S.buildings.push({ id: 955, type: 'deco', deco: 'goldtree', plot: 14 });
   S.wish = 'celestia';
   S.buildings.push({ id: 953, type: 'deco', deco: 'fountain', plot: 12 });
   S.buildings.push({ id: 954, type: 'habitat', element: 'mystic', level: 2, stored: 0, last: now, plot: 13 });
+  S.buildings.find((b) => b.type === 'habitat' && b.element === 'fire').level = 2;
   const put = (sp, hab, lvl) => {
     S.dragons.push({ uid: S.nextId++, sp, lvl, hab });
     S.book[sp] = 2;
@@ -136,8 +138,9 @@ await page.locator('[data-tab=shop]').click();
 await shot('12-shop');
 
 // Every dragon, adults then the three growth stages of a few.
-const gallery = await ctx.newPage();
-await gallery.setViewportSize({ width: 1400, height: 900 });
+// Separate 1x context: a 2x full-page shot of the big gallery comes out blank.
+const gctx = await browser.newContext({ viewport: { width: 1400, height: 900 }, deviceScaleFactor: 1 });
+const gallery = await gctx.newPage();
 await gallery.goto(`${base}/tools/gallery.html?cols=10`);
 await gallery.waitForTimeout(800);
 await gallery.screenshot({ path: path.join(out, '13-all-dragons.png'), fullPage: true });

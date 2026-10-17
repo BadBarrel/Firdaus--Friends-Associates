@@ -128,9 +128,31 @@ const HAB = {
   },
 };
 
+// Tall centrepieces shown on fully upgraded habitats (Lv 3), drawn at the back corner.
+const CENTER = {
+  fire: () => `<path d="M-38 6 L-12 -64 L12 -64 L38 6Z" fill="#6b4a40" ${ol('#5a3a33', 2.4)}/><path d="M-12 -64 Q0 -56 12 -64 L8 -52 Q0 -46 -8 -52Z" fill="#ff7a1a"/><path d="M-6 -56 Q-12 -30 -20 -6 M5 -54 Q10 -30 16 -4" stroke="#ff5a1a" stroke-width="4" fill="none" stroke-linecap="round"/>${flameProp(0, -66, 1.5)}<g class="puff"><circle cx="8" cy="-92" r="9" fill="#8a8a8a" opacity=".55"/><circle cx="-4" cy="-104" r="7" fill="#a0a0a0" opacity=".45"/></g>`,
+  water: () => `${boulder(-14, -20, 2.2, '#a8b0b8')}${boulder(14, -30, 1.8, '#9aa2aa')}<path d="M2 -58 Q6 -30 4 -6" stroke="#8fd0ff" stroke-width="9" fill="none" class="ripple"/><path d="M2 -58 Q6 -30 4 -6" stroke="#fff" stroke-width="2.5" fill="none" opacity=".7"/>`,
+  plant: () => tree(0, -18, 1.9, '#2fa34a') + flower(-20, -14, '#ff7aa8') + flower(18, -10, '#ffd84d'),
+  earth: () => `${crystalProp(-10, -20, 2, '#ffd27a')}${boulder(18, -16, 1.6, '#9b8b7a')}`,
+  storm: () => `<path d="M-10 0 L-4 -76 L4 -76 L10 0Z" fill="#8a95a0" ${ol('#8a95a0', 2)}/><path d="M-8 -20 L8 -20 M-6 -44 L6 -44" stroke="#5c6670" stroke-width="2"/><circle cx="0" cy="-84" r="11" fill="#ffe14d" ${ol('#c9a400', 2)} class="pulse"/><g class="zap">${bolt(-22, -70, 1.1)}${bolt(22, -64, 0.9)}</g>`,
+  ice: () => `<path d="M-22 4 L-22 -52 L22 -52 L22 4Z" fill="#f2fbff" ${ol('#a9cfe6', 2.2)}/><path d="M-26 -52 L26 -52 L0 -86Z" fill="#bfe6ff" ${ol('#a9cfe6', 2.2)}/><path d="M-22 -52 l0 -8 l8 0 l0 8 M-6 -52 l0 -8 l8 0 l0 8 M10 -52 l0 -8 l8 0 l0 8" fill="#f2fbff" ${ol('#a9cfe6', 1.5)}/><path d="M-6 4 Q-6 -14 0 -14 Q6 -14 6 4Z" fill="#7aa8c6"/><rect x="-14" y="-40" width="7" height="10" rx="3" fill="#7aa8c6"/><rect x="7" y="-40" width="7" height="10" rx="3" fill="#7aa8c6"/>`,
+  metal: () => `<rect x="-20" y="-60" width="40" height="62" fill="#8a95a0" ${ol('#8a95a0', 2)}/><rect x="8" y="-84" width="10" height="26" fill="#6b7480" ${ol('#6b7480', 1.5)}/>${gear(0, -36, 1.4, '#d6dde4')}<g class="puff"><circle cx="13" cy="-94" r="7" fill="#9aa0aa" opacity=".6"/><circle cx="20" cy="-106" r="5" fill="#b0b6be" opacity=".5"/></g>`,
+  shadow: () => `<path d="M-14 4 L-8 -76 L0 -86 L8 -76 L14 4Z" fill="#2f1c48" ${ol('#2f1c48', 2)}/><path d="M-4 -60 L4 -60 L0 -52 L4 -44 L-4 -44" fill="none" stroke="#c77dff" stroke-width="2.5" class="pulse"/><circle cx="-26" cy="-80" r="12" fill="#e9e1ff" opacity=".9"/><circle cx="-21" cy="-84" r="11" fill="${'#4b2f6e'}"/>`,
+  light: () => `${pillar(-26, 0, 1.25)}${pillar(26, 0, 1.25)}<path d="M-36 -62 Q0 -84 36 -62 L36 -56 L-36 -56Z" fill="#f6f0e0" ${ol('#f6f0e0', 2)}/><g transform="translate(0 -84)"><g class="bob"><circle r="22" fill="#ffe58a" opacity=".35"/><circle r="13" fill="#fff07a" ${ol('#e6b800', 2)}/></g></g>`,
+  war: () => `<path d="M-18 4 L-14 -56 L14 -56 L18 4Z" fill="#a8743f" ${ol('#a8743f', 2)}/><path d="M-22 -56 L22 -56 L22 -66 L-22 -66Z" fill="#8a5a32" ${ol('#8a5a32', 2)}/><path d="M-22 -66 l0 -6 l8 0 l0 6 M-4 -66 l0 -6 l8 0 l0 6 M14 -66 l0 -6 l8 0 l0 6" fill="#8a5a32" ${ol('#8a5a32', 1.5)}/>${banner(0, -70, '#c0392b', '⚔')}`,
+  mystic: () => `<g class="bob">${crystalProp(0, -40, 2.4, '#ff9ee8')}<ellipse cx="0" cy="-70" rx="34" ry="34" fill="#ff9ee8" opacity=".2"/></g>${star(-30, -86, 0.8)}${star(30, -70, 0.6, '#fff')}`,
+  ancient: () => `<path d="M-40 4 L-40 -14 L40 -14 L40 4Z M-30 -14 L-30 -32 L30 -32 L30 -14Z M-18 -32 L-18 -50 L18 -50 L18 -32Z" fill="#e8c868" ${ol('#e8c868', 2)}/><circle cx="0" cy="-62" r="10" fill="#ff5277" ${ol('#a0203a', 2)} class="pulse"/>`,
+};
+const RIM = { fire: '#ff7a1a', water: '#5fb0ff', plant: '#ffd84d', earth: '#ffd27a', storm: '#ffe14d', ice: '#ffffff', metal: '#d6dde4', shadow: '#c77dff', light: '#ffd84d', war: '#c0392b', mystic: '#ff7ce5', ancient: '#ffd54f' };
+
+// level is 0-based: Lv1 plain, Lv2 raised rim + fence, Lv3 adds a tall centrepiece.
 export function habitatBack(element, level) {
   const t = HAB[element] || HAB.earth;
-  return `${slab(t.ground, t.side)}${t.deco()}${t.back()}${level >= 2 ? banner(-66, -6, shade(t.ground, -0.2), '★') : ''}<path class="hit" d="${D}" fill="transparent"/>`;
+  const base = level >= 1
+    ? `${slab(t.ground, t.side, 0.96, 15)}<path d="${dia(0.96)}" fill="none" stroke="${RIM[element] || '#fff'}" stroke-width="3" opacity=".8"/>`
+    : slab(t.ground, t.side);
+  const center = level >= 2 ? `<g transform="translate(0 -26)">${CENTER[element]()}</g>` : '';
+  return `${base}${t.deco()}${center}${t.back()}${level >= 2 ? banner(-66, -6, shade(t.ground, -0.2), '★') : ''}<path class="hit" d="${D}" fill="transparent"/>`;
 }
 export function habitatFront(element, level) {
   const t = HAB[element] || HAB.earth;

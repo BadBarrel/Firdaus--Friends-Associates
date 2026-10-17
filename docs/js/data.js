@@ -229,7 +229,7 @@ export const DECORATIONS = [
 ];
 export const MAX_DECO_BONUS = 60;
 
-export const START_PLOTS = 9;
+export const START_PLOTS = 16;
 export const PLOT_EXPANSIONS = [1000, 3000, 8000, 20000, 50000, 100000, 200000, 400000];
 export const PLOTS_PER_EXPANSION = 3;
 

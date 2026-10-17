@@ -5,6 +5,7 @@ import './island.js';
 import './dragons.js';
 import { inBattle } from './battleui.js';
 import { levelUpSheet } from './shop.js';
+import { play } from './sound.js';
 
 G.load();
 
@@ -27,6 +28,7 @@ G.on('levelup', (lvl) => {
     levelFrom = lvl;
     setTimeout(() => {
       levelUpSheet(levelFrom, G.S.player.level);
+      play('level');
       levelFrom = null;
     }, 300);
   }
