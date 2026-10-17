@@ -1,7 +1,7 @@
 // One hand-picked design per dragon species: body plan, head, horns, crests, wings, tail and
 // markings. art.js turns these into SVG. Colours come from the elements unless overridden.
 //
-// body:    classic | beast | wyvern | serpent | golem | sea | bird | sprite | knight | wraith | hydra | crystal
+// body:    rest | classic | beast | wyvern | serpent | golem | sea | bird | sprite | knight | wraith | hydra | crystal
 // head:    round | long | beak | blunt | serpent | fish | helm | skull | crystal
 // eyes:    cute | fierce | glow | sleepy | happy          mouth: smile | fang | grin | roar | tusk
 // horns:   nub | spike | curve | ram | antler | crescent | antenna | crystal | branch | rhino | none
@@ -14,14 +14,14 @@
 
 export const DESIGNS = {
   // ---------------------------------------------------------------- common
-  emberjaw:    { body: 'beast', head: 'round', eyes: 'cute', mouth: 'fang', horns: 'curve', crest: 'flame', back: 'spikes', wings: 'bat', tail: 'flame', accent: '#ffcf33', wing: '#ff9a2a' },
+  emberjaw:    { body: 'beast', head: 'round', eyes: 'cute', mouth: 'fang', horns: 'curve', crest: 'flame', back: 'spikes', wings: 'bat', tail: 'flame', accent: '#ffcf33', wing: '#ff9a2a', pattern: 'stripes' },
   boulderhorn: { body: 'beast', head: 'blunt', eyes: 'sleepy', mouth: 'tusk', horns: 'rhino', back: 'rocks', wings: 'none', tail: 'club', pattern: 'cracks' },
   mossback:    { body: 'beast', head: 'round', eyes: 'happy', mouth: 'smile', horns: 'branch', back: 'leaves', wings: 'none', tail: 'leaf', pattern: 'moss', tone: -0.1 },
-  tidefin:     { body: 'sea', head: 'fish', eyes: 'cute', mouth: 'smile', horns: 'none', crest: 'fins', back: 'fins', wings: 'none', pattern: 'scales', wing: '#7fd6ff' },
+  tidefin:     { body: 'sea', head: 'fish', eyes: 'cute', mouth: 'smile', horns: 'none', crest: 'fins', back: 'fins', wings: 'none', pattern: 'swirls', wing: '#7fd6ff', accent: '#9fe6ff' },
   sparkwing:   { body: 'wyvern', head: 'long', eyes: 'fierce', mouth: 'grin', horns: 'spike', crest: 'bolts', back: 'bolts', wings: 'bat', tail: 'bolt', pattern: 'stripes', wing: '#3a3f52' },
   rimeclaw:    { body: 'crystal', head: 'crystal', eyes: 'fierce', mouth: 'fang', horns: 'crystal', crest: 'icicles', back: 'crystals', wings: 'crystal', tail: 'crystal', pattern: 'frost' },
   ironscale:   { body: 'knight', head: 'helm', eyes: 'fierce', mouth: 'smile', horns: 'spike', back: 'plates', wings: 'mech', tail: 'blade', accent: '#e5484d' },
-  duskfang:    { body: 'wraith', head: 'skull', eyes: 'glow', horns: 'crescent', crest: 'smoke', wings: 'tattered', tail: 'wisp', pattern: 'stars' },
+  duskfang:    { body: 'wraith', head: 'skull', eyes: 'glow', horns: 'crescent', crest: 'smoke', wings: 'tattered', tail: 'wisp', pattern: 'swirls', accent: '#c77dff' },
   glimmer:     { body: 'bird', head: 'beak', eyes: 'cute', horns: 'none', crest: 'halo', back: 'feathers', wings: 'angel', pattern: 'stars', accent: '#fff3b0' },
   warbrand:    { body: 'beast', head: 'long', eyes: 'fierce', mouth: 'roar', horns: 'ram', crest: 'mane', back: 'spikes', wings: 'none', tail: 'spade', pattern: 'stripes', accent: '#5a2a1f' },
 
@@ -40,7 +40,7 @@ export const DESIGNS = {
   thunderwave:  { body: 'serpent', head: 'serpent', eyes: 'fierce', mouth: 'grin', horns: 'spike', crest: 'bolts', back: 'fins', wings: 'cloud', tail: 'bolt', pattern: 'stripes', curve: 2 },
   glacierfin:   { body: 'sea', head: 'fish', eyes: 'cute', mouth: 'smile', horns: 'crystal', crest: 'icicles', back: 'crystals', wings: 'none', pattern: 'frost', main: '#8fdcff' },
   anchorjaw:    { body: 'golem', head: 'helm', eyes: 'cute', mouth: 'grin', horns: 'none', back: 'fins', wings: 'fin', tail: 'anchor', pattern: 'scales', accent: '#e5484d' },
-  abyssal:      { body: 'sea', head: 'fish', eyes: 'glow', mouth: 'grin', horns: 'antenna', crest: 'fins', back: 'spikes', wings: 'none', pattern: 'stars', main: '#1f3f7a', glow: '#7dfff0' },
+  abyssal:      { body: 'rest', head: 'long', eyes: 'cute', mouth: 'smile', horns: 'spike', crest: 'fins', back: 'fins', wings: 'none', tail: 'fin', pattern: 'swirls', main: '#1d2a5c', wing: '#3fd0e0', accent: '#5fe8f0', belly: '#7fe6f0', iris: '#e8203a', horn: '#5fe8f0' },
   pearlwing:    { body: 'sprite', head: 'round', eyes: 'cute', mouth: 'smile', horns: 'antenna', crest: 'fins', wings: 'butterfly', tail: 'gem', pattern: 'scales', accent: '#fff3d6' },
   riptide:      { body: 'wyvern', head: 'long', eyes: 'fierce', mouth: 'fang', horns: 'spike', crest: 'fins', back: 'fins', wings: 'fin', tail: 'blade', pattern: 'stripes' },
   rootgrove:    { body: 'beast', head: 'blunt', eyes: 'sleepy', mouth: 'smile', horns: 'antler', back: 'leaves', wings: 'none', tail: 'leaf', pattern: 'moss', main: '#5f8a3c', horn: '#8a5a32' },
@@ -59,7 +59,7 @@ export const DESIGNS = {
   blizzardwing: { body: 'bird', head: 'beak', eyes: 'fierce', horns: 'none', crest: 'icicles', back: 'crystals', wings: 'cloud', pattern: 'frost', accent: '#c8f1ff', main: '#e3edf8', accent: '#ffd84d' },
   voltplate:    { body: 'knight', head: 'helm', eyes: 'glow', mouth: 'grin', horns: 'antenna', crest: 'bolts', back: 'plates', wings: 'mech', tail: 'bolt', pattern: 'circuit', glow: '#fff35a' },
   stormshade:   { body: 'serpent', head: 'skull', eyes: 'glow', horns: 'crescent', crest: 'bolts', wings: 'cloud', tail: 'bolt', pattern: 'stars', glow: '#fff35a', main: '#3d3a5c', curve: 3 },
-  aurora:       { body: 'serpent', head: 'serpent', eyes: 'cute', mouth: 'smile', horns: 'antler', crest: 'halo', back: 'feathers', wings: 'angel', tail: 'star', pattern: 'stars', accent: '#9effd9', curve: 3 },
+  aurora:       { body: 'serpent', head: 'serpent', eyes: 'cute', mouth: 'smile', horns: 'antler', crest: 'halo', back: 'feathers', wings: 'angel', tail: 'star', pattern: 'swirls', accent: '#9effd9', curve: 3 },
   thunderknight:{ body: 'knight', head: 'helm', eyes: 'fierce', mouth: 'fang', horns: 'spike', crest: 'bolts', back: 'bolts', wings: 'bat', tail: 'spade', pattern: 'stripes', main: '#3b4a7a' },
   chromefrost:  { body: 'crystal', head: 'crystal', eyes: 'fierce', mouth: 'fang', horns: 'spike', crest: 'gears', back: 'crystals', wings: 'mech', tail: 'blade', pattern: 'circuit' },
   wraithfrost:  { body: 'wraith', head: 'crystal', eyes: 'glow', horns: 'crystal', crest: 'icicles', wings: 'tattered', tail: 'crystal', pattern: 'frost', glow: '#b8f1ff' },
@@ -68,7 +68,7 @@ export const DESIGNS = {
   gloomgear:    { body: 'golem', head: 'blunt', eyes: 'glow', mouth: 'grin', horns: 'spike', crest: 'gears', back: 'gears', wings: 'tattered', tail: 'gear', pattern: 'circuit' },
   mirrorscale:  { body: 'bird', head: 'beak', eyes: 'cute', horns: 'none', crest: 'halo', back: 'plates', wings: 'mech', pattern: 'scales', accent: '#ffe066' },
   ironclad:     { body: 'golem', head: 'helm', eyes: 'fierce', mouth: 'grin', horns: 'ram', back: 'plates', wings: 'none', tail: 'club', pattern: 'stripes', accent: '#c0392b', plume: true, main: '#7a8494' },
-  eclipsar:     { body: 'hydra', head: 'long', eyes: 'glow', mouth: 'fang', horns: 'crescent', crests: ['smoke', 'halo'], back: 'spikes', wings: 'bat', tail: 'star', pattern: 'stars' },
+  eclipsar:     { body: 'hydra', head: 'long', eyes: 'glow', mouth: 'fang', horns: 'crescent', crests: ['smoke', 'halo'], back: 'spikes', wings: 'bat', tail: 'star', pattern: 'swirls' },
   dreadfang:    { body: 'beast', head: 'skull', eyes: 'glow', horns: 'ram', crest: 'mane', back: 'spikes', wings: 'tattered', tail: 'spade', pattern: 'stripes', accent: '#2a1838' },
   paladrake:    { body: 'knight', head: 'helm', eyes: 'cute', mouth: 'smile', horns: 'none', crest: 'halo', back: 'feathers', wings: 'angel', tail: 'blade', pattern: 'runes', glow: '#fff3a0', main: '#fff1c4', plume: true },
 
@@ -79,7 +79,7 @@ export const DESIGNS = {
   obsidrake:    { body: 'wyvern', head: 'long', eyes: 'glow', mouth: 'roar', horns: 'curve', crest: 'flame', back: 'spikes', wings: 'tattered', tail: 'blade', pattern: 'lava', main: '#3a2a4a' },
   cryonix:      { body: 'serpent', head: 'serpent', eyes: 'glow', mouth: 'fang', horns: 'crystal', crest: 'icicles', back: 'crystals', wings: 'crystal', tail: 'crystal', pattern: 'circuit', glow: '#b8f1ff', gem: true, curve: 3 },
   thornwraith:  { body: 'wraith', head: 'long', eyes: 'glow', horns: 'branch', crest: 'leaves', back: 'thorns', wings: 'leaf', tail: 'spade', pattern: 'moss', glow: '#b6ff6a' },
-  maelstrom:    { body: 'hydra', head: 'serpent', eyes: 'fierce', mouth: 'roar', horns: 'curve', crests: ['bolts', 'fins'], back: 'fins', wings: 'fin', tail: 'fin', pattern: 'rings' },
+  maelstrom:    { body: 'hydra', head: 'serpent', eyes: 'fierce', mouth: 'roar', horns: 'curve', crests: ['bolts', 'fins'], back: 'fins', wings: 'fin', tail: 'fin', pattern: 'swirls' },
   sunforge:     { body: 'knight', head: 'helm', eyes: 'glow', mouth: 'grin', horns: 'spike', crest: 'flame', back: 'flames', wings: 'flame', tail: 'blade', pattern: 'runes', glow: '#ffe066', gem: true, main: '#ffb84d' },
   gaiadon:      { body: 'beast', head: 'blunt', eyes: 'sleepy', mouth: 'tusk', horns: 'branch', crest: 'leaves', back: 'leaves', wings: 'none', tail: 'club', pattern: 'moss', main: '#4f8a7a' },
   stormbreaker: { body: 'wyvern', head: 'long', eyes: 'fierce', mouth: 'roar', horns: 'ram', crest: 'bolts', back: 'plates', wings: 'mech', tail: 'blade', pattern: 'circuit', glow: '#fff35a' },
@@ -90,10 +90,10 @@ export const DESIGNS = {
   bloodmoon:    { body: 'beast', head: 'skull', eyes: 'glow', horns: 'crescent', crests: ['flame', 'mane'], back: 'spikes', wings: 'tattered', tail: 'spade', pattern: 'lava', glow: '#ff5a5a', accent: '#2a1838', main: '#5a1a2a', crest: 'flame' },
 
   // ---------------------------------------------------------------- legendary
-  celestia:     { body: 'serpent', head: 'serpent', eyes: 'cute', mouth: 'smile', horns: 'antler', crest: 'halo', back: 'feathers', wings: 'angel', wings2: 'angel', tail: 'star', pattern: 'stars', horn: '#ffe066', main: '#fff4d6', curve: 2 },
-  nyxara:       { body: 'wraith', head: 'long', eyes: 'glow', mouth: 'fang', horns: 'crescent', crest: 'smoke', wings: 'butterfly', wings2: 'tattered', tail: 'star', pattern: 'stars', accent: '#ff7ce5', gem: true },
+  celestia:     { body: 'serpent', head: 'serpent', eyes: 'cute', mouth: 'smile', horns: 'antler', crest: 'halo', back: 'feathers', wings: 'angel', wings2: 'angel', tail: 'star', pattern: 'swirls', horn: '#ffe066', main: '#fff4d6', curve: 2, accent: '#ffcf6a' },
+  nyxara:       { body: 'wraith', head: 'long', eyes: 'glow', mouth: 'fang', horns: 'crescent', crest: 'smoke', wings: 'butterfly', wings2: 'tattered', tail: 'star', pattern: 'swirls', accent: '#ff7ce5', gem: true },
   aetherion:    { body: 'wyvern', head: 'long', eyes: 'glow', mouth: 'roar', horns: 'antler', crest: 'bolts', back: 'bolts', wings: 'cloud', wings2: 'bat', tail: 'bolt', pattern: 'runes', glow: '#fff35a', main: '#6b7cff' },
-  floradin:     { body: 'sprite', head: 'round', eyes: 'cute', mouth: 'smile', horns: 'antler', crest: 'petals', wings: 'butterfly', wings2: 'leaf', tail: 'leaf', pattern: 'runes', accent: '#ff9ed2', horn: '#8a5a32' },
+  floradin:     { body: 'sprite', head: 'round', eyes: 'cute', mouth: 'smile', horns: 'antler', crest: 'petals', wings: 'butterfly', wings2: 'leaf', tail: 'leaf', pattern: 'swirls', accent: '#ff9ed2', horn: '#8a5a32' },
   infernyx:     { body: 'sprite', head: 'long', eyes: 'glow', horns: 'crescent', crest: 'flame', back: 'none', wings: 'flame', wings2: 'butterfly', pattern: 'lava', accent: '#ffcf33', glow: '#fff3a0', mouth: 'roar', main: '#ff8a2a' },
   rimeking:     { body: 'golem', head: 'crystal', eyes: 'glow', mouth: 'roar', horns: 'crystal', crest: 'icicles', back: 'crystals', wings: 'crystal', wings2: 'crystal', tail: 'crystal', pattern: 'runes', gem: true },
   ironwyrm:     { body: 'serpent', head: 'helm', eyes: 'glow', mouth: 'grin', horns: 'spike', crest: 'gears', back: 'plates', wings: 'mech', tail: 'blade', pattern: 'circuit', accent: '#ff7ce5', curve: 1 },

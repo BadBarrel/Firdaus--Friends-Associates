@@ -48,18 +48,20 @@ function grad(c) {
 // diffuse + specular light from the upper left, plus a soft shadow cast on whatever is behind.
 // This turns flat shapes into rounded, glossy, rendered-looking forms.
 function volFilter(kind) {
-  const id = 'vol-' + kind;
-  const P = { body: [2.6, 3.2, 3], part: [2, 2.6, 2.2], wing: [1.6, 1.8, 0] }[kind];
-  const [blur, height, shadow] = P;
-  def(id, `<filter id="${id}" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-    <feGaussianBlur in="SourceAlpha" stdDeviation="${blur}" result="b"/>
-    <feDiffuseLighting in="b" surfaceScale="${height}" diffuseConstant="1" lighting-color="#ffffff" result="d"><feDistantLight azimuth="225" elevation="52"/></feDiffuseLighting>
-    <feComposite in="SourceGraphic" in2="d" operator="arithmetic" k1="1.3" k2="0" k3="0" k4="0" result="lit"/>
-    <feSpecularLighting in="b" surfaceScale="${height}" specularConstant="0.9" specularExponent="24" lighting-color="#fff4dc" result="s"><feDistantLight azimuth="225" elevation="32"/></feSpecularLighting>
-    <feComposite in="lit" in2="SourceAlpha" operator="in" result="lit2"/>
-    <feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/>
-    <feComposite in="lit2" in2="s2" operator="arithmetic" k1="0" k2="1" k3="0.6" k4="0" result="final"/>
-    ${shadow ? `<feGaussianBlur in="SourceAlpha" stdDeviation="${shadow}" result="sb"/><feOffset in="sb" dx="-2.5" dy="3.5" result="so"/><feFlood flood-color="#1a0a14" flood-opacity=".38"/><feComposite in2="so" operator="in" result="shadow"/><feMerge><feMergeNode in="shadow"/><feMergeNode in="final"/></feMerge>` : ''}
+  // Painted shading: soft shadow inside the lower-right edge (where the shape shifted toward
+  // the light no longer covers it), soft light inside the upper-left edge, and a cast shadow.
+  const id = 'paint-' + kind;
+  const P = { body: [7, 9, 4.5, 3, 4, 2.2, 3], part: [4.5, 5.5, 3, 2.2, 3, 1.6, 2.4], wing: [4, 5, 3, 2, 2.5, 1.5, 0] }[kind];
+  const [sx, sy, sb, hx, hy, hb, cast] = P;
+  def(id, `<filter id="${id}" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+    <feOffset in="SourceAlpha" dx="${-sx}" dy="${-sy}" result="o1"/><feGaussianBlur in="o1" stdDeviation="${sb}" result="b1"/>
+    <feComposite in="SourceAlpha" in2="b1" operator="out" result="sh"/>
+    <feFlood flood-color="#1c0a24" flood-opacity=".58"/><feComposite in2="sh" operator="in" result="shadow"/>
+    <feOffset in="SourceAlpha" dx="${hx}" dy="${hy}" result="o2"/><feGaussianBlur in="o2" stdDeviation="${hb}" result="b2"/>
+    <feComposite in="SourceAlpha" in2="b2" operator="out" result="hl"/>
+    <feFlood flood-color="#fff8e6" flood-opacity=".3"/><feComposite in2="hl" operator="in" result="light"/>
+    ${cast ? `<feGaussianBlur in="SourceAlpha" stdDeviation="${cast}" result="cb"/><feOffset in="cb" dx="-2" dy="3.5" result="co"/><feFlood flood-color="#14061c" flood-opacity=".35"/><feComposite in2="co" operator="in" result="castsh"/>` : ''}
+    <feMerge>${cast ? '<feMergeNode in="castsh"/>' : ''}<feMergeNode in="SourceGraphic"/><feMergeNode in="shadow"/><feMergeNode in="light"/></feMerge>
   </filter>`);
   return `url(#${id})`;
 }
@@ -67,7 +69,7 @@ function volFilter(kind) {
 // shared by all parts of a torso so they shade as one form.
 function bodyGrad(c, warm, y1, y2) {
   const id = `bg${c.slice(1)}${warm.slice(1)}${y1}`.replace('-', 'm');
-  def(id, `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="${y1}" x2="0" y2="${y2}"><stop offset="0" stop-color="${shade(c, -0.32)}"/><stop offset=".4" stop-color="${c}"/><stop offset=".8" stop-color="${mix(c, warm, 0.45)}"/><stop offset="1" stop-color="${mix(c, warm, 0.7)}"/></linearGradient>`);
+  def(id, `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="${y1}" x2="0" y2="${y2}"><stop offset="0" stop-color="${shade(c, -0.3)}"/><stop offset=".45" stop-color="${c}"/><stop offset=".85" stop-color="${mix(c, warm, 0.18)}"/><stop offset="1" stop-color="${mix(c, warm, 0.3)}"/></linearGradient>`);
   return `url(#${id})`;
 }
 
@@ -236,6 +238,11 @@ function eye(C, type, x, y, size = 1) {
       return g(`<ellipse rx="7.5" ry="8.5" fill="#fff" ${ol(C.o, 1.6)}/><circle cx="1.5" cy="2" r="5" fill="${iris}"/><circle cx="1.8" cy="2.4" r="2.5" fill="#111"/><path d="M-8.5 -1 Q0 -11 8.5 -1 Z" fill="${C.main}" ${ol(C.o, 1.4)}/><circle cx="4" cy="3" r="1.3" fill="#fff"/>`);
     case 'happy':
       return g(`<path d="M-7 2 Q0 -8 7 2" fill="none" stroke="${C.o}" stroke-width="3.2" stroke-linecap="round"/>`);
+    case 'painted': { // glossy coloured eye with a heavy upper lid
+      const gid = 'iris' + iris.slice(1);
+      def(gid, `<radialGradient id="${gid}" cx=".42" cy=".45" r=".6"><stop offset="0" stop-color="${mix(iris, '#ffffff', 0.45)}"/><stop offset=".55" stop-color="${iris}"/><stop offset="1" stop-color="${shade(iris, -0.55)}"/></radialGradient>`);
+      return g(`<path d="M-9 1 Q-4 -8 9 -4 Q9 4 0 7 Q-7 7 -9 1Z" fill="url(#${gid})" ${ol(C.o, 1.2)}/><ellipse cx="1.5" cy="0.5" rx="2.8" ry="3.4" fill="#120612"/><circle cx="-2.6" cy="-2" r="2.3" fill="#fff"/><circle cx="3.4" cy="3" r="1" fill="#fff" opacity=".85"/><path d="M-10.5 0 Q-4 -10.5 10.5 -5" fill="none" stroke="${C.o}" stroke-width="2.8" stroke-linecap="round"/><path d="M-7 6 Q0 9.5 7 5" fill="none" stroke="${C.o}" stroke-width="1" opacity=".6"/>`);
+    }
     case 'calm': // almond reptile eye with a slit pupil
       return g(`<path d="M-9 2 Q-3 -8 9 -3 Q8 5 -1 6 Q-7 6 -9 2Z" fill="#fff8e0" ${ol(C.o, 1.6)}/><ellipse cx="2" cy="0" rx="4.6" ry="5" fill="${iris}"/><ellipse cx="2.4" cy="0" rx="1.3" ry="4.4" fill="#111"/><circle cx="4.2" cy="-2.2" r="1.2" fill="#fff"/>`);
     default:
@@ -369,10 +376,10 @@ function drawHead(C, spec0, stage, slot = 0) {
   const adultMouth = { smile: 'jaw', fang: 'jaw', grin: 'snarl', roar: 'snarl' };
   if (!h.beak && spec.head !== 'skull') out += mouth(C, adult ? adultMouth[mouthType] || mouthType : mouthType, ...h.mouth);
   let eyeType = baby && spec.eyes !== 'glow' ? 'cute' : spec.eyes || 'cute';
-  if (adult && ['cute', 'happy', 'sleepy'].includes(eyeType)) eyeType = 'calm';
+  if (adult && ['cute', 'happy', 'sleepy', 'calm', 'fierce'].includes(eyeType)) eyeType = 'painted';
   const [ex, ey, es] = h.eye;
   out += eye(C, eyeType, ex, ey, es * (baby ? 1.2 : adult ? 0.9 : 1));
-  if (adult && !h.helm && eyeType !== 'fierce') {
+  if (adult && !h.helm && eyeType !== 'painted' && eyeType !== 'fierce') {
     out += `<path d="M${ex - 13} ${ey - 5} Q${ex - 2} ${ey - 17} ${ex + 13} ${ey - 11} L${ex + 11} ${ey - 6} Q${ex} ${ey - 11} ${ex - 11} ${ey - 1}Z" fill="${shade(C.main, -0.25)}" ${ol(C.o, 1.5)}/>`;
   }
   if (baby && spec.head !== 'skull' && spec.head !== 'crystal') out += `<ellipse cx="${ex - 4}" cy="${ey + 12}" rx="5" ry="3" fill="#ff7aa8" opacity=".38"/>`;
@@ -518,6 +525,62 @@ function backItem(C, type, i) {
   }
 }
 
+// ---------------------------------------------------------------- body-wide markings (adults)
+
+function seeded(str) {
+  let h = idHash(str);
+  return () => ((h = (Math.imul(h ^ (h >>> 15), 2246822507) + 0x9e3779b9) >>> 0) / 4294967296);
+}
+
+// Patterns spread across the whole torso; the caller clips them to the body outline.
+function bodyPattern(C, type, id, col, light) {
+  const rnd = seeded(id + type);
+  let out = '';
+  if (type === 'swirls' || type === 'runes') {
+    for (let i = 0; i < 9; i++) {
+      const x = 40 + rnd() * 120, y = 70 + rnd() * 110, r = 6 + rnd() * 8, dir = rnd() < 0.5 ? 1 : -1;
+      let d = `M${r1(x)} ${r1(y)}`;
+      for (let t = 0; t <= 1.9; t += 0.1) {
+        const a = t * Math.PI * 2 * dir, rr = r * (1 - t * 0.45);
+        d += ` L${r1(x + Math.cos(a) * rr)} ${r1(y + Math.sin(a) * rr)}`;
+      }
+      d += ` q${dir * 10} 10 ${dir * 24} 6`;
+      out += `<path d="${d}" fill="none" stroke="${col}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/><path d="${d}" fill="none" stroke="${col}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${light}" stroke-width="0.9" stroke-linecap="round" opacity=".85"/>`;
+    }
+  } else if (type === 'stripes') {
+    // Tapered tiger stripes hanging down from the spine region across back, flanks and tail.
+    for (let x = 18; x < 190; x += 11 + rnd() * 6) {
+      for (const y0 of [52 + rnd() * 10, 96 + rnd() * 10]) {
+        const len = 22 + rnd() * 18, w = 4 + rnd() * 3, lean = -6 + rnd() * 4;
+        out += `<path d="M${r1(x)} ${r1(y0)} q${r1(lean)} ${r1(len / 2)} ${r1(lean / 2 - 1)} ${r1(len)} q${r1(w / 2 + 1)} ${r1(-len / 2)} ${r1(w)} ${r1(-len)}Z" fill="${col}" opacity=".8"/>`;
+      }
+    }
+  } else if (type === 'spots' || type === 'rings') {
+    for (let i = 0; i < 16; i++) {
+      const x = 30 + rnd() * 150, y = 60 + rnd() * 120, r = 3 + rnd() * 4;
+      out += `<circle cx="${r1(x)}" cy="${r1(y)}" r="${r1(r + 2)}" fill="none" stroke="${col}" stroke-width="2.2" opacity=".85"/><circle cx="${r1(x)}" cy="${r1(y)}" r="${r1(r * 0.6)}" fill="${col}" opacity=".5"/>`;
+    }
+  } else if (type === 'lava' || type === 'cracks' || type === 'circuit') {
+    for (let i = 0; i < 7; i++) {
+      let x = 40 + rnd() * 120, y = 70 + rnd() * 100, d = `M${r1(x)} ${r1(y)}`;
+      for (let k = 0; k < 5; k++) {
+        x += -12 + rnd() * 24;
+        y += -6 + rnd() * 16;
+        d += ` L${r1(x)} ${r1(y)}`;
+      }
+      out += type === 'lava'
+        ? `<path d="${d}" fill="none" stroke="#ff5a1a" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="${d}" fill="none" stroke="#ffe066" stroke-width="1.2" stroke-linejoin="round"/>`
+        : `<path d="${d}" fill="none" stroke="${type === 'circuit' ? C.glow : col}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" opacity=".8"/>`;
+    }
+  } else if (type === 'stars' || type === 'frost' || type === 'gems' || type === 'moss') {
+    for (let i = 0; i < 14; i++) out += `<g ${at(30 + rnd() * 150, 60 + rnd() * 120, rnd() * 60, 0.6 + rnd() * 0.5)}>${markings(C, type, [[0, 0, 1]], col)}</g>`;
+  }
+  // Fine scale texture everywhere.
+  let scales = '';
+  for (let y = 54; y < 196; y += 9) for (let x = 14 + ((y / 9) % 2) * 6; x < 196; x += 12) scales += `M${x - 5} ${y} q5 5 10 0 `;
+  return `<path d="${scales}" fill="none" stroke="${shade(C.main, -0.4)}" stroke-width="1" opacity=".22"/>${out}`;
+}
+
 // ---------------------------------------------------------------- markings
 
 function markings(C, type, spots, col) {
@@ -595,6 +658,35 @@ const PLANS = {
       back: [[60, 108, -15], [78, 104, -5], [96, 106, 5], [114, 104, -12], [128, 94, -32], [140, 78, -38]],
       gloss: [112, 108],
       spots: [[80, 122], [100, 122], [120, 116, 0.8], [66, 126, 0.8]],
+    };
+  },
+  rest(C) {
+    // Resting pose: lying down with the chest raised, neck curving up, forelegs stretched
+    // forward, the hind leg folded and the tail curled around the front.
+    const f = grad(C.main), dk = grad(shade(C.main, -0.22));
+    const tail = tube([{ p: [[40, 164], [6, 176], [24, 198], [80, 194]], r: [13, 8] }, { p: [[80, 194], [112, 192], [130, 188], [146, 182]], r: [8, 2.5] }], 12);
+    const fore = 'M124 126 C142 124 151 144 148 158 L170 172 C183 176 185 188 174 188 L150 188 C140 188 135 179 135 171 C127 160 117 140 124 126Z';
+    const shift = (d, dx, dy) => d.replace(/(-?\d+\.?\d*) (-?\d+\.?\d*)/g, (m, x, y) => `${r1(+x + dx)} ${r1(+y + dy)}`);
+    return {
+      tail: [],
+      far: sil([{ k: 'p', d: shift(fore, -16, -6), f: dk }], C.o),
+      body: [{ k: 'p', d: 'M30 168 C30 140 50 116 84 112 C104 110 116 116 124 110 C131 100 135 84 141 70 L160 62 C162 80 157 98 151 112 C146 126 151 140 141 152 C130 166 108 172 86 172 C64 174 40 176 30 168Z', f }],
+      frontItems: [
+        { k: 'p', d: 'M46 140 C48 118 82 116 89 138 C93 152 89 163 85 169 L104 175 C111 177 111 186 102 186 L70 186 C55 186 44 166 46 140Z', f },
+        { k: 'c', c: tail, f: C.main },
+        { k: 'p', d: fore, f }],
+      front: 
+        `<path d="M60 132 C70 128 80 134 82 146 M132 136 C140 140 142 150 140 158" fill="none" stroke="${shade(C.main, -0.35)}" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>`,
+      tailEnd: tail,
+      frontExtra: true,
+      belly: { k: 'e', cx: 140, cy: 132, rx: 10, ry: 20 },
+      band: [[155, 98], [151, 134], [128, 162], 16, 9],
+      claws: [[96, 186], [102, 187], [108, 186], [166, 188], [173, 189], [180, 188]],
+      heads: [{ x: 162, y: 54, s: 1.05 }],
+      wing: { x: 98, y: 112, s: 0.8, tilt: -30 },
+      back: [[58, 118, -25], [78, 111, -8], [98, 111, 0], [116, 110, -12], [129, 98, -28], [136, 84, -24], [143, 72, -20]],
+      gloss: [96, 124],
+      spots: [[72, 140], [96, 132], [116, 140, 0.8], [60, 156, 0.8]],
     };
   },
   wyvern(C) {
@@ -889,7 +981,7 @@ function drawDragon(species, stage) {
   const scale = baby ? 0.7 : young ? 0.86 : 1;
   const wingScale = baby ? 0.42 : young ? 0.72 : 1.2;
   const headBoost = baby ? 1.3 : young ? 1.08 : 0.88;
-  lineW = baby ? 3.2 : young ? 2.6 : 1.7;
+  lineW = baby ? 3.2 : young ? 2.6 : 1.3;
   // Adults have amber reptile eyes unless the design picks a colour.
   if (adult && !base.iris) C.iris = '#e8a417';
   let s = '';
@@ -910,7 +1002,8 @@ function drawDragon(species, stage) {
   const W = P.wing;
   const wingAt = (dx, dy, extra, col) => `<g ${at(W.x + dx, W.y + dy, extra, W.s * wingScale)}><g class="flap"${adult ? ` filter="${volFilter('wing')}"` : ''}>${wingShape(C, spec.wings, col)}</g></g>`;
   // Adults are rendered: shared warm gradient + volumetric lighting per part.
-  const warm = mix(C.belly, '#ffd27a', 0.4);
+  // Underside tone comes from the dragon's own belly colour.
+  const warm = C.belly;
   const render = (markup, kind, y1 = 50, y2 = 192) => {
     if (!adult) return markup;
     const bg = bodyGrad(C.main, warm, y1, y2);
@@ -923,6 +1016,27 @@ function drawDragon(species, stage) {
   if (!baby && spec.back === 'volcano') {
     const [x, y] = P.back[Math.floor(P.back.length / 2)];
     g += `<g ${at(x, y + 4, 0, young ? 0.8 : 1.1)}><path d="M-22 6 L-8 -26 L8 -26 L22 6Z" fill="${grad(C.rockCol)}" ${ol(C.o, 2)}/><path d="M-8 -26 Q0 -20 8 -26 L5 -18 Q0 -14 -5 -18Z" fill="#ff7a1a"/><path d="M-3 -22 Q-6 -8 -12 0 M3 -20 Q8 -8 10 2" stroke="#ff5a1a" stroke-width="2.6" fill="none" stroke-linecap="round"/><g transform="translate(0 -30)"><g class="flick">${flame(C, 1.1)}</g></g></g>`;
+  } else if (adult && ['spikes', 'fins', 'thorns'].includes(spec.back) && P.back.length > 2) {
+    // Crest of spines joined by translucent webbing.
+    const n = P.back.length;
+    const tips = P.back.map(([x, y, r], i) => {
+      const len = 18 + Math.sin(((i + 0.5) / n) * Math.PI) * 12 + (i % 2 ? 0 : 4);
+      const a = ((r - 38) * Math.PI) / 180;
+      return [x + Math.sin(a) * len, y - Math.cos(a) * len];
+    });
+    // Webbing sags between the spine tips.
+    let web = `M${r1(P.back[0][0])} ${r1(P.back[0][1] + 3)} L${r1(tips[0][0])} ${r1(tips[0][1])}`;
+    for (let i = 1; i < n; i++) {
+      const mx = (tips[i - 1][0] + tips[i][0]) / 2, my = (tips[i - 1][1] + tips[i][1]) / 2;
+      const bx = (P.back[i - 1][0] + P.back[i][0]) / 2, by = (P.back[i - 1][1] + P.back[i][1]) / 2;
+      web += ` Q${r1(mx + (bx - mx) * 0.45)} ${r1(my + (by - my) * 0.45)} ${r1(tips[i][0])} ${r1(tips[i][1])}`;
+    }
+    web += ` L${[...P.back].reverse().map(([x, y]) => `${r1(x)} ${r1(y + 3)}`).join(' L')}Z`;
+    const webCol = spec.back === 'thorns' ? '#3f8f3a' : C.wing;
+    const wid = 'web' + webCol.slice(1);
+    def(wid, `<linearGradient id="${wid}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${shade(webCol, -0.3)}" stop-opacity=".9"/><stop offset="1" stop-color="${mix(webCol, '#ffffff', 0.35)}" stop-opacity=".55"/></linearGradient>`);
+    g += `<path d="${web}" fill="url(#${wid})" stroke="${shade(webCol, -0.45)}" stroke-width="1" stroke-linejoin="round"/>`;
+    g += P.back.map(([x, y], i) => `<path d="M${r1(x - 3.5)} ${r1(y + 4)} Q${r1((x + tips[i][0]) / 2 - 2)} ${r1((y + tips[i][1]) / 2)} ${r1(tips[i][0])} ${r1(tips[i][1])} Q${r1((x + tips[i][0]) / 2 + 3)} ${r1((y + tips[i][1]) / 2 + 2)} ${r1(x + 3.5)} ${r1(y + 4)}Z" fill="${grad(shade(C.main, -0.35))}" ${ol(C.o, 1.1)}/>`).join('');
   } else if (!baby && spec.back) g += P.back.map(([x, y, r], i) => `<g ${at(x, y, r, young ? 0.8 : 1)}>${backItem(C, spec.back, i)}</g>`).join('');
   if (P.plume) {
     const [px, py] = P.plumeAt || [62, 130];
@@ -936,6 +1050,9 @@ function drawDragon(species, stage) {
   if (P.tailFin) {
     const a = tl[1], b = tl[0];
     g += `<g ${at(b.x, b.y, angleOf(a, b), baby ? 0.8 : 1.25)}><g class="sway">${tailTip(C, 'fin')}</g></g>`;
+  } else if (P.tailEnd && spec.tail && spec.tail !== 'none') {
+    const te = P.tailEnd, a = te[te.length - 2], b = te[te.length - 1];
+    P.front += `<g ${at(b.x, b.y, angleOf(a, b), baby ? 0.7 : 0.9)}><g class="sway">${tailTip(C, spec.tail)}</g></g>`;
   } else if (tl.length > 1 && spec.tail && spec.tail !== 'none' && !P.plumeAt) {
     const a = tl[tl.length - 2], b = tl[tl.length - 1];
     const first = plan === 'serpent' ? [tl[1], tl[0]] : [a, b];
@@ -954,9 +1071,16 @@ function drawDragon(species, stage) {
       R.push([x + (dy / len) * w, y - (dx / len) * w]);
     }
     const pts = [...L, ...R.reverse()].map(([x, y]) => `${r1(x)},${r1(y)}`).join(' ');
-    g += `<polygon points="${pts}" fill="${grad(C.belly)}" stroke="${shade(C.belly, -0.35)}" stroke-width="1.2" stroke-linejoin="round"/>`;
+    g += `<polygon points="${pts}" fill="${grad(C.belly)}" stroke="${shade(C.belly, -0.4)}" stroke-width="1.1" stroke-linejoin="round"/>`;
     R.reverse();
-    for (let i = 1; i < n; i++) g += `<path d="M${r1(L[i][0])} ${r1(L[i][1])} L${r1(R[i][0])} ${r1(R[i][1])}" stroke="${shade(C.belly, -0.35)}" stroke-width="1.6"/>`;
+    // Chevron plates: a V-shaped seam with a light edge under each one.
+    for (let i = 1; i < n; i++) {
+      const mx = (L[i][0] + R[i][0]) / 2, my = (L[i][1] + R[i][1]) / 2;
+      const nx = L[i + 1][0] - L[i][0] + R[i + 1][0] - R[i][0], ny = L[i + 1][1] - L[i][1] + R[i + 1][1] - R[i][1];
+      const k = 0.18;
+      const v = `M${r1(L[i][0])} ${r1(L[i][1])} L${r1(mx + nx * k)} ${r1(my + ny * k)} L${r1(R[i][0])} ${r1(R[i][1])}`;
+      g += `<path d="${v}" fill="none" stroke="${shade(C.belly, -0.42)}" stroke-width="1.5" stroke-linejoin="round"/><path d="${v}" fill="none" stroke="${mix(C.belly, '#ffffff', 0.55)}" stroke-width="1" transform="translate(${r1(nx * 0.06)} ${r1(ny * 0.06)})" opacity=".8"/>`;
+    }
   } else if (P.belly) {
     const b = P.belly;
     const shape = b.k === 'e' ? `<ellipse cx="${b.cx}" cy="${b.cy}" rx="${b.rx}" ry="${b.ry}"${b.rot ? ` transform="rotate(${b.rot} ${b.cx} ${b.cy})"` : ''}` : `<path d="${b.d}"`;
@@ -974,9 +1098,18 @@ function drawDragon(species, stage) {
     P.bellyChain.filter((_, i) => i % 2).map((c) => `<path d="M${r1(c.x - c.r * 0.7)} ${r1(c.y)} q${r1(c.r * 0.7)} ${r1(c.r * 0.4)} ${r1(c.r * 1.4)} 0" fill="none" stroke="${shade(C.belly, -0.2)}" stroke-width="1.4"/>`).join('');
   if (P.ribs) g += `<path d="M92 108 Q104 114 116 106 M90 120 Q104 126 118 118 M92 132 Q104 138 116 130" fill="none" stroke="${shade(C.main, -0.35)}" stroke-width="2.6" stroke-linecap="round"/>`;
   const second = C.wing !== C.main ? C.wing : null;
-  if (spec.pattern && !baby) g += markings(C, spec.pattern, P.spots, adult && second && ['spots', 'stripes', 'rings'].includes(spec.pattern) ? shade(second, -0.1) : undefined);
-  // Fine scale texture on adults.
-  if (adult && spec.pattern !== 'scales') g += `<g opacity=".55">${markings(C, 'scales', P.spots.map(([x, y]) => [x + 9, y + 7, 0.75]))}</g>`;
+  // Markings flow over whole parts, clipped to their outline.
+  const pat = spec.pattern || 'scales';
+  const darkPat = ['stripes', 'spots', 'rings', 'cracks'].includes(pat);
+  const mcol = darkPat ? (second ? shade(second, -0.25) : shade(C.main, -0.5)) : second ? mix(second, '#ffffff', 0.15) : mix(C.accent, '#ffffff', 0.2);
+  const patternOver = (items, key) => {
+    const cid = `cp-${species.id}-${key}`;
+    const clip = items.map((it) => (it.k === 'c' ? (it.c.length > 2 ? `<path d="${tubePath(it.c)}"/>` : '') : it.k === 'e' ? `<ellipse cx="${it.cx}" cy="${it.cy}" rx="${it.rx}" ry="${it.ry}"${it.rot ? ` transform="rotate(${it.rot} ${it.cx} ${it.cy})"` : ''}/>` : `<path d="${it.d}"/>`)).join('');
+    return `<defs><clipPath id="${cid}">${clip}</clipPath></defs><g clip-path="url(#${cid})">${bodyPattern(C, pat, species.id + key, mcol, mix(mcol, '#ffffff', 0.55))}</g>`;
+  };
+  if (adult) {
+    g += patternOver(P.body, 'b');
+  } else if (spec.pattern && !baby) g += markings(C, spec.pattern, P.spots);
   if (adult) {
     // Darker spine and a soft rim light along the back instead of a plastic shine.
     const spine = (k) => P.back.map(([x, y, r]) => `${r1(x - Math.sin((r * Math.PI) / 180) * k)},${r1(y + Math.cos((r * Math.PI) / 180) * k)}`).join(' ');
@@ -988,10 +1121,11 @@ function drawDragon(species, stage) {
   if (P.smokeTail) g += `<g ${at(P.smokeTail[0], P.smokeTail[1], 180, 1.1)}><g class="sway">${tailTip(C, 'wisp')}</g></g>`;
   if (P.wisps) g += `<path d="M76 176 q6 10 -4 20 q-6 6 -2 12 M96 184 q5 8 -3 16 M112 172 q8 10 2 22 q-3 6 2 10" fill="none" stroke="${C.main}" stroke-width="4.5" stroke-linecap="round" opacity=".5"/>`;
   g = g.slice(0, torsoStart) + render(g.slice(torsoStart), 'body');
+  if (P.frontItems) P.front = sil(P.frontItems, C.o) + (adult ? patternOver(P.frontItems, 'f') : '') + P.front;
   g += render(P.front, 'part');
   // Adults: scalloped toes ending in dark hooked talons.
   g += P.claws.map(([x, y]) => (adult
-    ? `<circle cx="${x - 1}" cy="${y - 3}" r="4.2" fill="${shade(C.main, -0.08)}" ${ol(C.o, 1.4)}/><path d="M${x} ${y - 4} Q${x + 7} ${y - 2} ${x + 7} ${y + 4} Q${x + 3} ${y + 1} ${x} ${y}Z" fill="#2a2230" stroke="#2a2230" stroke-width="1"/><path d="M${x + 5} ${y} l1.5 2.5" stroke="#d8cfc0" stroke-width="1.2"/>`
+    ? `<ellipse cx="${x}" cy="${y - 3}" rx="5" ry="3.6" fill="${shade(C.main, -0.12)}" ${ol(C.o, 1.1)}/><path d="M${x - 2} ${y - 5} q3 -1 5 1" stroke="${shade(C.main, 0.25)}" stroke-width="1" fill="none"/><path d="M${x + 3} ${y - 4} Q${x + 9} ${y - 3} ${x + 9} ${y + 2} Q${x + 6} ${y} ${x + 3} ${y - 1}Z" fill="${mix(C.accent, '#ffffff', 0.45)}" ${ol(C.o, 0.9)}/>`
     : `<circle cx="${x}" cy="${y}" r="2.6" fill="#fff8e8" ${ol(C.o, 1.2)}/>`)).join('');
   if (wings) g += wingAt(0, 0, tilt, C.wing);
   // heads (back to front)
