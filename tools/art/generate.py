@@ -9,6 +9,7 @@ Raw images go to tools/art/raw/<id>-<stage>-<n>.png. Run postprocess.py afterwar
 out backgrounds and copy them into the game.
 
 Examples:
+  python tools/art/generate.py --list-models
   python tools/art/generate.py --only emberjaw --variants 3
   python tools/art/generate.py --ckpt juggernautXL.safetensors
   python tools/art/generate.py --preset flux-schnell --ckpt flux1-schnell-fp8.safetensors
@@ -106,7 +107,14 @@ def main():
     ap.add_argument('--variants', type=int, default=1, help='images per dragon to choose from')
     ap.add_argument('--force', action='store_true', help='regenerate images that already exist')
     ap.add_argument('--seed', type=int, default=None, help='base seed (default: random)')
+    ap.add_argument('--list-models', action='store_true', help='print the checkpoints ComfyUI can load, then stop')
     args = ap.parse_args()
+
+    if args.list_models:
+        info = http_json(f'{args.server}/object_info/CheckpointLoaderSimple')
+        names = info['CheckpointLoaderSimple']['input']['required']['ckpt_name'][0]
+        print('\n'.join(names) if names else 'No checkpoints found. Put a .safetensors model in ComfyUI\'s models/checkpoints folder.')
+        return
 
     prompts = json.load(open(os.path.join(HERE, 'prompts.json')))
     only = {s.strip() for s in args.only.split(',') if s.strip()}

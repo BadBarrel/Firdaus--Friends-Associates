@@ -26,8 +26,8 @@ An RTX 5060 (8 GB) runs SDXL models comfortably, at around 10–20 seconds per i
 2. **Get a model.** Download an SDXL checkpoint (`.safetensors`) and put it in ComfyUI's
    `models/checkpoints` folder. Good ones for painted creature art, from
    <https://civitai.com>: *DreamShaper XL* or *Juggernaut XL* (use the normal versions,
-   not "Lightning" or "Turbo"). Restart ComfyUI and check the model shows up in the
-   **Load Checkpoint** node. Note its exact file name.
+   not "Lightning" or "Turbo"). Restart ComfyUI, then run `python tools/art/generate.py --list-models` (after step 4)
+   to see its exact file name.
 3. **Check the address.** ComfyUI Desktop listens on `http://127.0.0.1:8000` by default (the
    scripts' default); the classic ComfyUI uses `8188`, so add `--server http://127.0.0.1:8188`
    if that's what you run. ComfyUI must be open while the script runs.
